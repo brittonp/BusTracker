@@ -3,7 +3,8 @@ A website to track bus services across England and Wales.
 
 ## Motivation
 Bus Tracker has been developed as an exercise in the use of:
-*.NET Core to create a REST service;
+
+* .NET Core to create a REST service;
 * GitHub to manage and control code;
 * Visual Studio to create a solution containing projects:
  * Services;
