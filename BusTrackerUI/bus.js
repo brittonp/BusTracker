@@ -391,7 +391,8 @@ function getRoute (f, recentre) {
         .dimmer({
             displayLoader: true,
             loaderVariation: 'slow orange medium elastic',
-            loaderText: 'Retrieving data, please wait...'
+            loaderText: 'Retrieving data, please wait...',
+            closable: false,
         })
         .dimmer('show')
         ;
