@@ -3,6 +3,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# BusTracker files
+datatables/
+fomantic/
+google/
+Scripts/
+
 # User-specific files
 *.rsuser
 *.suo
