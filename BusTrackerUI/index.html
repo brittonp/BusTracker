@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no'>
+    <title>Bus Location</title>
+
+    <!-- Javascript...-->
+    <script src='./scripts/jquery-3.7.0.min.js'></script>
+    <script src='./scripts/jquery.number.min.js'></script>
+    <script src='./scripts/js-cookie-3.0.5.min.js'></script>
+    <script src='./fomantic/semantic.min.js'></script>
+    <script src='./datatables/jquery.dataTables.min.js'></script>
+    <script src='./datatables/responsive.dataTables.min.js'></script>
+    <script src='./bus.js'></script>
+
+    <!--<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>-->
+    <!-- CSS...-->
+    <link rel='stylesheet' type='text/css' class='ui' href='./fomantic/semantic.min.css' />
+    <link rel='stylesheet' type='text/css' href='./datatables/jquery.dataTables.min.css' />
+    <link rel='stylesheet' type='text/css' href='./datatables/responsive.dataTables.min.css' />
+    <link rel='stylesheet' type='text/css' href='./bus.css' />
+</head>
+
+<body>
+
+    <div class="box">
+        <div class="row header">
+            <div class="ui grid">
+                <div class="two column mobile only row">
+                    <div id="mobileMenuTitle" class="column">
+                    </div>
+                    <div id="mobileMenuButtons" class="right aligned column">
+                    </div>
+                </div>
+                <div class="one column mobile only row">
+                    <div id="mobileMenuSearch" class="center aligned column">
+                    </div>
+                </div>
+                <div class="three column large screen computer tablet only compact row">
+                    <div id="otherMenuTitle" class="column">
+                    </div>
+                    <div id="otherMenuSearch" class="center aligned column">
+                    </div>
+                    <div id="otherMenuButtons" class="right aligned column">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row content">
+            <div id='map'></div>
+        </div>
+
+    </div>
+
+    <div id="menuTitle" class="ui borderless secondary compact fitted menu">
+        <div class="link browse item">
+            <i class="hamburger icon"></i>
+        </div>
+        <div class="ui popup bottom left transition hidden" style="inset: 564.969px auto auto 1px;">
+
+            <div class="ui action link list">
+                <a id="viewOptions" class="item" action="viewOptions">Options</a>
+                <a id="viewJson" class="item dataDependent" action="viewJSON">View JSON</a>
+            </div>
+
+        </div>
+
+        <div class="item">
+            <h3>Bus Tracker</h3>
+        </div>
+
+    </div>
+
+    <div id="menuSearch" class="ui two column grid">
+        <div class="twelve wide column">
+            <div id="search" class="ui search">
+                <div class="ui fluid icon input">
+                    <input class="prompt" type="text" placeholder="Search Operators and Routes (enter at least 2 characters)...">
+                    <i class="search icon"></i>
+                </div>
+                <div class="results" style="overflow-y: auto; max-height: 300px;"></div>
+            </div>
+        </div>
+        <div class="one wide column">
+            <div id="locationSearch" class="ui icon button" title="Search on Map">
+                <i class="crosshairs icon"></i>
+            </div>
+        </div>
+    </div>
+
+    <div id="menuButtons" class="ui borderless secondary compact fitted menu">
+
+        <div id='viewSearches' class="browse item">
+            <i class="history icon"></i>
+        </div>
+        <div class="ui flowing popup bottom left transition hidden">
+            <div id='clearSearchHistory' title="Clear search history" class="ui right mini icon button">
+                <i class="trash icon"></i>
+            </div>
+            <div id="searchHistory" class="ui action link list">
+            </div>
+        </div>
+
+        <div id="updateMap" class="dataDependent link item" title="Refresh map">
+            <i class="refresh icon"></i>
+        </div>
+
+        <div id="viewData" class="dataDependent link item" title="View data">
+            <i class="table icon"></i>
+        </div>
+
+    </div>
+
+    <!--Box to display Data-->
+    <div id="data" class="ui fullscreen modal">
+        <div class="header">Data</div>
+        <div class="scrolling content">
+            <table id='vehicles' class='bus'></table>
+        </div>
+        <div class="actions">
+            <div class="ui cancel button">Close</div>
+        </div>
+    </div>
+
+    <!--Box to display JSON-->
+    <div id="json" class="ui fullscreen modal">
+        <div class="header">JSON</div>
+        <div class="scrolling content">
+            <pre id='jsonText'></pre>
+        </div>
+        <div class="actions">
+            <div class="ui cancel button">Close</div>
+        </div>
+    </div>
+
+    <!--Box to display Options-->
+    <div id="options" class="ui tiny modal">
+        <div class="header">Options</div>
+        <div class="scrolling content">
+            <div id="formOptions" class="ui form">
+                <div class="ui right aligned toggle checkbox field">
+                    <label>Hide inactive vehicles</label>
+                    <input type="checkbox" name="optionHideAged">
+                </div>
+                <div class="inline field">
+                    <label>Favourite Bus Reference</label>
+                    <input type="text" name="optionFavouriteBus">
+                </div>
+                <div class="inline required field">
+                    <label>Maximum Markers to display</label>
+                    <input type="text" name="optionMaxMarkers">
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <div id="closeOptionsForm" class="ui button">Close</div>
+        </div>
+    </div>
+
+</body>
+
+</html>

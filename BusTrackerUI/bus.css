@@ -1,0 +1,257 @@
+﻿:root {
+    --bus-color-outbound: #ff0000;
+    --bus-color-inbound: #4800ff;
+    --bus-color-favourite: #4cff00;
+    --bus-color-aged: #dddada;
+}
+
+.box {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+    .box .row {
+/*        border: 1px dotted #0313fc;*/
+    }
+
+        .box .row.header {
+            flex: 0 1 40px;
+        }
+
+        .box .row.content {
+            flex: 1 1 auto;
+        }
+
+        .box .row.footer {
+            flex: 0 1 40px;
+        }
+
+.ui.grid {
+    margin: 0em 0px 0em 0px !important;
+    border: none !important;
+}
+
+    .ui.grid > .row {
+        padding: 0px !important;
+    }
+
+    .ui.menu {
+        border: none !important;
+        box-shadow: none !important;
+        background: 0 0 !important;
+        border-radius: 0;
+    }
+
+        .ui.menu > .popup {
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+#recentSearches {
+    text-align: left;
+}
+
+#map {
+    position: relative;
+    width: 100% !important;
+    height: 100% !important;
+}
+body.bus {
+    font-size: 1em;
+    height: 100%;
+    margin: 0;
+}
+table.bus {
+    width: 100% !important;
+    font-size: 0.75em;
+}
+table.bus#vehicles {
+    color: #ffffff;
+}
+
+.ui.button {
+    font-size: 1em;
+}
+
+.routeLabel {
+    background-color: black;
+    color: white;
+    text-shadow: 1px 1px 5px #fff, 1px 1px 5px #ccc;
+    padding: .25em .25em .25em .25em;
+    flex: auto;
+    align-content: center;
+    font-weight: bold;
+    font-size: 2em;
+    border-radius: 3px;
+    /*border: 3px solid #000;*/
+    /* Center vertically */
+    /*position: absolute;*/
+    top: 50%;
+    font-family: helvetica, ariel, sans-serif;
+    position: relative;
+}
+
+table#vehicles tr.bus-direction-1 {
+    background-color: var(--bus-color-outbound) !important;
+}
+
+table#vehicles tr.bus-direction-2 {
+    background-color: var(--bus-color-inbound) !important;
+}
+
+table#vehicles tr.favourite {
+    background-color: var(--bus-color-favourite) !important;
+    color: black;
+}
+
+table#vehicles tr.aged {
+    background-color: var(--bus-color-aged) !important;
+    color: black;
+}
+
+/*
+* Vehicle styles in unhighlighted state.
+*/
+.vehicle {
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    color: #263238;
+    display: flex;
+    font-size: 14px;
+    gap: 15px;
+    height: 30px;
+    justify-content: center;
+    padding: 4px;
+    position: relative;
+    position: relative;
+    transition: all 0.3s ease-out;
+    width: 30px;
+}
+
+    .vehicle::after {
+        border-left: 9px solid transparent;
+        border-right: 9px solid transparent;
+        border-top: 9px solid #FFFFFF;
+        content: "";
+        height: 0;
+        left: 50%;
+        position: absolute;
+        top: 90%;
+        transform: translate(-50%, 0);
+        transition: all 0.3s ease-out;
+        width: 0;
+        z-index: 1;
+    }
+
+    .vehicle .route {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        color: #FFFFFF;
+    }
+
+    .vehicle .icon {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        color: #FFFFFF;
+    }
+
+    .vehicle .icon svg {
+        height: 20px;
+        width: auto;
+    }
+
+    .vehicle .details {
+        display: none;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .vehicle .vehicleRef {
+        color: #9E9E9E;
+        font-size: 12px;
+        margin-bottom: 2px;
+        margin-top: 2px;
+    }
+
+
+    /*
+    * vehicle styles in highlighted state.
+    */
+    .vehicle.highlight {
+        background-color: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
+        height: 120px;
+        padding: 8px 15px;
+        width: auto;
+    }
+
+    .vehicle.highlight::after {
+        border-top: 9px solid #FFFFFF;
+    }
+
+    .vehicle.highlight .details {
+        display: flex;
+    }
+
+    .vehicle.highlight .icon svg {
+        width: 50px;
+        height: 50px;
+    }
+
+    .vehicle.highlight .route {
+        font-size: 18px;
+    }
+
+
+    /*
+    * Bus icon colors.
+    */
+    /* Direction 1...*/
+    .vehicle.highlight:has(.bus-direction-1) .route {
+        color: var(--bus-color-outbound);
+    }    
+    
+    .vehicle.highlight:has(.bus-direction-1) .icon {
+        color: var(--bus-color-outbound);
+    }
+
+    .vehicle:not(.highlight):has(.bus-direction-1) {
+        background-color: var(--bus-color-outbound);
+    }
+
+    .vehicle:not(.highlight):has(.bus-direction-1)::after {
+        border-top: 9px solid var(--bus-color-outbound);
+    }
+
+   
+    /* Direction 2...*/
+    .vehicle.highlight:has(.bus-direction-2) .route {
+        color: var(--bus-color-inbound);
+    }
+    
+    .vehicle.highlight:has(.bus-direction-2) .icon {
+        color: var(--bus-color-inbound);
+    }
+
+    .vehicle:not(.highlight):has(.bus-direction-2) {
+        background-color: var(--bus-color-inbound);
+    }
+
+    .vehicle:not(.highlight):has(.bus-direction-2)::after {
+        border-top: 9px solid var(--bus-color-inbound);
+    }
+
+    /* Highlight aged data */
+    .vehicle:not(.highlight):has(.aged) {
+        background-color: var(--bus-color-aged);
+    }
+
+    /* Highlight a favourite bus */
+    .vehicle:not(.highlight):has(.favourite) {
+        background-color: var(--bus-color-favourite);
+    }
