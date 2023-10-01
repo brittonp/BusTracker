@@ -197,7 +197,7 @@ $(function () {
                             operatorRef: result.operatorRef,
                             onMap: false
                         };
-                        getRoute(searchCriteria, true);
+                        getBuses(searchCriteria, true);
                     }
                 })
                 ;
@@ -222,14 +222,14 @@ $(function () {
                 operatorRef: '',
                 onMap: true
             };
-            getRoute(searchCriteria);
+            getBuses(searchCriteria);
             e.preventDefault();
         });
 
     // Update Map...
     $('#updateMap')
         .on('click', (e) => {
-            getRoute(searchCriteria);
+            getBuses(searchCriteria);
             e.preventDefault();
         });
 
@@ -325,7 +325,7 @@ $(function () {
     $('#searchHistory')
         .on('click', '.item', (e) => {
             searchCriteria = JSON.parse(e.currentTarget.attributes.data.value);
-            getRoute(searchCriteria, true);
+            getBuses(searchCriteria, true);
             e.preventDefault();
         });
 
@@ -358,7 +358,11 @@ loadSearchHistory = function () {
 
                 const operator = operators.data.find((operator) => operator.operatorRef == r.operatorRef);
                 const operatorPublicName = (operator) ? operator.operatorPublicName : '';
-                const route = (r.lineRef) ? operator.routes.find((route) => route.lineRef == r.lineRef).route : 'All Routes';
+
+                // this is a fudge - if the route for the operator is not in the cached data (file operatorRoutes.json read into array operators)
+                // then show all routes. Really the cached operator/route data should be updated more frequently.
+                const routeObj = operator.routes.find((route) => route.lineRef == r.lineRef);
+                const route = (r.lineRef && routeObj) ? routeObj.route : 'All Routes';
                 const display = `${operatorPublicName} - ${route}`;
 
                 return {
@@ -385,7 +389,7 @@ loadSearchHistory = function () {
     }
 }
 
-function getRoute (f, recentre) {
+function getBuses (f, recentre) {
 
     $('#map')
         .dimmer({
@@ -555,7 +559,7 @@ async function initMap() {
     map.addListener("dragend", (x, y, z) => {
         // reposition the boundary box and search again...
         if (searchCriteria.onMap) {
-            getRoute(searchCriteria);
+            getBuses(searchCriteria);
         }
     });
 
@@ -599,8 +603,16 @@ async function loadMap(vehicles, recentre) {
 
         });
 
-        AdvancedMarkerElement.addEventListener("gmp-click", () => {
+        AdvancedMarkerElement.addEventListener("gmp-click", (o) => {
             toggleHighlight(AdvancedMarkerElement, vehicle);
+        });
+
+        // Listen for specific actions initiated from the marker...
+        AdvancedMarkerElement.addListener("click", (o) => {
+            if ($(o.domEvent.target).hasClass('route-link')) {
+                searchCriteria = JSON.parse(o.domEvent.target.attributes.data.value);
+                getBuses(searchCriteria, true);
+            }
         });
 
         AdvancedMarkerElement.vehicle = vehicle;
@@ -700,6 +712,12 @@ function buildContent(vehicle) {
     // aged infers recorded at time > 1 hour....
     const aged = (vehicle.extendedAttributes.aged == true) ? 'aged' : '';
 
+    const s = {
+        lineRef: vehicle.MonitoredVehicleJourney.LineRef,
+        operatorRef: vehicle.MonitoredVehicleJourney.OperatorRef,
+        onMap: false
+    };
+
     content.innerHTML = `
     <div class="route bus-direction-${vehicle.extendedAttributes.directionCode} ${favourite} ${aged}">
         ${vehicle.MonitoredVehicleJourney.PublishedLineName}
@@ -711,6 +729,10 @@ function buildContent(vehicle) {
         <div class="vehicleRef">Origin: ${vehicle.MonitoredVehicleJourney.OriginName}</div>
         <div class="vehicleRef">Direction: ${vehicle.MonitoredVehicleJourney.DirectionRef}</div>
         <div class="vehicleRef">Recorded: ${shortEnGBFormatter.format(new Date(vehicle.RecordedAtTime))}</div>
+        <div class="ui icon buttons" style="display: unset">
+          <div class="ui route-link mini button" data='${JSON.stringify(s)}'><i class="bus icon"></i></div>
+          <button class="ui favourite-link mini button" title="Make this your favourite bus" data="${vehicle.MonitoredVehicleJourney.VehicleRef}"><i class="heart outline icon"></i></button>
+        </div>
     </div>
     `;
     return content;

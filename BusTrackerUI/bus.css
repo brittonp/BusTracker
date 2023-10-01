@@ -122,12 +122,12 @@ table#vehicles tr.aged {
     font-size: 14px;
     gap: 15px;
     height: 30px;
+    width: 30px;
     justify-content: center;
     padding: 4px;
     position: relative;
     position: relative;
     transition: all 0.3s ease-out;
-    width: 30px;
 }
 
     .vehicle::after {
@@ -152,22 +152,8 @@ table#vehicles tr.aged {
         color: #FFFFFF;
     }
 
-    .vehicle .icon {
-        align-items: center;
-        display: flex;
-        justify-content: center;
-        color: #FFFFFF;
-    }
-
-    .vehicle .icon svg {
-        height: 20px;
-        width: auto;
-    }
-
     .vehicle .details {
         display: none;
-        flex-direction: column;
-        flex: 1;
     }
 
     .vehicle .vehicleRef {
@@ -185,23 +171,23 @@ table#vehicles tr.aged {
         background-color: #FFFFFF;
         border-radius: 8px;
         box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
-        height: 120px;
         padding: 8px 15px;
         width: auto;
+        height: auto;
     }
 
     .vehicle.highlight::after {
         border-top: 9px solid #FFFFFF;
+        display: none;
     }
 
-    .vehicle.highlight .details {
-        display: flex;
-    }
+        .vehicle.highlight .details {
+            display: flex;
+            color: #FFFFFF !important;
+            flex-direction: column;
+            flex: 1;
+        }
 
-    .vehicle.highlight .icon svg {
-        width: 50px;
-        height: 50px;
-    }
 
     .vehicle.highlight .route {
         font-size: 18px;
@@ -216,9 +202,9 @@ table#vehicles tr.aged {
         color: var(--bus-color-outbound);
     }    
     
-    .vehicle.highlight:has(.bus-direction-1) .icon {
+/*    .vehicle.highlight:has(.bus-direction-1) .icon {
         color: var(--bus-color-outbound);
-    }
+    }*/
 
     .vehicle:not(.highlight):has(.bus-direction-1) {
         background-color: var(--bus-color-outbound);
@@ -234,9 +220,9 @@ table#vehicles tr.aged {
         color: var(--bus-color-inbound);
     }
     
-    .vehicle.highlight:has(.bus-direction-2) .icon {
+/*    .vehicle.highlight:has(.bus-direction-2) .icon {
         color: var(--bus-color-inbound);
-    }
+    }*/
 
     .vehicle:not(.highlight):has(.bus-direction-2) {
         background-color: var(--bus-color-inbound);

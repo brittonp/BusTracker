@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 using BusTrackerServices.Models;
 using System.Text;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace BusTrackerServices.Controllers
 {
@@ -21,6 +24,40 @@ namespace BusTrackerServices.Controllers
             _configuration = configuration;
             _logger = logger;
         }
+
+        [HttpGet("TaskRunner")]
+        public string TaskRunner()
+        {
+            JsonResult json;
+
+            Debug.WriteLine("Application thread ID: {0}",Thread.CurrentThread.ManagedThreadId);
+
+            // Use Task.Run to start a task that computes the sum of numbers
+            var task = Task.Run(() =>
+            {
+                Debug.WriteLine("Task thread ID: {0}", Thread.CurrentThread.ManagedThreadId);
+
+                for (int i = 0; i < 3; i++)
+                {
+
+                    json = GetData("&operatorRef=TFLO&lineRef=512");
+
+                    Debug.WriteLine("{0} : Sleep for 10 seconds!", i);
+                    Thread.Sleep(10000);
+                }
+
+            });
+
+            Debug.WriteLine("Doing some other work...");
+
+            task.Wait();
+
+            Debug.WriteLine("Done");
+
+            return task.Status.ToString();
+        }
+
+
 
         [HttpGet]
         public JsonResult Get()
