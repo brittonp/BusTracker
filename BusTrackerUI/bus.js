@@ -610,7 +610,12 @@ async function loadMap(vehicles, recentre) {
         // Listen for specific actions initiated from the marker...
         AdvancedMarkerElement.addListener("click", (o) => {
             if ($(o.domEvent.target).hasClass('route-link')) {
-                searchCriteria = JSON.parse(o.domEvent.target.attributes.data.value);
+                var target = o.domEvent.target;
+                // bubble up to the ancestor containing the dat attribute...
+                while ($(target.parentNode).hasClass('route-link')) {
+                    target = target.parentNode;
+                }
+                searchCriteria = JSON.parse(target.attributes.data.value);
                 getBuses(searchCriteria, true);
             }
         });
@@ -730,11 +735,12 @@ function buildContent(vehicle) {
         <div class="vehicleRef">Direction: ${vehicle.MonitoredVehicleJourney.DirectionRef}</div>
         <div class="vehicleRef">Recorded: ${shortEnGBFormatter.format(new Date(vehicle.RecordedAtTime))}</div>
         <div class="ui icon buttons" style="display: unset">
-          <div class="ui route-link mini button" data='${JSON.stringify(s)}'><i class="bus icon"></i></div>
+          <div class="ui route-link mini button" data='${JSON.stringify(s)}'><i class="bus route-link icon"></i></div>
           <button class="ui favourite-link mini button" title="Make this your favourite bus" data="${vehicle.MonitoredVehicleJourney.VehicleRef}"><i class="heart outline icon"></i></button>
         </div>
     </div>
     `;
+
     return content;
 }
 

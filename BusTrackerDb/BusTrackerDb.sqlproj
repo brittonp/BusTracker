@@ -60,6 +60,14 @@
     <Folder Include="Properties" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="tables.sql" />
+    <Build Include="TraceJob.sql" />
+    <Build Include="TraceData.sql" />
+    <Build Include="TraceStep.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BusTrackerDb.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="BusTrackerDb.refactorlog" />
   </ItemGroup>
 </Project>
