@@ -377,3 +377,4 @@ FodyWeavers.xsd
 /BusTrackerUI/data/NOC_Bus.xml
 /BusTrackerUI/data/NOC.xml
 /BusTrackerUI/data/noc.json
+/BusTrackerRoutes/Models/NOC.cs
