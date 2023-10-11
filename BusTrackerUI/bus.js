@@ -1,7 +1,4 @@
-﻿(g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })
-    ({ key: "AIzaSyAyq25sEsGPXISna5uL1Zkgq5ofCIT1anI", v: "beta" });
-
-// default...
+﻿// default...
 HereLocation = {
     Latitude: 54.87676318480376,
     Longitude: -3.1485196166071217
@@ -27,7 +24,7 @@ var searchCriteria = {
     onMap: false
 };
 var markers = [];
-var map;
+let map, infoWindow;
 var operators = [];
 var userOptions;
 var boundingBox = {
@@ -39,12 +36,17 @@ var boundingBox = {
 var mapBoundingBox;
 
 // Document Ready function...
-$(function () {
-
-    //$('.ui.accordion').accordion();
+$(() => {
 
     const operatorsRoutesUrl = './data/operatorRoutes.json';
     const isMobile = (/Mobi|Android/i.test(navigator.userAgent));
+
+    // load google maps intialiser...
+    (g => {
+        var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window;
+        b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
+    })
+        ({ key: secrets.googleMapKey, v: "beta" });
 
     // arrange header bar based on device type...
     if (isMobile) {
@@ -58,156 +60,154 @@ $(function () {
     }
 
      // first thing get list of Operators and routes....
-    $
-        .get(operatorsRoutesUrl, function (resp) {
+    $.get(operatorsRoutesUrl, function (resp) {
 
-            operators = resp;
+        operators = resp;
 
-            // disable data dependent buttons...
-            $('.dataDependent').addClass("disabled");
+        // disable data dependent buttons...
+        $('.dataDependent').addClass("disabled");
 
-            // Get user options...
-            //Cookies.remove('userOptions');
-            userOptions = Cookies.get('userOptions');
-            if (!userOptions) {
-                userOptions = {
-                    hideAged: true,
-                    favouriteBus: '',
-                    maxMarkers: 200
-                };
-                Cookies.set('userOptions', JSON.stringify(userOptions), { expires: CookieExpiry });
-            }
-            userOptions = JSON.parse(Cookies.get('userOptions'));
+        // Get user options...
+        //Cookies.remove('userOptions');
+        userOptions = Cookies.get('userOptions');
+        if (!userOptions) {
+            userOptions = {
+                hideAged: true,
+                favouriteBus: '',
+                maxMarkers: 200
+            };
+            Cookies.set('userOptions', JSON.stringify(userOptions), { expires: CookieExpiry });
+        }
+        userOptions = JSON.parse(Cookies.get('userOptions'));
 
-            // Create data table (will load later)...
-            new DataTable('#vehicles', {
-                pageLength: 10,
-                scrollX: true,
-                scrollY: true,
-                autowidth: false,
-                createdRow: (row, data, dataIndex) => {
-                    $(row).addClass(`bus-direction-${data.extendedAttributes.directionCode}`);
+        // Create data table (will load later)...
+        new DataTable('#vehicles', {
+            pageLength: 10,
+            scrollX: true,
+            scrollY: true,
+            autowidth: false,
+            createdRow: (row, data, dataIndex) => {
+                $(row).addClass(`bus-direction-${data.extendedAttributes.directionCode}`);
 
-                    if (data.extendedAttributes.favourite)
-                        $(row).addClass(`favourite`);
-                    if (data.extendedAttributes.aged)
-                        $(row).addClass(`aged`);
+                if (data.extendedAttributes.favourite)
+                    $(row).addClass(`favourite`);
+                if (data.extendedAttributes.aged)
+                    $(row).addClass(`aged`);
+            },
+            columns: [
+                {
+                    title: 'Operator',
+                    data: 'extendedAttributes.operatorName'
                 },
-                columns: [
-                    {
-                        title: 'Operator',
-                        data: 'extendedAttributes.operatorPublicName'
-                    },
-                    {
-                        title: 'Vehicle Reference',
-                        data: 'MonitoredVehicleJourney.VehicleRef'
-                    },
-                    {
-                        title: 'Route',
-                        data: 'MonitoredVehicleJourney.PublishedLineName'
-                    },
-                    {
-                        title: 'Destination',
-                        data: 'MonitoredVehicleJourney.DestinationName'
-                    },
-                    {
-                        title: 'Origin',
-                        data: 'MonitoredVehicleJourney.OriginName'
-                    },
-                    {
-                        title: 'Direction',
-                        data: 'MonitoredVehicleJourney.DirectionRef'
-                    },
-                    {
-                        title: 'Bearing',
-                        data: 'MonitoredVehicleJourney.Bearing',
-                        render: function (data, type, row, meta) {
-                            return (data ? data : 'Not available');
-                        }
-                    },
-                    {
-                        title: 'Longitude',
-                        data: 'MonitoredVehicleJourney.VehicleLocation.Longitude',
-                        render: function (data, type, row, meta) {
-                            return (data ? data : 'Not available');
-                        }
-                    },
-                    {
-                        title: 'Latitude',
-                        data: 'MonitoredVehicleJourney.VehicleLocation.Latitude',
-                        render: function (data, type, row, meta) {
-                            return (data ? data : 'Not available');
-                        }
-                    },
-                    {
-                        title: 'Recorded',
-                        data: 'RecordedAtTime',
-                        render: function (data, type, row, meta) {
-                            return shortEnGBFormatter.format(new Date(data));
-                        }
-                    },
-                    {
-                        title: 'Valid Until',
-                        data: 'ValidUntilTime',
-                        visible: false,
-                        render: function (data, type, row, meta) {
-                            return shortEnGBFormatter.format(new Date(data));
-                        }
-                    },
-                ]
-            });
+                {
+                    title: 'Vehicle Reference',
+                    data: 'MonitoredVehicleJourney.VehicleRef'
+                },
+                {
+                    title: 'Route',
+                    data: 'MonitoredVehicleJourney.PublishedLineName'
+                },
+                {
+                    title: 'Destination',
+                    data: 'MonitoredVehicleJourney.DestinationName'
+                },
+                {
+                    title: 'Origin',
+                    data: 'MonitoredVehicleJourney.OriginName'
+                },
+                {
+                    title: 'Direction',
+                    data: 'MonitoredVehicleJourney.DirectionRef'
+                },
+                {
+                    title: 'Bearing',
+                    data: 'MonitoredVehicleJourney.Bearing',
+                    render: function (data, type, row, meta) {
+                        return (data ? data : 'Not available');
+                    }
+                },
+                {
+                    title: 'Longitude',
+                    data: 'MonitoredVehicleJourney.VehicleLocation.Longitude',
+                    render: function (data, type, row, meta) {
+                        return (data ? data : 'Not available');
+                    }
+                },
+                {
+                    title: 'Latitude',
+                    data: 'MonitoredVehicleJourney.VehicleLocation.Latitude',
+                    render: function (data, type, row, meta) {
+                        return (data ? data : 'Not available');
+                    }
+                },
+                {
+                    title: 'Recorded',
+                    data: 'RecordedAtTime',
+                    render: function (data, type, row, meta) {
+                        return shortEnGBFormatter.format(new Date(data));
+                    }
+                },
+                {
+                    title: 'Valid Until',
+                    data: 'ValidUntilTime',
+                    visible: false,
+                    render: function (data, type, row, meta) {
+                        return shortEnGBFormatter.format(new Date(data));
+                    }
+                },
+            ]
+        });
 
-            const flatOperators = operators.data
-                .flatMap(o => {
+        const flatOperators = operators.data
+            .flatMap(o => {
 
-                    const operatorRoutes = [];
+                const operatorRoutes = [];
 
-                    operatorRoutes.push({
-                        operatorRef: o.operatorRef,
-                        operatorPublicName: o.operatorPublicName,
-                        lineRef: '',
-                        route: '',
-                        title: `${o.operatorPublicName} - All Routes`
-                    });
-
-                    o.routes.forEach(r => {
-                        operatorRoutes.push({
-                            operatorRef: o.operatorRef,
-                            operatorPublicName: o.operatorPublicName,
-                            lineRef: r.lineRef,
-                            route: r.route,
-                            title: `${o.operatorPublicName} - ${r.route}`
-                        });
-                    });
-
-                    return operatorRoutes;
+                operatorRoutes.push({
+                    operatorRef: o.operatorRef,
+                    operatorName: o.operatorName,
+                    lineRef: '',
+                    route: '',
+                    title: `${o.operatorName} - All Routes`
                 });
 
-            $('#search')
-                .search({
-                    source: flatOperators,
-                    maxResults: 0,
-                    searchFields: ['title'],
-                    minCharacters: 2,
-                    selectFirstResult: true,
-                    fullTextSearch: 'all',
-                    onSelect: (result, response) => {
-                        searchCriteria = {
-                            lineRef: result.lineRef,
-                            operatorRef: result.operatorRef,
-                            onMap: false
-                        };
-                        getBuses(searchCriteria, true);
-                    }
-                })
-                ;
+                o.routes.forEach(r => {
+                    operatorRoutes.push({
+                        operatorRef: o.operatorRef,
+                        operatorName: o.operatorName,
+                        lineRef: r.lineRef,
+                        route: r.route,
+                        title: `${o.operatorName} - ${r.route}`
+                    });
+                });
 
-            loadSearchHistory();
+                return operatorRoutes;
+            });
 
-        })
-        .fail(function (e, e2) {
-            alert(`Error in processing ${operatorsRoutesUrl}: ${e2}`);
-        });
+        $('#search')
+            .search({
+                source: flatOperators,
+                maxResults: 0,
+                searchFields: ['title'],
+                minCharacters: 2,
+                selectFirstResult: true,
+                fullTextSearch: 'all',
+                onSelect: (result, response) => {
+                    searchCriteria = {
+                        lineRef: result.lineRef,
+                        operatorRef: result.operatorRef,
+                        onMap: false
+                    };
+                    getBuses(searchCriteria, true);
+                }
+            });
+
+        loadSearchHistory();
+
+    })
+    .fail(function (e, e2) {
+        alert(`Error in processing ${operatorsRoutesUrl}: ${e2}`);
+    });
 
     initMap();
 
@@ -357,17 +357,17 @@ loadSearchHistory = function () {
             .map((r, index, self) => {
 
                 const operator = operators.data.find((operator) => operator.operatorRef == r.operatorRef);
-                const operatorPublicName = (operator) ? operator.operatorPublicName : '';
+                const operatorName = (operator) ? operator.operatorName : '';
 
                 // this is a fudge - if the route for the operator is not in the cached data (file operatorRoutes.json read into array operators)
                 // then show all routes. Really the cached operator/route data should be updated more frequently.
                 const routeObj = operator.routes.find((route) => route.lineRef == r.lineRef);
                 const route = (r.lineRef && routeObj) ? routeObj.route : 'All Routes';
-                const display = `${operatorPublicName} - ${route}`;
+                const display = `${operatorName} - ${route}`;
 
                 return {
                     ...r,
-                    operatorPublicName: operatorPublicName,
+                    operatorName: operatorName,
                     route: route,
                     searched: r.searched,
                     display: display
@@ -505,10 +505,10 @@ function getBuses (f, recentre) {
                     const aged = (((new Date() - new Date(v.RecordedAtTime)) / 3600000) > 1) ? true : false;
 
                     const operator = operators.data.find((operator) => operator.operatorRef == v.MonitoredVehicleJourney.OperatorRef);
-                    const operatorPublicName = (operator) ? operator.operatorPublicName : `Operator Name not found: ${v.MonitoredVehicleJourney.OperatorRef}`;
+                    const operatorName = (operator) ? operator.operatorName : `Operator Name not found: ${v.MonitoredVehicleJourney.OperatorRef}`;
 
                     const extendedAttributes = {
-                        operatorPublicName: operatorPublicName,
+                        operatorName: operatorName,
                         directionCode: vehicleDirection,
                         favourite: favourite,
                         aged: aged
@@ -563,8 +563,52 @@ async function initMap() {
         }
     });
 
+    // location...
+    infoWindow = new google.maps.InfoWindow();
+
+    const locationButton = document.createElement("button");
+
+    locationButton.textContent = "Pan to Current Location";
+    locationButton.classList.add("custom-map-control-button");
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+    locationButton.addEventListener("click", () => {
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent("Location found.");
+                    infoWindow.open(map);
+                    map.setCenter(pos);
+                },
+                () => {
+
+                    handleLocationError(true, infoWindow, map.getCenter());
+                },
+            );
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+    });
+
 }
 
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(
+        browserHasGeolocation
+            ? "Error: The Geolocation service failed."
+            : "Error: Your browser doesn't support geolocation.",
+    );
+    infoWindow.open(map);
+}
 async function loadMap(vehicles, recentre) {
 
     // Request needed libraries.
@@ -728,7 +772,7 @@ function buildContent(vehicle) {
         ${vehicle.MonitoredVehicleJourney.PublishedLineName}
     </div>
     <div class="details">
-        <div class="vehicleRef">Operator: ${vehicle.extendedAttributes.operatorPublicName}</div>
+        <div class="vehicleRef">Operator: ${vehicle.extendedAttributes.operatorName}</div>
         <div class="vehicleRef">Vehicle Reference: ${vehicle.MonitoredVehicleJourney.VehicleRef}</div>
         <div class="vehicleRef">Destination: ${vehicle.MonitoredVehicleJourney.DestinationName}</div>
         <div class="vehicleRef">Origin: ${vehicle.MonitoredVehicleJourney.OriginName}</div>
@@ -753,7 +797,7 @@ function DisplayMessage(content) {
         content: content,
     })
         .modal('show')
-        .delay(4000)
+        .delay(1500)
         .queue(function () {
             $(this).modal('hide').dequeue();
         });

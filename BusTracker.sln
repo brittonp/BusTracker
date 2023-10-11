@@ -28,10 +28,15 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BusTrackerUI", "BusTrackerU
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5EA58822-E1AA-464E-BB51-71177430121B}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BusTrackerDb", "BusTrackerDb\BusTrackerDb.sqlproj", "{04DEB276-6D60-4A10-B16A-49FD4D702931}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusTrackerRoutes", "BusTrackerRoutes\BusTrackerRoutes.csproj", "{E838CF6D-D0DC-4E47-A819-D7581B86996E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusTrackerTrace", "BusTrackerTrace\BusTrackerTrace.csproj", "{B87F070F-3AE6-451C-A28E-0AE3836E0000}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +58,14 @@ Global
 		{04DEB276-6D60-4A10-B16A-49FD4D702931}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04DEB276-6D60-4A10-B16A-49FD4D702931}.Release|Any CPU.Build.0 = Release|Any CPU
 		{04DEB276-6D60-4A10-B16A-49FD4D702931}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{E838CF6D-D0DC-4E47-A819-D7581B86996E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E838CF6D-D0DC-4E47-A819-D7581B86996E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E838CF6D-D0DC-4E47-A819-D7581B86996E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E838CF6D-D0DC-4E47-A819-D7581B86996E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B87F070F-3AE6-451C-A28E-0AE3836E0000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B87F070F-3AE6-451C-A28E-0AE3836E0000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B87F070F-3AE6-451C-A28E-0AE3836E0000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B87F070F-3AE6-451C-A28E-0AE3836E0000}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
