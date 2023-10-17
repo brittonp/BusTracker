@@ -267,3 +267,15 @@ table#vehicles tr.aged {
         border-right: 8px solid transparent;
         border-top: 8px solid #8160d4;
     }
+
+.speed-tag {
+    background-color: #00000050;
+    border: 1px solid #ff0000;
+    border-radius: 8px;
+    color: #ff0000;
+    font-size: 11px;
+    padding: 5px 5px;
+    position: relative;
+    left: 20px;
+    top: 20px;
+}

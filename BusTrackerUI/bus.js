@@ -30,8 +30,9 @@ var searchCriteria = {
     operatorRef: null,
     onMap: false
 };
-var markers = [];
-var paths = [];
+let markers = [];
+let paths = [];
+let speedMarkers = []
 let map, infoWindow, trackerInfoWindow;
 var operators = [];
 var userOptions;
@@ -472,18 +473,18 @@ function trackBus(vehicleRef, firstTime, counter) {
 
         addTrackedBus(vehicleActivity);
     })
-        .fail((e) => {
-            DisplayMessage(`Error encountered when requesting bus data: ${e.responseText}.`);
-        })
-        .done(() => {
-             // disable data dependent buttons...
-            $('.toolbar').addClass("disabled");
-            // schedule next callback...
-            busTracker = setTimeout(trackBus, refreshCounter * 1000, vehicleRef, false, counter);
-        })
-        .always(() => {
-            $('#map').dimmer('hide');
-        });
+    .fail((e) => {
+        DisplayMessage(`Error encountered when requesting bus data: ${e.responseText}.`);
+    })
+    .done(() => {
+            // disable data dependent buttons...
+        $('.toolbar').addClass("disabled");
+        // schedule next callback...
+        busTracker = setTimeout(trackBus, refreshCounter * 1000, vehicleRef, false, counter);
+    })
+    .always(() => {
+        $('#map').dimmer('hide');
+    });
 };
 
 async function addTrackedBus(vehicle) {
@@ -527,17 +528,27 @@ async function addTrackedBus(vehicle) {
         const lineSymbol = {
             path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
         };
+
+        let prevPoint =
+        {
+            timestamp: markers[markers.length - 2].vehicle.RecordedAtTime,
+            lat: Number(markers[markers.length - 2].vehicle.MonitoredVehicleJourney.VehicleLocation.Latitude),
+            lng: Number(markers[markers.length - 2].vehicle.MonitoredVehicleJourney.VehicleLocation.Longitude)
+        };
+
+        let currentPoint = {
+            timestamp: markers[markers.length - 1].vehicle.RecordedAtTime,
+            lat: Number(markers[markers.length - 1].vehicle.MonitoredVehicleJourney.VehicleLocation.Latitude),
+            lng: Number(markers[markers.length - 1].vehicle.MonitoredVehicleJourney.VehicleLocation.Longitude)
+        };
+
+        let dMetres = distanceBetweenPoints(prevPoint, currentPoint);
+        let dMiles = dMetres * 0.000621371;
+        let tHours = (new Date(currentPoint.timestamp) - new Date(prevPoint.timestamp)) / (1000*60*60);
+        let speedMPH = dMiles / tHours;
+
         const path = new google.maps.Polyline({
-            path: [
-                {
-                    lat: Number(markers[markers.length - 2].vehicle.MonitoredVehicleJourney.VehicleLocation.Latitude),
-                    lng: Number(markers[markers.length - 2].vehicle.MonitoredVehicleJourney.VehicleLocation.Longitude)
-                },
-                {
-                    lat: Number(markers[markers.length - 1].vehicle.MonitoredVehicleJourney.VehicleLocation.Latitude),
-                    lng: Number(markers[markers.length - 1].vehicle.MonitoredVehicleJourney.VehicleLocation.Longitude)
-                }
-            ],
+            path: [prevPoint, currentPoint],
             geodesic: true,
             strokeColor: "#FF0000",
             strokeOpacity: 1.0,
@@ -551,8 +562,26 @@ async function addTrackedBus(vehicle) {
             map: map,
         });
 
+        let speedMarkerPos = {
+            lat: prevPoint.lat + ((currentPoint.lat - prevPoint.lat) / 2),
+            lng: prevPoint.lng + ((currentPoint.lng - prevPoint.lng) / 2)
+        };
+        const speedTag = document.createElement("div");
+        speedTag.className = "speed-tag";
+        speedTag.textContent = `${Math.floor(speedMPH).toString()} mph`;
+
+        speedMarker = new google.maps.marker.AdvancedMarkerElement({
+            map: map,
+            position: speedMarkerPos,
+            content: speedTag,
+            title: "Point to point speed)",
+        });
+
+
         // add path to array of paths (for use in removing them)...
         paths.push(path);
+        speedMarkers.push(speedMarker);
+       
     }
 
     // recentre map as necessary...
@@ -561,7 +590,7 @@ async function addTrackedBus(vehicle) {
     });
     map.fitBounds(mapBounds);
 
-    if (markers.length < 3)
+    if (markers.length < 2)
         map.setZoom(18);
 }
 
@@ -932,6 +961,11 @@ function clearMap(map) {
     }
     paths = [];
 
+    // delete speedMarkers...
+    for (let i = 0; i < speedMarkers.length; i++) {
+        speedMarkers[i].setMap(null);
+    }
+    speedMarkers = [];
 }
 
 function toggleHighlight(markerView, vehicle) {
@@ -995,4 +1029,28 @@ function DisplayMessage(content) {
         .queue(function () {
             $(this).modal('hide').dequeue();
         });
+}
+
+
+function distanceBetweenPoints(point1, point2)
+{
+    const lat1 = point1.lat;
+    const lon1 = point1.lng;
+    const lat2 = point2.lat;
+    const lon2 = point2.lng;
+
+    const R = 6371e3; // metres
+    const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
+    const φ2 = lat2 * Math.PI / 180;
+    const Δφ = (lat2 - lat1) * Math.PI / 180;
+    const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+        Math.cos(φ1) * Math.cos(φ2) *
+        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const d = R * c; // in metres
+
+    return d;
 }
