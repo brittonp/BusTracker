@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Xml;
 using Newtonsoft.Json;
 using BusTrackerServices.Models;
+using BusTrackerServices.Data;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 
 
 namespace BusTrackerServices.Controllers
@@ -13,13 +15,16 @@ namespace BusTrackerServices.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<BusLocationDataController> _logger;
+        private readonly ISqlData _sqlData;
 
         public BusLocationDataController(
             IConfiguration configuration, 
-            ILogger<BusLocationDataController> logger)
+            ILogger<BusLocationDataController> logger,
+            ISqlData sqlData)
         {
             _configuration = configuration;
             _logger = logger;
+            _sqlData = sqlData;
         }
 
         [HttpGet]
@@ -97,8 +102,11 @@ namespace BusTrackerServices.Controllers
             TimeSpan ts = responseTimestamp - requestTimestamp;
             _logger.LogInformation(999, "Response {URI} received at {DT}, duration {TS} milliseconds.", dftUri, responseTimestamp.ToLongTimeString(), ts.TotalMilliseconds);
 
-            jsonString = JsonConvert.SerializeXmlNode(xmlDoc);
+            int? sessionId = HttpContext.Session.GetInt32("SessionId");
+            sessionId = _sqlData.UpdateSession(sessionId, SqlData.Event.LocationQuery);
+            HttpContext.Session.SetInt32("SessionId", (int)sessionId);
 
+            jsonString = JsonConvert.SerializeXmlNode(xmlDoc);
             myJson = new JsonResult(jsonString);
 
             return myJson;

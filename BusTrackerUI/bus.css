@@ -27,9 +27,13 @@
             flex: 0 1 40px;
         }
 
+        .box .row.header > .grid {
+            border-bottom: lightgrey 1px solid;
+        }
+
 .ui.grid {
     margin: 0em 0px 0em 0px !important;
-    border: none !important;
+    border: none ;
 }
 
     .ui.grid > .row {
@@ -240,4 +244,26 @@ table#vehicles tr.aged {
     /* Highlight a favourite bus */
     .vehicle:not(.highlight):has(.favourite) {
         background-color: var(--bus-color-favourite);
+    }
+
+.time-tag {
+    background-color: #8160d4;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 14px;
+    padding: 10px 15px;
+    position: relative;
+}
+
+    .time-tag::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 100%;
+        transform: translate(-50%, 0);
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid #8160d4;
     }

@@ -60,7 +60,10 @@
     <Folder Include="Properties" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="TraceData.sql" />
+    <Build Include="trace_data.sql" />
+    <Build Include="bt_session.sql" />
+    <Build Include="bt_session_audit.sql" />
+    <Build Include="trg_bt_session.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BusTrackerDb.publish.xml" />

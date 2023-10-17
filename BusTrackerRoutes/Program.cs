@@ -1,21 +1,23 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System.Xml;
 using Newtonsoft.Json.Linq;
 using System.IO.Compression;
+using System.Xml;
 
 
 namespace BusTrackerServices.Batch
 {
     class Program
     {
-
         private static IConfiguration? _configuration;
         private static ILogger? _logger;
 
         static async Task Main(string[] args)
         {
+            var tasks = new List<Task<Double>>();
+            ShowThreadInformation("Application");
+
             // configure logging...
             using var loggerFactory = LoggerFactory.Create(builder =>
             {
@@ -24,8 +26,6 @@ namespace BusTrackerServices.Batch
                     {
                         eventLogSettings.SourceName = "BusTracker";
                     });
-
-                string x = "hi";
             });
             ILogger logger = loggerFactory.CreateLogger<Program>();
             _logger = logger;
@@ -42,21 +42,24 @@ namespace BusTrackerServices.Batch
             catch (Exception ex)
             {
                 // send exception to logs...
-                _logger.LogError(999, ex, "Error.");
+                _logger.LogError(998, ex, "Error.");
             }
 
-            _logger.LogInformation(999, "BusTrackerRoutes");
+            _logger.LogInformation(998, "BusTrackerRoutes");
             Console.WriteLine("BusTrackerRoutes");
 
             // Call get data methods asynchronously...
-            var operators = GetOperatorsAsynch();
+            //var operators = GetOperatorsAsynch();
+            Task<JArray> operators = Task.Run(() => GetOperatorsAsynch());
 
-            var routes = GetLatestRoutesAsynch();
+            //var routes = GetLatestRoutesAsynch();
+            Task<JArray> routes = Task.Run(() => GetLatestRoutesAsynch());
 
-            var current = GetCurrentOperatorsAndRoutesAsynch();
+            //var current = GetCurrentOperatorsAndRoutesAsynch();
+            Task<JArray> current = Task.Run(() => GetCurrentCachedOperatorsAndRoutesAsynch());
 
             // Wait for all the tasks to finish.
-            await Task.WhenAll(routes, operators);
+            await Task.WhenAll(routes, operators, current);
 
             // Join the Operators onto the latest set of Routes, then Union with the existing Operator-Routes,
             // implicitly de-duplicating, then reformat as Operators with nested Routes...
@@ -113,6 +116,7 @@ namespace BusTrackerServices.Batch
             catch (Exception e)
             {
                 Console.WriteLine("Exception: " + e.Message);
+                _logger.LogError(998, e, "Exception writing to JSON file.");
             }
             finally
             {
@@ -123,7 +127,7 @@ namespace BusTrackerServices.Batch
                     newOperatorRoutes.Select(o => o.operatorRef).Distinct().Count(),
                     newOperatorRoutes.SelectMany(o => o.routes).Select(r => r.route).Count());
                 Console.WriteLine(summary);
-                _logger.LogInformation(999, summary, );
+                _logger.LogInformation(998, summary);
 
             }
 
@@ -133,18 +137,24 @@ namespace BusTrackerServices.Batch
 
         private static async Task<string> HttpDownloadAndUnzipAsynch(string requestUri, string directoryToUnzip)
         {
+            Console.WriteLine("Running Task: HttpDownloadAndUnzipAsynch.");
+            ShowThreadInformation("Task #" + Task.CurrentId.ToString());
+
             using var response = await new HttpClient().GetAsync(requestUri);
             if (!response.IsSuccessStatusCode) return response.StatusCode.ToString();
 
             using var streamToReadFrom = await response.Content.ReadAsStreamAsync();
             using var zip = new ZipArchive(streamToReadFrom);
             zip.ExtractToDirectory(directoryToUnzip, true);
+
+            Console.WriteLine("Completed Task: HttpDownloadAndUnzipAsynch.");
             return zip.Entries[0].ToString();
         }
 
-        private static async Task<JArray> GetCurrentOperatorsAndRoutesAsynch()
+        private static async Task<JArray> GetCurrentCachedOperatorsAndRoutesAsynch()
         {
-            Console.WriteLine("Running Task: GetCurrentOperatorsAndRoutesAsynch.");
+            Console.WriteLine("Running Task: GetCurrentCachedOperatorsAndRoutesAsynch.");
+            ShowThreadInformation("Task #" + Task.CurrentId.ToString());
 
             string jsonString = File.ReadAllText(_configuration["OperatorRoutesFileLocation"]);
             JObject jsonObj = JObject.Parse(jsonString);
@@ -163,12 +173,14 @@ namespace BusTrackerServices.Batch
             jsonString = JsonConvert.SerializeObject(operatorRoutes);
             JArray jsonArray = JArray.Parse(jsonString);
 
-            Console.WriteLine("Completed Task: GetCurrentOperatorsAndRoutesAsynch.");
+            Console.WriteLine("Completed Task: GetCurrentCachedOperatorsAndRoutesAsynch.");
             return jsonArray;
         }
         private static async Task<JArray> GetOperatorsAsynch()
         {
             Console.WriteLine("Running Task: GetOperatorsAsynch.");
+            ShowThreadInformation("Task #" + Task.CurrentId.ToString());
+
             XmlDocument xmlDoc = new XmlDocument();
 
             using (var client = new HttpClient())
@@ -205,6 +217,15 @@ namespace BusTrackerServices.Batch
         private static async Task<JArray> GetLatestRoutesAsynch()
         {
             Console.WriteLine("Running Task: GetLatestRoutesAsynch.");
+            //ShowThreadInformation("Task #" + Task.CurrentId.ToString());
+
+            String msg = null;
+            Thread thread = Thread.CurrentThread;
+                msg = String.Format("{0} thread information\n", "Task #" + Task.CurrentId.ToString()) +
+                      String.Format("   Background: {0}\n", thread.IsBackground) +
+                      String.Format("   Thread Pool: {0}\n", thread.IsThreadPoolThread) +
+                      String.Format("   Thread ID: {0}\n", thread.ManagedThreadId);
+            Console.WriteLine(msg);
 
             var busDataZip = await HttpDownloadAndUnzipAsynch(_configuration["BusOpenDataBulkZip"], _configuration["SiriDownloadFileLocation"]);
 
@@ -233,5 +254,18 @@ namespace BusTrackerServices.Batch
             return jsonArray;
 
         }
+
+        private static void ShowThreadInformation(String taskName)
+        {
+            String? msg = null;
+            Thread thread = Thread.CurrentThread;
+            msg = String.Format("{0} thread information\n", taskName) +
+                    String.Format("   Background: {0}\n", thread.IsBackground) +
+                    String.Format("   Thread Pool: {0}\n", thread.IsThreadPoolThread) +
+                    String.Format("   Thread ID: {0}\n", thread.ManagedThreadId);
+            Console.WriteLine(msg);
+        }
     }
+
+
 }

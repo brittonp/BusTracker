@@ -14,4 +14,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="created" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="88afdde9-467c-44f9-b28c-eae374140b3d" ChangeDateTime="10/13/2023 13:50:02">
+    <Property Name="ElementName" Value="[dbo].[FK_sess_audit_session_id_session]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[bt_session_audit]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_session_audit_session_id_session]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="35d543f8-1d35-4d8d-a43b-b04283a5aa92" ChangeDateTime="10/16/2023 15:57:45">
+    <Property Name="ElementName" Value="[dbo].[bt_session].[comment]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[bt_session]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="action" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="10512e6c-4fcb-4d1b-afe2-fe6ea7c80f3d" ChangeDateTime="10/16/2023 15:58:46">
+    <Property Name="ElementName" Value="[dbo].[bt_session].[user_agent]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[bt_session]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="header_user_agent" />
+  </Operation>
 </Operations>

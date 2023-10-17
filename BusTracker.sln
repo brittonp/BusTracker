@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusTrackerServices", "BusTr
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BusTrackerUI", "BusTrackerUI\", "{D85550DE-2CC3-4B70-85DB-4B3913A1E4EA}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_65047"
 		Debug.AspNetCompiler.PhysicalPath = "BusTrackerUI\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_65047\"
