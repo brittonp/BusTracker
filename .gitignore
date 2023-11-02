@@ -368,3 +368,16 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /BusTrackerServices/secrets.json
+/BusTrackerUI/secrets.json
+/BusTrackerUI/secrets.js
+/BusTrackerRoutes/siri.xml
+/BusTrackerRoutes/Nocs.xml
+/BusTrackerUI/data/operatorRoutes1.json
+/BusTrackerUI/data/NOC_Coach.xml
+/BusTrackerUI/data/NOC_Bus.xml
+/BusTrackerUI/data/NOC.xml
+/BusTrackerUI/data/noc.json
+/BusTrackerRoutes/Models/NOC.cs
+/BusTrackerUI/test.html
+/BusTrackerServices/web - Copy.config
+/BusTrackerUI/web - Copy.config.exclude

@@ -2,7 +2,7 @@
 
 namespace BusTrackerServices
 {
-    public static class SqlParameterExtension
+    public static class Extensions
     {
 
         public static SqlParameter AddWithNullableValue(
@@ -14,6 +14,13 @@ namespace BusTrackerServices
                 return collection.AddWithValue(parameterName, DBNull.Value);
             else
                 return collection.AddWithValue(parameterName, value);
+        }
+
+        public static string Truncate(
+            this string str,
+            int maxLength)
+        {
+            return str[..Math.Min(maxLength, str.Length)];
         }
     }
 }

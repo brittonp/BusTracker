@@ -1,8 +1,7 @@
 ﻿CREATE TABLE [dbo].[trace_data]
 (
-	[id] INT NOT NULL PRIMARY KEY identity(1,1), 
-    [trace_id] INT NOT NULL, 
-    [trace_step_id] INT NOT NULL, 
+	[id] INT NOT NULL PRIMARY KEY identity(1,1),     
+    [created] DATETIME NOT NULL DEFAULT getdate(),
     [recorded_at_time] DATETIME NOT NULL,
     [item_identifier] VARCHAR(50) NOT NULL,
     [valid_until] DATETIME NOT NULL,
@@ -18,10 +17,6 @@
     [destination_name] VARCHAR(50),
     [origin_aimed_departure_time] DATETIME,
     [location_latitude] DECIMAL(18, 6) NULL,
-    [location_longitude] DECIMAL(18, 6) NULL,
-    [created] DATETIME NOT NULL DEFAULT getdate(), 
-    CONSTRAINT [FK_trace_data_trace_id_to_trace_job] FOREIGN KEY ([trace_id]) REFERENCES [dbo].[trace_job]([id]),
-    CONSTRAINT [FK_trace_data_id_to_trace_step] FOREIGN KEY ([trace_step_id]) REFERENCES [dbo].[trace_step]([id])
-
+    [location_longitude] DECIMAL(18, 6) NULL
 )
 

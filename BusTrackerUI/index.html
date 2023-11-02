@@ -2,6 +2,17 @@
 <html lang='en'>
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GVXG3TB86"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-8GVXG3TB86');
+    </script>
+    <!-- Google tag (gtag.js) - End -->
+
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no'>
     <title>Bus Location</title>
@@ -13,6 +24,7 @@
     <script src='./fomantic/semantic.min.js'></script>
     <script src='./datatables/jquery.dataTables.min.js'></script>
     <script src='./datatables/responsive.dataTables.min.js'></script>
+    <script src='./secrets.js'></script>
     <script src='./bus.js'></script>
 
     <!--<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>-->
@@ -73,26 +85,51 @@
 
     </div>
 
-    <div id="menuSearch" class="ui two column grid">
-        <div class="twelve wide column">
-            <div id="search" class="ui search">
-                <div class="ui fluid icon input">
-                    <input class="prompt" type="text" placeholder="Search Operators and Routes (enter at least 2 characters)...">
-                    <i class="search icon"></i>
+    <div id="menuContainer">
+        <div id="menuSearch" class="ui two column grid">
+            <div class="twelve wide column">
+                <div id="search" class="ui search">
+                    <div class="ui fluid icon input">
+                        <input class="prompt" type="text" placeholder="Search Operators and Routes (enter at least 2 characters)...">
+                        <i class="search icon"></i>
+                    </div>
+                    <div class="results" style="overflow-y: auto; max-height: 300px;"></div>
                 </div>
-                <div class="results" style="overflow-y: auto; max-height: 300px;"></div>
+            </div>
+            <div class="four wide column">
+                <div id="locationSearch" class="ui icon button" title="Search on Map">
+                    <i class="crosshairs icon"></i>
+                </div>
             </div>
         </div>
-        <div class="one wide column">
-            <div id="locationSearch" class="ui icon button" title="Search on Map">
-                <i class="crosshairs icon"></i>
+        <div id="menuTracker" class="ui three column grid" style="display: none">
+            <div class="nine wide column">
+                <div class="ui large horizontal label">
+                    Tracking Vehicle Ref
+                </div>
+                <span id="trackedVehicleRef">
+                    XXXXXX
+                </span>
+            </div>
+            <div class="three wide column">
+                <div id="trackerCounter" class="ui large icon label">
+                    <i class="loading spinner icon"></i>
+                    <span>Count</span>
+                </div>
+            </div>
+
+            <div class="three wide column">
+                <div id="stopTracking" class="ui small icon button" title="Stop Tracking">
+                    <i class="stop icon"></i>
+                </div>
             </div>
         </div>
     </div>
 
+
     <div id="menuButtons" class="ui borderless secondary compact fitted menu">
 
-        <div id='viewSearches' class="browse item">
+        <div id='viewSearches' class="browse toolbar item">
             <i class="history icon"></i>
         </div>
         <div class="ui flowing popup bottom left transition hidden">
@@ -103,14 +140,13 @@
             </div>
         </div>
 
-        <div id="updateMap" class="dataDependent link item" title="Refresh map">
+        <div id="updateMap" class="dataDependent toolbar link item" title="Refresh map">
             <i class="refresh icon"></i>
         </div>
 
-        <div id="viewData" class="dataDependent link item" title="View data">
+        <div id="viewData" class="dataDependent toolbar link item" title="View data">
             <i class="table icon"></i>
         </div>
-
     </div>
 
     <!--Box to display Data-->
