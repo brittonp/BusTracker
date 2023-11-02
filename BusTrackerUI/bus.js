@@ -3,7 +3,9 @@ HereLocation = {
     Latitude: 54.87676318480376,
     Longitude: -3.1485196166071217
 };
-const CookieExpiry = 7;
+const CookieExpiry = 365;
+//const refreshPeriod = 30; // seconds
+const refreshCounter = 1; // seconds
 var prevRecordAtTime;
 
 const shortEnGBFormatter = new Intl.DateTimeFormat('en-GB', {
@@ -23,7 +25,7 @@ const timeENGFormatter = new Intl.DateTimeFormat('en-GB', {
     hour12: false,
 });
 
-var sessionId = 0;
+var session;
 var vehicles = [];
 var searchCriteria = {
     lineRef: null,
@@ -44,9 +46,59 @@ var boundingBox = {
 };
 var mapBoundingBox;
 let busTracker;
+let envMap = {
+    Development: 'dev',
+    Test: 'test',
+    Staging: 'stg',
+    Production: 'prod',
+    Other: 'oth',
+};
+
+// could put web.config...
+const defaultUserOptions = {
+    hideAged: true,
+    favouriteBus: '',
+    maxMarkers: 200,
+    refreshPeriod: 30,  // seconds...
+};
+
 
 // Document Ready function...
 $(() => {
+
+    // first retrieve some info from the server...
+    $('.box')
+        .dimmer({
+            displayLoader: true,
+            loaderVariation: 'slow orange medium elastic',
+            loaderText: 'Intialising...',
+            closable: false,
+        })
+        .dimmer('show');
+
+    const sessionUrl = '/BusTrackerServices/Session';
+    $.get({
+        url: sessionUrl,
+        async: false
+    })
+        .fail((rq, ts, e) => {
+            // could be more graceful...
+            DisplayMessage(`Oops, a problem occurred loading the app, please try again later.`, false);
+        })
+        .done((resp) => {
+            session = JSON.parse(resp);
+            initView();
+        })
+        .always(() => {
+            $('.box').dimmer('hide');
+        });
+});
+
+initView = (() => { 
+
+    // Set environment glyph..
+    const env = "dev";
+    $('.env-glyph').addClass(envMap[session.environment] || envMap.Other);
 
     const operatorsRoutesUrl = './data/operatorRoutes.json';
     const isMobile = (/Mobi|Android/i.test(navigator.userAgent));
@@ -56,7 +108,7 @@ $(() => {
         var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window;
         b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
     })
-        ({ key: secrets.googleMapKey, v: "beta" });
+        ({ key: session.googleMapKey, v: "beta" });
 
     // arrange header bar based on device type...
     if (isMobile) {
@@ -69,21 +121,7 @@ $(() => {
         $('#otherMenuButtons').append($('#menuButtons'));
     }
 
-    const sessionUrl = './BusTrackerServices/Session';
-    $.get(sessionUrl, (resp) => {
-
-            sessionId = resp;
-
-        })
-        .fail((e) => {
-            DisplayMessage(`Error encountered when creating a session: ${e.responseText}.`);
-        })
-        .done(() => {
-        })
-        .always(() => {
-        });
-
-     // first thing get list of Operators and routes....
+    // first thing get list of Operators and routes....
     $.get(operatorsRoutesUrl, (resp) => {
 
         operators = resp;
@@ -95,11 +133,7 @@ $(() => {
         //Cookies.remove('userOptions');
         userOptions = Cookies.get('userOptions');
         if (!userOptions) {
-            userOptions = {
-                hideAged: true,
-                favouriteBus: '',
-                maxMarkers: 200
-            };
+            userOptions = defaultUserOptions;
             Cookies.set('userOptions', JSON.stringify(userOptions), { expires: CookieExpiry });
         }
         userOptions = JSON.parse(Cookies.get('userOptions'));
@@ -229,8 +263,8 @@ $(() => {
         loadSearchHistory();
 
     })
-    .fail(function (e, e2) {
-        alert(`Error in processing ${operatorsRoutesUrl}: ${e2}`);
+    .fail((rq, ts, e) => {
+        alert(`Error in processing ${operatorsRoutesUrl}: ${ts}`);
     });
 
     initMap();
@@ -241,12 +275,41 @@ $(() => {
 
     $('#locationSearch')
         .on('click', (e) => {
-            searchCriteria = {
-                lineRef: '',
-                operatorRef: '',
-                onMap: true
-            };
-            getBuses(searchCriteria);
+
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                        };
+
+                        //infoWindow.setPosition(pos);
+                        //infoWindow.setContent("Location found.");
+                        //infoWindow.open(map);
+                        map.setCenter(pos);
+                        map.setZoom(17);
+
+                        // search..
+                        searchCriteria = {
+                            lineRef: '',
+                            operatorRef: '',
+                            onMap: true
+                        };
+                        getBuses(searchCriteria);
+
+                    },
+                    () => {
+
+                        handleLocationError(true, infoWindow, map.getCenter());
+                    },
+                );
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+
             e.preventDefault();
         });
 
@@ -254,6 +317,66 @@ $(() => {
     $('#updateMap')
         .on('click', (e) => {
             getBuses(searchCriteria);
+            e.preventDefault();
+        });
+
+    $('#infoTracking')
+        .on('click', (e) => {
+
+            let v = $(e.currentTarget).data("vehicleActivity");
+            let vehicleDetails =
+            [
+                {
+                    title: "Operator",
+                    data: v.extendedAttributes.operatorName,
+                },
+                {
+                    title: "Route",
+                    data: v.MonitoredVehicleJourney.PublishedLineName,
+                },
+                {
+                    title: "Origin",
+                    data: v.MonitoredVehicleJourney.OriginName,
+                },
+                {
+                    title: "Aimed Origin Departure Time",
+                    data: v.MonitoredVehicleJourney.OriginAimedDepartureTime,
+                    formatter: (data) => {
+                        return (data ? shortEnGBFormatter.format(new Date(data)) : null);
+                    },
+                },
+                {
+                    title: "Destination",
+                    data: v.MonitoredVehicleJourney.DestinationName,
+                },
+                {
+                    title: "Aimed Destination Arrival Time",
+                    data: v.MonitoredVehicleJourney.DestinationAimedArrivalTime,
+                    formatter: (data) => {
+                        return (data ? shortEnGBFormatter.format(new Date(data)) : null);
+                    },
+                }
+            ];
+
+            let html = "";
+            let stripe = true;
+            vehicleDetails.forEach(v => {
+                html = html + `<div class="${(stripe ? " stripe1 " : "")}row">`;
+                html = html + `<div class="six wide label column">${v.title}</div>`;
+                html = html + `<div class="ten wide column">${(!v.data ? "Not provided" : (v.formatter ? v.formatter(v.data) : v.data))}</div>`;
+                html = html + `</div>`;
+                stripe = !stripe;
+            });
+
+            $('#trackedBusInfo .content .grid').html(html);
+
+
+            $('#trackedBusInfo').modal({
+                title: 'Tracked Bus Information',
+                class: 'tiny',
+                closeIcon: true,
+            }).modal('show');
+
             e.preventDefault();
         });
 
@@ -299,7 +422,8 @@ $(() => {
                 .form('set values', {
                     optionHideAged: userOptions.hideAged,
                     optionFavouriteBus: userOptions.favouriteBus,
-                    optionMaxMarkers: userOptions.maxMarkers
+                    optionMaxMarkers: userOptions.maxMarkers,
+                    optionRefreshPeriod: userOptions.refreshPeriod,
                 })
             $('#options').modal('show');
             e.preventDefault();
@@ -325,15 +449,26 @@ $(() => {
                 },
                 optionFavouriteBus: {
                     identifier: 'optionFavouriteBus',
-
-                }
+                },
+                optionRefreshPeriod: {
+                    identifier: 'optionRefreshPeriod',
+                    rules: [
+                        {
+                            type: 'integer[20..300]',
+                            prompt: 'Please enter a value between 20 and 300 (=5 mins).'
+                        }
+                    ]
+                },
             },
             onSuccess: (e, f) => {
                 $('#options').modal('hide');
 
-                userOptions.hideAged = (f.optionHideAged === 'on' ? true : false);
-                userOptions.favouriteBus = f.optionFavouriteBus;
-                userOptions.maxMarkers = f.optionMaxMarkers;
+                userOptions = {
+                    hideAged: (f.optionHideAged === 'on' ? true : false),
+                    favouriteBus: f.optionFavouriteBus,
+                    maxMarkers: f.optionMaxMarkers,
+                    refreshPeriod: f.optionRefreshPeriod,
+                };
 
                 Cookies.set('userOptions', JSON.stringify(userOptions), { expires: CookieExpiry });
 
@@ -425,11 +560,10 @@ loadSearchHistory = function () {
 
 function trackBus(vehicleRef, firstTime, counter) {
 
-    const refreshPeriod = 30; // seconds
-    const refreshCounter = 1; // seconds
+    let refreshPeriod = userOptions.refreshPeriod;
 
     counter = (counter == parseInt(refreshPeriod/refreshCounter) ? 1 : counter + 1);
-    $('#trackerCounter span').html((refreshPeriod - ((counter-1) * refreshCounter)));
+    $('#trackerCounter .counter').html((refreshPeriod - ((counter-1) * refreshCounter)));
 
     // on the first and then every sixth call to this call back method update the bus position,
     // on all other calls update the counter...
@@ -450,12 +584,11 @@ function trackBus(vehicleRef, firstTime, counter) {
 
     if (firstTime) {
         clearMap(map);
-        $('#trackedVehicleRef').html(vehicleRef);
         $('#menuSearch').hide();
         $('#menuTracker').show();
     }
 
-    const busDataUrl = './BusTrackerServices/BusLocationData';
+    const busDataUrl = '/BusTrackerServices/BusLocationData';
     var busDataUri = `${busDataUrl}?`
     busDataUri = `${busDataUri}&vehicleRef=${vehicleRef}`;
 
@@ -471,10 +604,15 @@ function trackBus(vehicleRef, firstTime, counter) {
         // enrich data...
         vehicleActivity.extendedAttributes = enrichVehicleAttributes(vehicleActivity);
 
+        $('#infoTracking').data("vehicleActivity", vehicleActivity);
+
+        let title = `${vehicleActivity.MonitoredVehicleJourney.VehicleRef} (${vehicleActivity.extendedAttributes.operatorName} - ${vehicleActivity.MonitoredVehicleJourney.PublishedLineName})`;
+        $('#trackedVehicle').html(title);
+
         addTrackedBus(vehicleActivity);
     })
-    .fail((e) => {
-        DisplayMessage(`Error encountered when requesting bus data: ${e.responseText}.`);
+    .fail((rq, ts, e) => {
+        DisplayMessage(`Error encountered when requesting bus data: ${ts}.`);
     })
     .done(() => {
             // disable data dependent buttons...
@@ -556,7 +694,7 @@ async function addTrackedBus(vehicle) {
             icons: [
                 {
                     icon: lineSymbol,
-                    offset: "50%",
+                    offset: "60%",
                 },
             ],
             map: map,
@@ -584,14 +722,16 @@ async function addTrackedBus(vehicle) {
        
     }
 
-    // recentre map as necessary...
-    markers.forEach((m) => {
+    // get the last 3 points, to use as the mapBounds limit...
+    let markerBounds = markers.filter((el, i, arr) => (i > arr.length - 4 ? el : false));
+    markerBounds.forEach((m) => {
         mapBounds.extend(m.position);
     });
     map.fitBounds(mapBounds);
 
-    if (markers.length < 2)
-        map.setZoom(18);
+    // set the minimum zoom to be 17...
+    if (map.zoom > 17)
+        map.setZoom(17);
 }
 
 function getBuses (f, recentre) {
@@ -606,7 +746,9 @@ function getBuses (f, recentre) {
         .dimmer('show')
         ;
 
-    const busDataUrl = './BusTrackerServices/BusLocationData';
+    const busDataUrl = '/BusTrackerServices/BusLocationData';
+//    const busDataUrl = 'https://bustrackerservices.azurewebsites.net/BusLocationData';
+    //const busDataUrl = 'http://localhost:8082/BusTrackerServices/BusLocationData';
     var operatorRef = f.operatorRef;
     var lineRef = f.lineRef;
     var busDataUri = `${busDataUrl}?`
@@ -705,8 +847,8 @@ function getBuses (f, recentre) {
 
         }
     })
-    .fail((e) => {
-        DisplayMessage(`Error encountered when requesting bus data: ${e.responseText}.`);
+    .fail((rq, ts, e) => {
+        DisplayMessage(`Error encountered when requesting bus data: ${ts}.`);
     })
     .always(() => {
         $('#map').dimmer('hide');
@@ -771,37 +913,37 @@ async function initMap() {
     // location...
     infoWindow = new google.maps.InfoWindow();
 
-    const locationButton = document.createElement("button");
+    //const locationButton = document.createElement("button");
 
-    locationButton.textContent = "Pan to Current Location";
-    locationButton.classList.add("custom-map-control-button");
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
-    locationButton.addEventListener("click", () => {
+    //locationButton.textContent = "Pan to Current Location";
+    //locationButton.classList.add("custom-map-control-button");
+    //map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+    //locationButton.addEventListener("click", () => {
 
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                    };
+    //    // Try HTML5 geolocation.
+    //    if (navigator.geolocation) {
+    //        navigator.geolocation.getCurrentPosition(
+    //            (position) => {
+    //                const pos = {
+    //                    lat: position.coords.latitude,
+    //                    lng: position.coords.longitude,
+    //                };
 
-                    infoWindow.setPosition(pos);
-                    infoWindow.setContent("Location found.");
-                    infoWindow.open(map);
-                    map.setCenter(pos);
-                },
-                () => {
+    //                infoWindow.setPosition(pos);
+    //                infoWindow.setContent("Location found.");
+    //                infoWindow.open(map);
+    //                map.setCenter(pos);
+    //            },
+    //            () => {
 
-                    handleLocationError(true, infoWindow, map.getCenter());
-                },
-            );
-        } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
-        }
-    });
+    //                handleLocationError(true, infoWindow, map.getCenter());
+    //            },
+    //        );
+    //    } else {
+    //        // Browser doesn't support Geolocation
+    //        handleLocationError(false, infoWindow, map.getCenter());
+    //    }
+    //});
 
 }
 
@@ -837,7 +979,7 @@ async function loadMap(vehicles, recentre) {
         // limit number of markers loaded onto the map...
         if (index > userOptions.maxMarkers) {
             // Display a message when the max number of markers is exceeded...
-            DisplayMessage(`There are ${vehicles.length} buses identified, only ${userOptions.maxMarkers} can be displayed on the map.`);
+            DisplayMessage(`There are ${vehicles.length} buses identified, only ${userOptions.maxMarkers} will be displayed on the map.`);
             return false;
         }
 
@@ -872,6 +1014,14 @@ async function loadMap(vehicles, recentre) {
                 }
                 var vehicleRef = target.attributes.data.value;
                 trackBus(vehicleRef, true, 0);
+            } else if ($(o.domEvent.target).hasClass('favourite-link')) {
+                var target = o.domEvent.target;
+                // bubble up to the ancestor containing the data attribute...
+                while ($(target.parentNode).hasClass('favourite-link')) {
+                        target = target.parentNode;
+                }
+                userOptions.favouriteBus = target.attributes.data.value;
+                Cookies.set('userOptions', JSON.stringify(userOptions), { expires: CookieExpiry });
             }
         });
 
@@ -1016,21 +1166,23 @@ function buildContent(vehicle) {
     return content;
 }
 
-function DisplayMessage(content) {
+function DisplayMessage(content, autoHide = true) {
 
-    $.modal({
+    var modal = $.modal({
         /*title: title,*/
         class: 'tiny',
         closeIcon: false,
         content: content,
     })
-        .modal('show')
-        .delay(1500)
-        .queue(function () {
-            $(this).modal('hide').dequeue();
-        });
-}
+        .modal('show');
 
+    if (autoHide) {
+        modal.delay(1500)
+            .queue(function () {
+                $(this).modal('hide').dequeue();
+            });
+    }
+}
 
 function distanceBetweenPoints(point1, point2)
 {

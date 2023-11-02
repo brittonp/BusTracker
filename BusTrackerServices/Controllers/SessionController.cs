@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BusTrackerServices.Data;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json.Linq;
 
 
 namespace BusTrackerServices.Controllers
@@ -24,13 +25,19 @@ namespace BusTrackerServices.Controllers
         }
 
         [HttpGet]
-        public int CreateSession()
+        public JsonResult? CreateSession()
         {
             // Insert record into session db table...
             int sessionId = _sqlData.CreateSession();
             HttpContext.Session.SetInt32("SessionId", sessionId);
 
-            return sessionId;
+            JObject result = new JObject(
+                new JProperty("sessionId", sessionId),
+                new JProperty("environment", _configuration["ASPNETCORE_ENVIRONMENT"]),
+                new JProperty("googleMapKey", _configuration["GoogleMapKey"])
+                ) ;
+
+            return new JsonResult(result.ToString());
         }
 
     }

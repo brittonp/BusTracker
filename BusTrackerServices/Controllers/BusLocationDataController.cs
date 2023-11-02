@@ -74,7 +74,7 @@ namespace BusTrackerServices.Controllers
             JsonResult myJson;
 
             // get the url to the data provider from appsettings.json...
-            string baseDftUri = _configuration["BusOpenDataFeed"];
+            string? baseDftUri = _configuration["BusOpenDataFeed"];
 
             string dftUri = $"{baseDftUri}{queryString}";
 
@@ -123,8 +123,8 @@ namespace BusTrackerServices.Controllers
 
             foreach (var prop in properties)
             {
-                var name = prop.Name;
-                var value = prop.GetValue(obj).ToString();
+                string name = prop.Name;
+                string value = prop.GetValue(obj).ToString() ?? "";  // if ToString return null, then take ""...
                 
                 qs.Append($"&{Uri.EscapeDataString(name)}={Uri.EscapeDataString(value)}");
             }
