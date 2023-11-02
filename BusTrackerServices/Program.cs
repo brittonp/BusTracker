@@ -1,7 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 
 // Added as suggested in https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-7.0
@@ -18,8 +17,8 @@ builder.Logging
     .AddEventLog(eventLogSettings =>
     {
         eventLogSettings.SourceName = "BusTracker";
-    });
-
+    })
+    .AddAzureWebAppDiagnostics(); 
 
 //  in-memory session provider, taken from https://learn.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-7.0 ...
 builder.Services.AddDistributedMemoryCache();

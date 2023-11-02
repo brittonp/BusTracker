@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/BusTrackerServices/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsBusTrackerDb_1C54E0039E",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/bustracker-test-db/databases/BusTrackerDb",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:BusTrackerDb",
+      "dynamicId": null
+    }
+  }
+}

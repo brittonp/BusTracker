@@ -109,7 +109,7 @@ namespace BusTrackerServices.Batch
             Console.WriteLine("Running Task: Save to local file.");
             try
             {
-                string path = _configuration["OperatorRoutesFileLocation"];
+                string path = _configuration["OperatorRoutesFileLocation"] ?? ""; // if ToString return null, then take ""...
 
                 File.WriteAllText(path, JsonConvert.SerializeObject(latestOperatorRoute));
             }
@@ -156,7 +156,7 @@ namespace BusTrackerServices.Batch
             Console.WriteLine("Running Task: GetCurrentCachedOperatorsAndRoutesAsynch.");
             ShowThreadInformation("Task #" + Task.CurrentId.ToString());
 
-            string jsonString = File.ReadAllText(_configuration["OperatorRoutesFileLocation"]);
+            string jsonString = File.ReadAllText(_configuration["OperatorRoutesFileLocation"] ?? ""); // if ToString return null, then take ""...
             JObject jsonObj = JObject.Parse(jsonString);
 
             var operatorRoutes = jsonObj.Root["data"]
@@ -197,7 +197,7 @@ namespace BusTrackerServices.Batch
             JObject jsonObj = JObject.Parse(jsonString);
 
             var operators = jsonObj.Root["travelinedata"]["NOCLines"]["NOCLinesRecord"]
-                .Where(r => (string)r["Mode"] == "Bus" || (string)r["Mode"] == "Coach")
+                .Where(r => (string?)r["Mode"] == "Bus" || (string?)r["Mode"] == "Coach")
                 .Select(r => new
                 {
                     operatorRef = r["NOCCODE"],

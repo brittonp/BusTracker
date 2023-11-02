@@ -5,6 +5,14 @@
     --bus-color-aged: #dddada;
 }
 
+.appView {
+    visibility: visible;
+}
+
+.appView.hidden {
+    visibility: hidden;
+}
+
 .box {
     display: flex;
     flex-flow: column;
@@ -269,13 +277,98 @@ table#vehicles tr.aged {
     }
 
 .speed-tag {
-    background-color: #00000050;
+    background-color: black;
     border: 1px solid #ff0000;
-    border-radius: 8px;
-    color: #ff0000;
+    border-radius: 4px;
+    color: #ffffff;
     font-size: 11px;
     padding: 5px 5px;
     position: relative;
-    left: 20px;
-    top: 20px;
+}
+
+.spinner.container {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 10px 10px 10px 10px !important;
+}
+
+.spinner.overlay {
+    position: absolute;
+    background-color: transparent;
+    margin: 0px 0px 0px 0px;
+}
+
+.grid .column.label {
+    font-weight: bold;
+}
+
+.grid .row.stripe1 {
+    background-color: #dcdcdc;
+}
+
+.env-glyph {
+    position: absolute;
+    display: block;
+    top: -2rem;
+    left: -2rem;
+    width: 0;
+    height: 0;
+    margin: 0;
+    border-bottom: 2rem solid transparent;
+    border-top: 2rem solid transparent;
+    border-right: 2rem solid transparent;
+    border-left: 2rem solid transparent;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.dev.env-glyph {
+    border-right-color: greenyellow;
+}
+
+.test {
+    border-right-color: yellow;
+}
+
+.stg {
+    border-right-color: orangered;
+}
+
+.oth {
+    border-right-color: darkorchid;
+}
+
+.env-glyph::after {
+    display: block;
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+    font-size: 1rem;
+    margin-left: 1.4rem;
+    color: black;
+}
+
+.dev.env-glyph::after {
+    content: "Dev";
+}
+
+.test.env-glyph::after {
+    content: "Test";
+}
+
+.stg.env-glyph::after {
+    content: "Stg";
+}
+
+.oth.env-glyph::after {
+    content: "Oth";
+}
+
+.prod.env-glyph::after {
+    content: "";
 }

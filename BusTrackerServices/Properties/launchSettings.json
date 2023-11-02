@@ -33,7 +33,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://localhost:8082/BusTrackerServices",
+      "applicationUrl": "http://localhost:8082/",
       "sslPort": 0
     },
     "iisExpress": {

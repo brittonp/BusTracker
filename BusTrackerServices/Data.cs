@@ -39,74 +39,88 @@ namespace BusTrackerServices.Data
 
         public int CreateSession()
         {
-            int id;
+            int id = 0;
             HttpContext? context = _httpContextAccessor.HttpContext;
             string? connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
 
-            using SqlConnection conn = new SqlConnection(connectionString);
-            conn.Open();
-
-            // Insert trace data record...
-            string sql = "INSERT INTO dbo.bt_session (event, header_query_string, header_user_agent, header_sec_ch_ua ) ";
-            sql += "VALUES (@event, @headerQueryString, @headerUserAgent, @headerSecChUa); ";
-            sql += "SELECT CAST(SCOPE_IDENTITY() AS INT);";
-            using SqlCommand sqlCmd = new SqlCommand(sql, conn);
-            sqlCmd.Parameters.AddWithNullableValue("@event", Event.CreateSession.ToString());
-            sqlCmd.Parameters.AddWithNullableValue("@headerQueryString", context.Request.QueryString.ToString().Truncate(250));
-            sqlCmd.Parameters.AddWithNullableValue("@headerUserAgent", context.Request.Headers["User-Agent"].ToString().Truncate(250));
-            sqlCmd.Parameters.AddWithNullableValue("@headerSecChUa", context.Request.Headers["sec-ch-ua"].ToString().Truncate(250));
             try
             {
-                id = (int)sqlCmd.ExecuteScalar();
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    // Insert trace data record...
+                    string sql = "INSERT INTO dbo.bt_session (event, header_query_string, header_user_agent, header_sec_ch_ua ) ";
+                    sql += "VALUES (@event, @headerQueryString, @headerUserAgent, @headerSecChUa); ";
+                    sql += "SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                    using SqlCommand sqlCmd = new SqlCommand(sql, conn);
+                    sqlCmd.Parameters.AddWithNullableValue("@event", Event.CreateSession.ToString());
+                    sqlCmd.Parameters.AddWithNullableValue("@headerQueryString", context.Request.QueryString.ToString().Truncate(250));
+                    sqlCmd.Parameters.AddWithNullableValue("@headerUserAgent", context.Request.Headers["User-Agent"].ToString().Truncate(250));
+                    sqlCmd.Parameters.AddWithNullableValue("@headerSecChUa", context.Request.Headers["sec-ch-ua"].ToString().Truncate(250));
+                    try
+                    {
+                        id = (int)sqlCmd.ExecuteScalar();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(999, ex, "On inserting session record.");
+                    }
+                    finally
+                    {
+                        _logger.LogWarning(999, "Inserted session record: id = {0}.", id);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
-                _logger.LogError(999, ex, "On inserting session record.");
-                return 0;
+                _logger.LogError(999, ex, "On connecting to database.");
             }
-            _logger.LogInformation(999, "Inserted session record: id = {0}.", id);
 
             return id;
         }
 
         public int UpdateSession(int? sessionId, SqlData.Event _event)
         {
-            HttpContext? context = _httpContextAccessor.HttpContext;
-            string? connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
+            //HttpContext? context = _httpContextAccessor.HttpContext;
+            //string? connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
 
-            //if session does not exist create one...
-            if (!sessionId.HasValue)
-                sessionId = CreateSession();
+            ////if session does not exist create one...
+            //if (!sessionId.HasValue)
+            //    sessionId = CreateSession();
 
-            using SqlConnection conn = new SqlConnection(connectionString);
-            conn.Open();
+            //using SqlConnection conn = new SqlConnection(connectionString);
+            //conn.Open();
 
-            // Insert trace data record...
-            string sql = "UPDATE dbo.bt_session SET ";
-            sql += "  event = @event, ";
-            sql += "  header_query_string = @headerQueryString, ";
-            sql += "  header_user_agent = @headerUserAgent,";
-            sql += "  header_sec_ch_ua = @headerSecChUa, ";
-            sql += "  updated = getdate() ";
-            sql += "WHERE id = @sessionId;";
-            using SqlCommand sqlCmd = new SqlCommand(sql, conn);
-            sqlCmd.Parameters.AddWithValue("@sessionId", sessionId);
-            sqlCmd.Parameters.AddWithNullableValue("@event", _event.ToString());
-            sqlCmd.Parameters.AddWithNullableValue("@headerQueryString", context.Request.QueryString.ToString().Truncate(250));
-            sqlCmd.Parameters.AddWithNullableValue("@headerUserAgent", context.Request.Headers["User-Agent"].ToString().Truncate(250));
-            sqlCmd.Parameters.AddWithNullableValue("@headerSecChUa", context.Request.Headers["sec-ch-ua"].ToString().Truncate(250));
-            try
-            {
-                sqlCmd.ExecuteScalar();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(999, ex, "On updating session record: id = {0}.", sessionId);
-                return (int)sessionId;
-            }
-            _logger.LogInformation(999, "Updated session record: id = {0}.", sessionId);
+            //// Insert trace data record...
+            //string sql = "UPDATE dbo.bt_session SET ";
+            //sql += "  event = @event, ";
+            //sql += "  header_query_string = @headerQueryString, ";
+            //sql += "  header_user_agent = @headerUserAgent,";
+            //sql += "  header_sec_ch_ua = @headerSecChUa, ";
+            //sql += "  updated = getdate() ";
+            //sql += "WHERE id = @sessionId;";
+            //using SqlCommand sqlCmd = new SqlCommand(sql, conn);
+            //sqlCmd.Parameters.AddWithValue("@sessionId", sessionId);
+            //sqlCmd.Parameters.AddWithNullableValue("@event", _event.ToString());
+            //sqlCmd.Parameters.AddWithNullableValue("@headerQueryString", context.Request.QueryString.ToString().Truncate(250));
+            //sqlCmd.Parameters.AddWithNullableValue("@headerUserAgent", context.Request.Headers["User-Agent"].ToString().Truncate(250));
+            //sqlCmd.Parameters.AddWithNullableValue("@headerSecChUa", context.Request.Headers["sec-ch-ua"].ToString().Truncate(250));
+            //try
+            //{
+            //    sqlCmd.ExecuteScalar();
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(999, ex, "On updating session record: id = {0}.", sessionId);
+            //    return (int)sessionId;
+            //}
+            //_logger.LogInformation(999, "Updated session record: id = {0}.", sessionId);
 
-            return (int)sessionId;
+            //return (int)sessionId;
+
+            return 0;
         }
     }
 }
