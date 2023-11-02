@@ -378,3 +378,6 @@ FodyWeavers.xsd
 /BusTrackerUI/data/NOC.xml
 /BusTrackerUI/data/noc.json
 /BusTrackerRoutes/Models/NOC.cs
+/BusTrackerUI/test.html
+/BusTrackerServices/web - Copy.config
+/BusTrackerUI/web - Copy.config.exclude
