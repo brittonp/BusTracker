@@ -19,6 +19,7 @@ namespace BusTrackerServices.Data
         {
             CreateSession,
             LocationQuery,
+            DisruptionQuery,
             Other
         }
 
@@ -83,44 +84,56 @@ namespace BusTrackerServices.Data
 
         public int UpdateSession(int? sessionId, SqlData.Event _event)
         {
-            //HttpContext? context = _httpContextAccessor.HttpContext;
-            //string? connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
+            HttpContext? context = _httpContextAccessor.HttpContext;
+            string? connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
 
-            ////if session does not exist create one...
-            //if (!sessionId.HasValue)
-            //    sessionId = CreateSession();
+            //if session does not exist create one...
+            if (!sessionId.HasValue)
+                sessionId = CreateSession();
 
-            //using SqlConnection conn = new SqlConnection(connectionString);
-            //conn.Open();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
 
-            //// Insert trace data record...
-            //string sql = "UPDATE dbo.bt_session SET ";
-            //sql += "  event = @event, ";
-            //sql += "  header_query_string = @headerQueryString, ";
-            //sql += "  header_user_agent = @headerUserAgent,";
-            //sql += "  header_sec_ch_ua = @headerSecChUa, ";
-            //sql += "  updated = getdate() ";
-            //sql += "WHERE id = @sessionId;";
-            //using SqlCommand sqlCmd = new SqlCommand(sql, conn);
-            //sqlCmd.Parameters.AddWithValue("@sessionId", sessionId);
-            //sqlCmd.Parameters.AddWithNullableValue("@event", _event.ToString());
-            //sqlCmd.Parameters.AddWithNullableValue("@headerQueryString", context.Request.QueryString.ToString().Truncate(250));
-            //sqlCmd.Parameters.AddWithNullableValue("@headerUserAgent", context.Request.Headers["User-Agent"].ToString().Truncate(250));
-            //sqlCmd.Parameters.AddWithNullableValue("@headerSecChUa", context.Request.Headers["sec-ch-ua"].ToString().Truncate(250));
-            //try
-            //{
-            //    sqlCmd.ExecuteScalar();
-            //}
-            //catch (Exception ex)
-            //{
-            //    _logger.LogError(999, ex, "On updating session record: id = {0}.", sessionId);
-            //    return (int)sessionId;
-            //}
-            //_logger.LogInformation(999, "Updated session record: id = {0}.", sessionId);
+                    // Insert trace data record...
+                    string sql = "UPDATE dbo.bt_session SET ";
+                    sql += "  event = @event, ";
+                    sql += "  header_query_string = @headerQueryString, ";
+                    sql += "  header_user_agent = @headerUserAgent,";
+                    sql += "  header_sec_ch_ua = @headerSecChUa, ";
+                    sql += "  updated = getdate() ";
+                    sql += "WHERE id = @sessionId;";
+                    using SqlCommand sqlCmd = new SqlCommand(sql, conn);
+                    sqlCmd.Parameters.AddWithValue("@sessionId", sessionId);
+                    sqlCmd.Parameters.AddWithNullableValue("@event", _event.ToString());
+                    sqlCmd.Parameters.AddWithNullableValue("@headerQueryString", context.Request.QueryString.ToString().Truncate(250));
+                    sqlCmd.Parameters.AddWithNullableValue("@headerUserAgent", context.Request.Headers["User-Agent"].ToString().Truncate(250));
+                    sqlCmd.Parameters.AddWithNullableValue("@headerSecChUa", context.Request.Headers["sec-ch-ua"].ToString().Truncate(250));
+                    try
+                    {
+                        sqlCmd.ExecuteScalar();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(999, ex, "On updating session record: id = {0}.", sessionId);
+                        return (int)sessionId;
+                    }
+                    finally
+                    {
+                        _logger.LogWarning(999, "Updated session record: id = {0}.", sessionId);
+                    }
+                }
 
-            //return (int)sessionId;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(999, ex, "On connecting to database.");
+            }
 
-            return 0;
+            return (int)sessionId;
+
         }
     }
 }
