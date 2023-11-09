@@ -2,21 +2,32 @@
 <html lang='en'>
 
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GVXG3TB86"></script>
-    <script>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no'>
+    <title>Bus Location</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
+
+    <!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
+    <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.1.0/cookie-consent.js" charset="UTF-8"></script>
+    <script type="text/javascript" charset="UTF-8">
+        document.addEventListener('DOMContentLoaded', function () {
+            cookieconsent.run({ "notice_banner_type": "simple", "consent_type": "express", "palette": "light", "language": "en", "page_load_consent_levels": ["strictly-necessary"], "notice_banner_reject_button_hide": false, "preferences_center_close_button_hide": false, "page_refresh_confirmation_buttons": false, "website_name": "BusTracker" });
+        });
+    </script>
+
+    <!-- Google Analytics -->
+    <script type="text/plain" data-cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=G-8GVXG3TB86"></script>
+    <script type="text/plain" data-cookie-consent="tracking">
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
         gtag('config', 'G-8GVXG3TB86');
     </script>
-    <!-- Google tag (gtag.js) - End -->
+    <!-- end of Google Analytics-->
 
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no'>
-    <title>Bus Location</title>
-
+    <noscript>Cookie Consent by <a href="https://www.freeprivacypolicy.com/">Free Privacy Policy Generator</a></noscript>
+    <!-- End Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
     <!-- Javascript...-->
     <script src='./scripts/jquery-3.7.0.min.js'></script>
     <script src='./scripts/jquery.number.min.js'></script>
@@ -24,7 +35,7 @@
     <script src='./fomantic/semantic.min.js'></script>
     <script src='./datatables/jquery.dataTables.min.js'></script>
     <script src='./datatables/responsive.dataTables.min.js'></script>
-    <script src='./bus.js'></script>
+    <script src='./bus.js' type="text/plain" data-cookie-consent="strictly-necessary"></script>
 
     <!--<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>-->
     <!-- CSS...-->
@@ -62,7 +73,6 @@
         <div class="row content">
             <div id='map'></div>
         </div>
-
     </div>
 
     <div id="menuTitle" class="ui borderless secondary compact fitted menu">
@@ -73,6 +83,7 @@
 
             <div class="ui action link list">
                 <a id="viewOptions" class="item" action="viewOptions">Options</a>
+                <a id="open_preferences_center" class="item">Cookie Preferences</a>
                 <a id="viewJson" class="item dataDependent" action="viewJSON">View JSON</a>
             </div>
 
@@ -96,7 +107,7 @@
                 </div>
             </div>
             <div class="four wide column">
-                <div id="locationSearch" class="ui icon button" title="Search on Map">
+                <div id="locationSearch" class="ui icon button" title="Show buses near me">
                     <i class="crosshairs icon"></i>
                 </div>
             </div>
@@ -133,7 +144,7 @@
         <div id='viewSearches' class="browse toolbar item">
             <i class="history icon"></i>
         </div>
-        <div class="ui flowing popup bottom left transition hidden">
+        <div id="searchHistoryContainer" class="ui flowing popup bottom left transition hidden">
             <div id='clearSearchHistory' title="Clear search history" class="ui right mini icon button">
                 <i class="trash icon"></i>
             </div>

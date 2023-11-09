@@ -31,7 +31,7 @@ namespace BusTrackerServices.Controllers
         public JsonResult Get()
         {
             string queryString = $"&{(HttpContext.Request.QueryString).ToString().Substring(1)}";
-            return GetData(queryString);
+            return GetData(_configuration["BusOpenDataFeed"] ?? "", queryString, SqlData.Event.LocationQuery);
         }
 
         [HttpGet("operatorRef-lineRef-boundingBox")]
@@ -41,7 +41,7 @@ namespace BusTrackerServices.Controllers
             string boundingBox)
         {
             string queryString = $"&{(HttpContext.Request.QueryString).ToString().Substring(1)}";
-            return GetData(queryString);
+            return GetData(_configuration["BusOpenDataFeed"] ?? "", queryString, SqlData.Event.LocationQuery);
         }
 
         [HttpGet("operatorRef-lineRef")]
@@ -50,7 +50,7 @@ namespace BusTrackerServices.Controllers
             string lineRef)
         {
             string queryString = $"&{(HttpContext.Request.QueryString).ToString().Substring(1)}";
-            return GetData(queryString);
+            return GetData(_configuration["BusOpenDataFeed"] ?? "", queryString, SqlData.Event.LocationQuery);
         }
 
         [HttpGet("operatorRef")]
@@ -58,23 +58,27 @@ namespace BusTrackerServices.Controllers
             string operatorRef)
         { 
             string queryString = $"&{(HttpContext.Request.QueryString).ToString().Substring(1)}";
-            return GetData(queryString);
+            return GetData(_configuration["BusOpenDataFeed"] ?? "", queryString, SqlData.Event.LocationQuery);
         }
 
         [HttpPost]
         public JsonResult Post(BusDataQuery query)
         { 
             string queryString = ToQueryString(query);
-            return GetData(queryString);
+            return GetData(_configuration["BusOpenDataFeed"] ?? "", queryString, SqlData.Event.LocationQuery);
         }
 
-        private JsonResult GetData(string queryString)
+        // Disruption Get call...
+        [HttpGet("disruption")]
+        public JsonResult GetDisruptions()
+        {
+            return GetData(_configuration["BusOpenDataDisruptionFeed"] ?? "", "", SqlData.Event.DisruptionQuery);
+        }
+
+        private JsonResult GetData(string baseDftUri, string queryString, SqlData.Event eventType)
         {
             string jsonString;
             JsonResult myJson;
-
-            // get the url to the data provider from appsettings.json...
-            string? baseDftUri = _configuration["BusOpenDataFeed"];
 
             string dftUri = $"{baseDftUri}{queryString}";
 
@@ -103,7 +107,7 @@ namespace BusTrackerServices.Controllers
             _logger.LogInformation(999, "Response {URI} received at {DT}, duration {TS} milliseconds.", dftUri, responseTimestamp.ToLongTimeString(), ts.TotalMilliseconds);
 
             int? sessionId = HttpContext.Session.GetInt32("SessionId");
-            sessionId = _sqlData.UpdateSession(sessionId, SqlData.Event.LocationQuery);
+            sessionId = _sqlData.UpdateSession(sessionId, eventType);
             HttpContext.Session.SetInt32("SessionId", (int)sessionId);
 
             jsonString = JsonConvert.SerializeXmlNode(xmlDoc);

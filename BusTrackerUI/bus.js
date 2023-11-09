@@ -27,10 +27,12 @@ const timeENGFormatter = new Intl.DateTimeFormat('en-GB', {
 
 var session;
 var vehicles = [];
-var searchCriteria = {
+const defaultSearchCriteria = {
     lineRef: null,
     operatorRef: null,
-    onMap: false
+    onMap: false,
+    currentPosition: null,
+    initialRender: true
 };
 let markers = [];
 let paths = [];
@@ -44,7 +46,8 @@ var boundingBox = {
     east: null,
     west: null
 };
-var mapBoundingBox;
+let mapBoundingBox;
+let accuracyCircle;
 let busTracker;
 let envMap = {
     Development: 'dev',
@@ -53,6 +56,11 @@ let envMap = {
     Production: 'prod',
     Other: 'oth',
 };
+const viewMode = {
+    search: 0,
+    track: 1,
+};
+let currentViewMode;
 
 // could put web.config...
 const defaultUserOptions = {
@@ -62,16 +70,15 @@ const defaultUserOptions = {
     refreshPeriod: 30,  // seconds...
 };
 
-
 // Document Ready function...
 $(() => {
 
     // first retrieve some info from the server...
-    $('.box')
+    $('body')
         .dimmer({
             displayLoader: true,
             loaderVariation: 'slow orange medium elastic',
-            loaderText: 'Intialising...',
+            loaderText: 'Initialising, please wait...',
             closable: false,
         })
         .dimmer('show');
@@ -79,25 +86,25 @@ $(() => {
     const sessionUrl = '/BusTrackerServices/Session';
     $.get({
         url: sessionUrl,
-        async: false
+        //async: false,
+        timeout: 20*1000 //in milliseconds, in case the web services are waking up....
     })
         .fail((rq, ts, e) => {
             // could be more graceful...
-            DisplayMessage(`Oops, a problem occurred loading the app, please try again later.`, false);
+            displayMessage(`Oops, a problem occurred loading the app, please try again later.`, false);
         })
         .done((resp) => {
             session = JSON.parse(resp);
             initView();
         })
         .always(() => {
-            $('.box').dimmer('hide');
+            $('body').dimmer('hide');
         });
 });
 
-initView = (() => { 
+function initView() { 
 
     // Set environment glyph..
-    const env = "dev";
     $('.env-glyph').addClass(envMap[session.environment] || envMap.Other);
 
     const operatorsRoutesUrl = './data/operatorRoutes.json';
@@ -123,23 +130,81 @@ initView = (() => {
 
     // first thing get list of Operators and routes....
     $.get(operatorsRoutesUrl, (resp) => {
-
         operators = resp;
+    })
+        .done(() => {
+            // disable data dependent buttons...
+            $('.dataDependent').addClass("disabled");
 
-        // disable data dependent buttons...
-        $('.dataDependent').addClass("disabled");
+            // Get user options...
+            //Cookies.remove('userOptions');
+            userOptions = Cookies.get('userOptions');
+            if (!userOptions) {
+                userOptions = defaultUserOptions;
+                Cookies.set('userOptions', JSON.stringify(userOptions), { expires: CookieExpiry });
+            }
+            userOptions = JSON.parse(Cookies.get('userOptions'));
 
-        // Get user options...
-        //Cookies.remove('userOptions');
-        userOptions = Cookies.get('userOptions');
-        if (!userOptions) {
-            userOptions = defaultUserOptions;
-            Cookies.set('userOptions', JSON.stringify(userOptions), { expires: CookieExpiry });
-        }
-        userOptions = JSON.parse(Cookies.get('userOptions'));
+            const flatOperators = operators.data
+                .flatMap(o => {
 
-        // Create data table (will load later)...
-        new DataTable('#vehicles', {
+                    const operatorRoutes = [];
+
+                    operatorRoutes.push({
+                        operatorRef: o.operatorRef,
+                        operatorName: o.operatorName,
+                        lineRef: '',
+                        route: '',
+                        title: `${o.operatorName} - All Routes`
+                    });
+
+                    o.routes.forEach(r => {
+                        operatorRoutes.push({
+                            operatorRef: o.operatorRef,
+                            operatorName: o.operatorName,
+                            lineRef: r.lineRef,
+                            route: r.route,
+                            title: `${o.operatorName} - ${r.route}`
+                        });
+                    });
+
+                    return operatorRoutes;
+                });
+
+            $('#search')
+                .search({
+                    source: flatOperators,
+                    maxResults: 0,
+                    searchFields: ['title'],
+                    minCharacters: 2,
+                    selectFirstResult: true,
+                    fullTextSearch: 'all',
+                    onSelect: (result, response) => {
+                        searchCriteria = {
+                            ...defaultSearchCriteria,
+                            lineRef: result.lineRef,
+                            operatorRef: result.operatorRef,
+                            initialRender: true,
+                            onMap: false,
+                        };
+                        currentViewMode = viewMode.search;
+                        getBuses(searchCriteria, true);
+                    }
+                });
+        })
+        .fail((rq, ts, e) => {
+            alert(`Error in processing ${operatorsRoutesUrl}: ${ts}`);
+        })
+        .always(() => {
+
+        });
+
+    initMap();
+
+
+    // Create data table (will load later)...
+     $('#vehicles')
+        .DataTable({
             pageLength: 10,
             scrollX: true,
             scrollY: true,
@@ -216,100 +281,26 @@ initView = (() => {
             ]
         });
 
-        const flatOperators = operators.data
-            .flatMap(o => {
-
-                const operatorRoutes = [];
-
-                operatorRoutes.push({
-                    operatorRef: o.operatorRef,
-                    operatorName: o.operatorName,
-                    lineRef: '',
-                    route: '',
-                    title: `${o.operatorName} - All Routes`
-                });
-
-                o.routes.forEach(r => {
-                    operatorRoutes.push({
-                        operatorRef: o.operatorRef,
-                        operatorName: o.operatorName,
-                        lineRef: r.lineRef,
-                        route: r.route,
-                        title: `${o.operatorName} - ${r.route}`
-                    });
-                });
-
-                return operatorRoutes;
-            });
-
-        $('#search')
-            .search({
-                source: flatOperators,
-                maxResults: 0,
-                searchFields: ['title'],
-                minCharacters: 2,
-                selectFirstResult: true,
-                fullTextSearch: 'all',
-                onSelect: (result, response) => {
-                    searchCriteria = {
-                        lineRef: result.lineRef,
-                        operatorRef: result.operatorRef,
-                        onMap: false
-                    };
-                    getBuses(searchCriteria, true);
-                }
-            });
-
-        loadSearchHistory();
-
-    })
-    .fail((rq, ts, e) => {
-        alert(`Error in processing ${operatorsRoutesUrl}: ${ts}`);
-    });
-
-    initMap();
-
     $('.ui.checkbox')
-        .checkbox()
-        ;
+        .checkbox();
 
     $('#locationSearch')
         .on('click', (e) => {
-
-            // Try HTML5 geolocation.
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const pos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                        };
-
-                        //infoWindow.setPosition(pos);
-                        //infoWindow.setContent("Location found.");
-                        //infoWindow.open(map);
-                        map.setCenter(pos);
-                        map.setZoom(17);
-
-                        // search..
-                        searchCriteria = {
-                            lineRef: '',
-                            operatorRef: '',
-                            onMap: true
-                        };
-                        getBuses(searchCriteria);
-
-                    },
-                    () => {
-
-                        handleLocationError(true, infoWindow, map.getCenter());
-                    },
-                );
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infoWindow, map.getCenter());
-            }
-
+            getCurrentLocation()
+                .then((coords) => {
+                    searchCriteria = {
+                        ...defaultSearchCriteria,
+                        currentPosition: coords,
+                        initialRender: true,
+                        onMap: true,
+                    };
+                    currentViewMode = viewMode.search;
+                    getBuses(searchCriteria);
+                })
+                .catch((e) => {
+                    console.error(`Critical failure: ${e.message}`);
+                    displayMessage('Your current location cannot be identified, this may either be because:<ul><li>you browser cannot support this function, or</li><li>you have declined this function for this site, if so then please review your browser settings.</li></ul>', false);
+                });
             e.preventDefault();
         });
 
@@ -487,16 +478,60 @@ initView = (() => {
     $('#clearSearchHistory')
         .on('click', (e) => {
             Cookies.remove('searches');
-            loadSearchHistory();
+            $('#searchHistory').trigger('refresh');
             e.preventDefault();
         });
 
     $('#searchHistory')
-        .on('click', '.item', (e) => {
-            searchCriteria = JSON.parse(e.currentTarget.attributes.data.value);
-            getBuses(searchCriteria, true);
-            e.preventDefault();
-        });
+    .on('click', '.item', (e) => {
+        searchCriteria = JSON.parse(e.currentTarget.attributes.data.value);
+        getBuses(searchCriteria);
+        e.preventDefault();
+    })
+    .on('refresh', (e) => {
+        var recentSearches = [];
+        var searches = Cookies.get('searches');
+        const list = $(e.currentTarget);
+
+        list.empty();
+
+        if (searches) {
+            recentSearches = JSON.parse(searches);
+
+            recentSearches = recentSearches
+                .map((r, index, self) => {
+
+                    const operator = operators.data.find((operator) => operator.operatorRef == r.operatorRef);
+                    const operatorName = (operator) ? operator.operatorName : '';
+
+                    const routeObj = operator.routes.find((route) => route.lineRef == r.lineRef);
+                    const route = (r.lineRef && routeObj) ? routeObj.route : 'All Routes';
+                    const display = `${operatorName} - ${route}`;
+
+                    return {
+                        ...r,
+                        operatorName: operatorName,
+                        route: route,
+                        searched: r.searched,
+                        display: display
+                    }
+                })
+                .sort((a, b) => {
+                    var a1 = new Date(a.searched);
+                    var b1 = new Date(b.searched);
+                    if (a1 == b1) return 0;
+                    return a1 < b1 ? 1 : -1;
+                });
+
+            recentSearches.forEach(s => {
+                list.append(`<div class="link item" data='${JSON.stringify(s)}'>${s.display}</div>`);
+            });
+
+        } else {
+            list.append('<div >No previous searches</div>');
+        }
+        return true;
+    });
 
     $('.menu .browse')
         .popup({
@@ -507,55 +542,61 @@ initView = (() => {
             delay: {
                 show: 300,
                 hide: 500
+            },
+            onShow: (e) => {
+                // reload the search history of this is being called from viewSearches...
+                if (e.id == 'viewSearches') {
+                    $('#searchHistory').trigger('refresh');
+                }
+                return true;
             }
+        }
+    );
+
+    // Map pop-up evetn handlers...
+    $('#map')
+        .on('click', '.route-link', e => {
+            searchCriteria = JSON.parse(e.currentTarget.attributes.data.value);
+            currentViewMode = viewMode.search;
+            getBuses(searchCriteria, true);
+        })
+        .on('click', '.track-link', e => {
+            let vehicleRef = e.currentTarget.attributes.data.value;
+            currentViewMode = viewMode.track;
+            trackBus(vehicleRef, true, 0);
+        })
+        .on('click', '.favourite-link', e => {
+            userOptions.favouriteBus = e.currentTarget.attributes.data.value;
+            Cookies.set('userOptions', JSON.stringify(userOptions), { expires: CookieExpiry });
         })
         ;
-});
+};
 
-loadSearchHistory = function () {
-
+function addSearchToHistory(sc) {
     var recentSearches = [];
     var searches = Cookies.get('searches');
 
-    $('#searchHistory').empty();
-
     if (searches) {
         recentSearches = JSON.parse(searches);
+    }
 
-        recentSearches = recentSearches
-            .map((r, index, self) => {
+    sc.searched = new Date().getTime();
 
-                const operator = operators.data.find((operator) => operator.operatorRef == r.operatorRef);
-                const operatorName = (operator) ? operator.operatorName : '';
+    recentSearches.push(sc);
 
-                // this is a fudge - if the route for the operator is not in the cached data (file operatorRoutes.json read into array operators)
-                // then show all routes. Really the cached operator/route data should be updated more frequently.
-                const routeObj = operator.routes.find((route) => route.lineRef == r.lineRef);
-                const route = (r.lineRef && routeObj) ? routeObj.route : 'All Routes';
-                const display = `${operatorName} - ${route}`;
-
-                return {
-                    ...r,
-                    operatorName: operatorName,
-                    route: route,
-                    searched: r.searched,
-                    display: display
-                }
-            })
-            .sort((a, b) => {
-                var a1 = new Date(a.searched);
-                var b1 = new Date(b.searched);
-                if (a1 == b1) return 0;
-                return a1 < b1 ? 1 : -1;
-            });
-
-        recentSearches.forEach(s => {
-            $('#searchHistory').append(`<div class="link item" data='${JSON.stringify(s)}'>${s.display}</div>`);
+    // remove duplicates...
+    recentSearches = recentSearches
+        .sort((a, b) => {
+            var a1 = new Date(a.searched);
+            var b1 = new Date(b.searched);
+            if (a1 == b1) return 0;
+            return a1 < b1 ? 1 : -1;
+        })
+        .filter((r, index, self) => {
+            return index === self.findIndex(r1 => r1.operatorRef === r.operatorRef && r1.lineRef === r.lineRef);
         });
 
-    } else {
-        $('#searchHistory').append('<div >No previous searches</div>');
-    }
+    Cookies.set('searches', JSON.stringify(recentSearches), { expires: CookieExpiry });
 }
 
 function trackBus(vehicleRef, firstTime, counter) {
@@ -583,7 +624,7 @@ function trackBus(vehicleRef, firstTime, counter) {
         .dimmer('show');
 
     if (firstTime) {
-        clearMap(map);
+        clearMap();
         $('#menuSearch').hide();
         $('#menuTracker').show();
     }
@@ -609,10 +650,10 @@ function trackBus(vehicleRef, firstTime, counter) {
         let title = `${vehicleActivity.MonitoredVehicleJourney.VehicleRef} (${vehicleActivity.extendedAttributes.operatorName} - ${vehicleActivity.MonitoredVehicleJourney.PublishedLineName})`;
         $('#trackedVehicle').html(title);
 
-        addTrackedBus(vehicleActivity);
+        addTrackedVehicle(vehicleActivity);
     })
     .fail((rq, ts, e) => {
-        DisplayMessage(`Error encountered when requesting bus data: ${ts}.`);
+        displayMessage(`Error encountered when requesting bus data: ${ts}.`);
     })
     .done(() => {
             // disable data dependent buttons...
@@ -625,7 +666,7 @@ function trackBus(vehicleRef, firstTime, counter) {
     });
 };
 
-async function addTrackedBus(vehicle) {
+async function addTrackedVehicle(vehicle) {
 
     // Request needed libraries.
     const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker",);
@@ -734,7 +775,7 @@ async function addTrackedBus(vehicle) {
         map.setZoom(17);
 }
 
-function getBuses (f, recentre) {
+function getBuses(sc) {
 
     $('#map')
         .dimmer({
@@ -747,21 +788,29 @@ function getBuses (f, recentre) {
         ;
 
     const busDataUrl = '/BusTrackerServices/BusLocationData';
-//    const busDataUrl = 'https://bustrackerservices.azurewebsites.net/BusLocationData';
-    //const busDataUrl = 'http://localhost:8082/BusTrackerServices/BusLocationData';
-    var operatorRef = f.operatorRef;
-    var lineRef = f.lineRef;
+    var operatorRef = sc.operatorRef;
+    var lineRef = sc.lineRef;
     var busDataUri = `${busDataUrl}?`
 
-    if (operatorRef.length) {
+    if (sc.operatorRef) {
         busDataUri = `${busDataUri}&operatorRef=${operatorRef}`;
     }
 
-    if (lineRef.length) {
-        busDataUri = `${busDataUri}&lineRef=${ lineRef }`;
+    if (sc.lineRef) {
+        busDataUri = `${busDataUri}&lineRef=${lineRef}`;
     }
 
-    if (f.onMap) {
+    // If this is the initial call to show buses near current location then reposition/resize the maap...
+    if (sc.initialRender && sc.currentPosition) {
+        map.setCenter({
+            lat: sc.currentPosition.latitude,
+            lng: sc.currentPosition.longitude,
+        });
+        map.setZoom(15);
+    }
+
+    // if the criteria is based on the maps central postion then add this to the query...
+    if (sc.onMap) {
         const minLng = map.getBounds().getSouthWest().lng();
         const minLat = map.getBounds().getSouthWest().lat();
         const maxLng = map.getBounds().getNorthEast().lng();
@@ -777,37 +826,11 @@ function getBuses (f, recentre) {
     }
 
     // add search criteria to cookie, (not including boundingBox only searches)...
-    if (operatorRef) {
-        var recentSearches = [];
-        var searches = Cookies.get('searches');
-
-        if (searches) {
-            recentSearches = JSON.parse(searches);
-        }
-
-        f.searched = new Date().getTime();
-
-        recentSearches.push(f);
-
-        // remove duplicates...
-        recentSearches = recentSearches
-            .sort((a, b) => {
-                var a1 = new Date(a.searched);
-                var b1 = new Date(b.searched);
-                if (a1 == b1) return 0;
-                return a1 < b1 ? 1 : -1;
-            })
-            .filter((r, index, self) => {
-                return index === self.findIndex(r1 => r1.operatorRef === r.operatorRef && r1.lineRef === r.lineRef);
-            });
-
-        Cookies.set('searches', JSON.stringify(recentSearches), { expires: CookieExpiry });
-
-        loadSearchHistory();
-
+    if (sc.initialRender && sc.operatorRef) {
+        addSearchToHistory(sc);
     }
       
-    $.get(busDataUri, function (resp) {
+    $.get(busDataUri, resp => {
 
         //convert the returned JSON string to a JSON object...
         resp = JSON.parse(resp);
@@ -836,19 +859,61 @@ function getBuses (f, recentre) {
                 vehicles = vehicles.filter(v => v.extendedAttributes.aged == false);
             }
 
-            loadMap(vehicles, recentre);
+            // clear map...
+            clearMap();
+
+            // add vehicles to the map, then the current location, if required, then resize/reposition the map as appropriate...
+            // this is an asynchronous call so the always fn, below, is generally actioned before this addVehicles call completes...
+            addVehicles(vehicles)
+                .then(() => {
+                    if (sc.currentPosition)
+                        addCurrentLocation(sc.currentPosition);
+                })
+                .then(() => {
+                    if (sc.onMap) {
+                        // Draw a rectangle to show the boundaryBox...
+                        mapBoundingBox = new google.maps.Rectangle({
+                            strokeColor: "#FF0000",
+                            strokeOpacity: 0.8,
+                            strokeWeight: 2,
+                            fillOpacity: 0.1,
+                            map,
+                            bounds: {
+                                north: boundingBox.north,
+                                south: boundingBox.south,
+                                east: boundingBox.east,
+                                west: boundingBox.west,
+                            },
+                        });
+                    } else if (sc.initialRender) {
+                        // resize/reposition map to show all markers...
+                        const mapBounds = new google.maps.LatLngBounds();
+                        markers.forEach((m) => {
+                            mapBounds.extend(m.position);
+                        });
+
+                        map.fitBounds(mapBounds);
+                    };
+
+                    // always set this to false..
+                    sc.initialRender = false;
+                })
+                .catch((e) => {
+                    console.error(`Critical failure: ${e.message}`)
+                    displayMessage(`Oops, a problem occurred displaying the buses.`, false);
+                });
 
             // enable data dependent buttons...
             $('.dataDependent').removeClass("disabled");
 
         } else {
 
-            DisplayMessage('No data was returned matching the specified criteria.')
+            displayMessage('No data was returned matching the specified criteria.')
 
         }
     })
     .fail((rq, ts, e) => {
-        DisplayMessage(`Error encountered when requesting bus data: ${ts}.`);
+        displayMessage(`Error encountered when requesting bus data: ${ts}.`);
     })
     .always(() => {
         $('#map').dimmer('hide');
@@ -901,75 +966,37 @@ async function initMap() {
         zoom: 6,
         center: { lat: HereLocation.Latitude, lng: HereLocation.Longitude },
         mapId: "DEMO_MAP_ID",
+        zoomControl: true,
+        mapTypeControl: false,
+        scaleControl: true,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: true,
     });
 
-    map.addListener("dragend", (x, y, z) => {
+    map.addListener('dragend', (x, y, z) => {
         // reposition the boundary box and search again...
-        if (searchCriteria.onMap) {
+        if (currentViewMode == viewMode.search) {
             getBuses(searchCriteria);
         }
     });
 
-    // location...
-    infoWindow = new google.maps.InfoWindow();
+    map.addListener('zoom_changed', (x, y, z) => {
+        console.info(`map zoom: ${map.getZoom()}`);
+    });
 
-    //const locationButton = document.createElement("button");
-
-    //locationButton.textContent = "Pan to Current Location";
-    //locationButton.classList.add("custom-map-control-button");
-    //map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
-    //locationButton.addEventListener("click", () => {
-
-    //    // Try HTML5 geolocation.
-    //    if (navigator.geolocation) {
-    //        navigator.geolocation.getCurrentPosition(
-    //            (position) => {
-    //                const pos = {
-    //                    lat: position.coords.latitude,
-    //                    lng: position.coords.longitude,
-    //                };
-
-    //                infoWindow.setPosition(pos);
-    //                infoWindow.setContent("Location found.");
-    //                infoWindow.open(map);
-    //                map.setCenter(pos);
-    //            },
-    //            () => {
-
-    //                handleLocationError(true, infoWindow, map.getCenter());
-    //            },
-    //        );
-    //    } else {
-    //        // Browser doesn't support Geolocation
-    //        handleLocationError(false, infoWindow, map.getCenter());
-    //    }
-    //});
 
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(
-        browserHasGeolocation
-            ? "Error: The Geolocation service failed."
-            : "Error: Your browser doesn't support geolocation.",
-    );
-    infoWindow.open(map);
-}
-
-async function loadMap(vehicles, recentre) {
+async function addVehicles(vehicles) {
 
     // Request needed libraries.
     const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker",);
     const { LatLngBounds } = await google.maps.importLibrary("core");
-    const mapBounds = new google.maps.LatLngBounds();
-
-    // clear map...
-    clearMap(map);
 
     if (vehicles.length < 1) {
         // Display a message when the max number of markers is exceeded...
-        DisplayMessage('No active vehicles to be displayed. To see inactive vehicles disable <em>Hide inactive vehicles</em> option.');
+        displayMessage('No active vehicles to be displayed. To see inactive vehicles disable <em>Hide inactive vehicles</em> option.');
         return false;
     }
 
@@ -979,11 +1006,11 @@ async function loadMap(vehicles, recentre) {
         // limit number of markers loaded onto the map...
         if (index > userOptions.maxMarkers) {
             // Display a message when the max number of markers is exceeded...
-            DisplayMessage(`There are ${vehicles.length} buses identified, only ${userOptions.maxMarkers} will be displayed on the map.`);
+            displayMessage(`There are ${vehicles.length} buses identified, only ${userOptions.maxMarkers} will be displayed on the map.`);
             return false;
         }
 
-        const AdvancedMarkerElement = new google.maps.marker.AdvancedMarkerElement({
+        const marker = new google.maps.marker.AdvancedMarkerElement({
             map: (userOptions.hideAged && vehicle.extendedAttributes.aged) ? null : map,
             position: { lat: Number(vehicle.MonitoredVehicleJourney.VehicleLocation.Latitude), lng: Number(vehicle.MonitoredVehicleJourney.VehicleLocation.Longitude) },
             content: buildContent(vehicle),
@@ -991,68 +1018,62 @@ async function loadMap(vehicles, recentre) {
 
         });
 
-        AdvancedMarkerElement.addEventListener("gmp-click", (o) => {
-            toggleHighlight(AdvancedMarkerElement, vehicle);
+        marker.addEventListener("gmp-click", (o) => {
+            toggleHighlight(marker, vehicle);
         });
 
-        // Listen for specific actions initiated from the marker...
-        // this code needs to be rationalised...
-        AdvancedMarkerElement.addListener("click", (o) => {
-            if ($(o.domEvent.target).hasClass('route-link')) {
-                var target = o.domEvent.target;
-                // bubble up to the ancestor containing the data attribute...
-                while ($(target.parentNode).hasClass('route-link')) {
-                    target = target.parentNode;
-                }
-                searchCriteria = JSON.parse(target.attributes.data.value);
-                getBuses(searchCriteria, true);
-            } else if ($(o.domEvent.target).hasClass('track-link')) {
-                var target = o.domEvent.target;
-                // bubble up to the ancestor containing the data attribute...
-                while($(target.parentNode).hasClass('track-link')) {
-                    target = target.parentNode;
-                }
-                var vehicleRef = target.attributes.data.value;
-                trackBus(vehicleRef, true, 0);
-            } else if ($(o.domEvent.target).hasClass('favourite-link')) {
-                var target = o.domEvent.target;
-                // bubble up to the ancestor containing the data attribute...
-                while ($(target.parentNode).hasClass('favourite-link')) {
-                        target = target.parentNode;
-                }
-                userOptions.favouriteBus = target.attributes.data.value;
-                Cookies.set('userOptions', JSON.stringify(userOptions), { expires: CookieExpiry });
-            }
-        });
-
-        AdvancedMarkerElement.vehicle = vehicle;
+        marker.vehicle = vehicle;
 
         //Add marker to tracking array (for use in removing them)...
-        markers.push(AdvancedMarkerElement);
+        markers.push(marker);
+    });
+}
 
-        mapBounds.extend(AdvancedMarkerElement.position);
+async function addCurrentLocation(coords) {
+    // Request needed libraries.
+    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker",);
 
+    // Add a marker for current location...
+    const meTag = document.createElement("div");
+    meTag.className = "time-tag";
+    meTag.textContent = (coords.accuracy > 10 ? "Your estimated location" : "Your location");
+
+    // add markers for timeTag...
+    let marker = new google.maps.marker.AdvancedMarkerElement({
+        map: map,
+        position: {
+            lat: coords.latitude,
+            lng: coords.longitude,
+        },
+        content: meTag,
+        title: (coords.accuracy > 10 ? `This is an estimate of your location within ${Math.floor(coords.accuracy)} metres.` : "Your location."),
     });
 
-    if (recentre == true) {
-        // zoom map to show all markers...
-        map.fitBounds(mapBounds);
-    } else {
-        // Draw a rectangle to show the boundaryBox...
-        mapBoundingBox = new google.maps.Rectangle({
-            strokeColor: "#FF0000",
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillOpacity: 0.1,
-            map,
-            bounds: {
-                north: boundingBox.north,
-                south: boundingBox.south,
-                east: boundingBox.east,
-                west: boundingBox.west,
-            },
-        });
-    }
+    markers.push(marker);
+
+    accuracyCircle = new google.maps.Circle({
+        strokeColor: "#8160d4",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor:  "#8160d4",
+        fillOpacity: 0.05,
+        map,
+        center: {
+            lat: coords.latitude,
+            lng: coords.longitude,
+        }, 
+        radius: coords.accuracy,  //metres..
+    });
+
+}
+
+function getCurrentLocation() {
+    return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(
+            position => resolve(position.coords),
+            error => reject(error)
+        )
+    })
 }
 
 function averageVehicleLocation(v) {
@@ -1084,7 +1105,7 @@ function averageVehicleLocation(v) {
     }
 }
 
-function clearMap(map) {
+function clearMap() {
 
     // Clear any timeout callbacks...
     if (busTracker)
@@ -1093,6 +1114,9 @@ function clearMap(map) {
     // delete existing boundingBox...
     if (mapBoundingBox)
         mapBoundingBox.setMap(null);
+
+    if (accuracyCircle)
+        accuracyCircle.setMap(null);
 
     if (trackerInfoWindow) {
         trackerInfoWindow.close();
@@ -1116,6 +1140,8 @@ function clearMap(map) {
         speedMarkers[i].setMap(null);
     }
     speedMarkers = [];
+
+
 }
 
 function toggleHighlight(markerView, vehicle) {
@@ -1156,9 +1182,9 @@ function buildContent(vehicle) {
         <div class="vehicleRef">Direction: ${vehicle.MonitoredVehicleJourney.DirectionRef}</div>
         <div class="vehicleRef">Recorded: ${shortEnGBFormatter.format(new Date(vehicle.RecordedAtTime))}</div>
         <div class="ui icon buttons" style="display: unset">
-            <div class="ui route-link mini button" data='${JSON.stringify(s)}'><i class="bus route-link icon"></i></div>
-            <div class="ui favourite-link mini button" data='${vehicle.MonitoredVehicleJourney.VehicleRef}'><i class="favourite-link heart outline icon"></i></div>
-            <div class="ui track-link mini button" data='${vehicle.MonitoredVehicleJourney.VehicleRef}'><i class="eye track-link icon"></i></div>
+            <div class="ui route-link mini button" data='${JSON.stringify(s)}'><i class="bus icon"></i></div>
+            <div class="ui favourite-link mini button" data='${vehicle.MonitoredVehicleJourney.VehicleRef}'><i class="heart outline icon"></i></div>
+            <div class="ui track-link mini button" data='${vehicle.MonitoredVehicleJourney.VehicleRef}'><i class="eye icon"></i></div>
         </div>
     </div>
     `;
@@ -1166,12 +1192,12 @@ function buildContent(vehicle) {
     return content;
 }
 
-function DisplayMessage(content, autoHide = true) {
+function displayMessage(content, autoHide = true) {
 
     var modal = $.modal({
         /*title: title,*/
         class: 'tiny',
-        closeIcon: false,
+        closeIcon: !autoHide,
         content: content,
     })
         .modal('show');
