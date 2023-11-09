@@ -381,3 +381,4 @@ FodyWeavers.xsd
 /BusTrackerUI/test.html
 /BusTrackerServices/web - Copy.config
 /BusTrackerUI/web - Copy.config.exclude
+/BusTrackerUI/data/operatorRoutes - Copy.json
