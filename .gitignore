@@ -387,3 +387,20 @@ FodyWeavers.xsd
 /BusTrackerUI/data/Example Disruption.json.exclude
 /BusTrackerUI/data/NOC_Bus.xml.exclude
 /BusTrackerUI/data/NOC_Coach.xml.exclude
+/BusTrackerUIAdmin/App_Data/PublishProfiles/BusTrackerAdmin - Web Prod Deploy.pubxml
+/BusTrackerUIAdmin/Web.BusTrackerAdmin - Web Prod Deploy.config
+/BusTrackerUIAdmin/.auth/me
+/BusTrackerUIAdmin/.auth/me.json
+/BusTrackerUIAdmin/.auth/logout.html
+/BusTrackerUI/old/index-bck.html.exclude
+/BusTrackerUI/old/bus - bck.js.exclude
+/BusTrackerUI/old/bus - bck.css.exclude
+/BusTrackerUIAdmin/datatables-bck/jquery.dataTables.min.css.exclude
+/BusTrackerUIAdmin/datatables-bck/jquery.dataTables.min.js.exclude
+/BusTrackerUIAdmin/datatables-bck/responsive.dataTables.min.css.exclude
+/BusTrackerUIAdmin/datatables-bck/responsive.dataTables.min.js.exclude
+/BusTrackerUIAdmin/test.html.exclude
+/BusTrackerUIAdmin/test.js.exclude
+/BusTrackerUIAdmin/index-old.html.exclude
+/BusTrackerServices/Controllers/DVLAController.cs
+/BusTrackerUIAdmin/camera.html
