@@ -24,6 +24,7 @@
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <DefaultCollation>Latin1_General_CI_AS</DefaultCollation>
     <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+    <GenerateCreateScript>False</GenerateCreateScript>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -62,16 +63,17 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="trace_data.sql" />
-    <Build Include="bt_session.sql" />
+    <Build Include="bt_system_parameter_audit.sql" />
     <Build Include="bt_session_audit.sql" />
+    <Build Include="trg_bt_system_parameter.sql" />
+    <Build Include="bt_session.sql" />
     <Build Include="trg_bt_session.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BusTrackerDb.publish.xml" />
-    <None Include="BusTrackerDb.Azure.Local.publish.publish.xml" />
-    <None Include="BusTrackerDb.Azure.publish.publish.xml" />
+    <Build Include="bt_system_parameter.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BusTrackerDb.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BusTrackerDb.publish.xml" />
   </ItemGroup>
 </Project>

@@ -83,7 +83,7 @@ $(() => {
         })
         .dimmer('show');
 
-    const sessionUrl = '/BusTrackerServices/Session';
+    const sessionUrl = '/BusTrackerServices/Session/Create';
     $.get({
         url: sessionUrl,
         //async: false,
@@ -91,14 +91,15 @@ $(() => {
     })
         .fail((rq, ts, e) => {
             // could be more graceful...
+            $('body').dimmer('hide');
             displayMessage(`Oops, a problem occurred loading the app, please try again later.`, false);
         })
         .done((resp) => {
             session = JSON.parse(resp);
             initView();
+            $('body').dimmer('hide');
         })
         .always(() => {
-            $('body').dimmer('hide');
         });
 });
 
@@ -117,18 +118,7 @@ function initView() {
     })
         ({ key: session.googleMapKey, v: "beta" });
 
-    // arrange header bar based on device type...
-    if (isMobile) {
-        $('#mobileMenuTitle').append($('#menuTitle'));
-        $('#mobileMenuSearch').append($('#menuContainer'));
-        $('#mobileMenuButtons').append($('#menuButtons'));
-    } else {
-        $('#otherMenuTitle').append($('#menuTitle'));
-        $('#otherMenuSearch').append($('#menuContainer'));
-        $('#otherMenuButtons').append($('#menuButtons'));
-    }
-
-    // first thing get list of Operators and routes....
+        // first thing get list of Operators and routes....
     $.get(operatorsRoutesUrl, (resp) => {
         operators = resp;
     })
@@ -374,8 +364,8 @@ function initView() {
     $('#stopTracking')
         .on('click', (e) => {
             clearTimeout(busTracker);
-            $('#menuSearch').show();
-            $('#menuTracker').hide();
+            $('.bt-search').show();
+            $('.bt-track').hide();
             // enable data dependent buttons...
             $('.toolbar').removeClass("disabled");
             e.preventDefault();
@@ -539,6 +529,7 @@ function initView() {
             on: 'click',
             hoverable: true,
             position: 'bottom left',
+            prefer: 'adjacent',
             delay: {
                 show: 300,
                 hide: 500
@@ -625,8 +616,8 @@ function trackBus(vehicleRef, firstTime, counter) {
 
     if (firstTime) {
         clearMap();
-        $('#menuSearch').hide();
-        $('#menuTracker').show();
+        $('.bt-search').hide();
+        $('.bt-track').show();
     }
 
     const busDataUrl = '/BusTrackerServices/BusLocationData';
@@ -1018,9 +1009,14 @@ async function addVehicles(vehicles) {
 
         });
 
-        marker.addEventListener("gmp-click", (o) => {
+        //beta only - stopped working 4-Jan-2024, so switched to weekly build and changes event listener...
+        marker.addEventListener('gmp-click', (o) => {
             toggleHighlight(marker, vehicle);
         });
+
+        //marker.addListener('click', (o) => {
+        //    toggleHighlight(marker, vehicle);
+        //});
 
         marker.vehicle = vehicle;
 

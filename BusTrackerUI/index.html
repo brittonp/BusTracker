@@ -48,89 +48,41 @@
 <body>
 
     <div class="box ">
-        <div class="row header">
-            <div class="ui grid">
-                <div class="two column mobile only row">
-                    <div id="mobileMenuTitle" class="column">
-                    </div>
-                    <div id="mobileMenuButtons" class="right aligned column">
-                    </div>
-                </div>
-                <div class="one column mobile only row">
-                    <div id="mobileMenuSearch" class="center aligned column">
-                    </div>
-                </div>
-                <div class="three column large screen computer tablet only row">
-                    <div id="otherMenuTitle" class="four wide column">
-                    </div>
-                    <div id="otherMenuSearch" class="center aligned eight wide column">
-                    </div>
-                    <div id="otherMenuButtons" class="right aligned four wide column">
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row content">
             <div id='map'></div>
         </div>
     </div>
 
-    <div id="menuTitle" class="ui borderless secondary compact fitted menu">
-        <div class="link browse item">
-            <i class="hamburger icon"></i>
-        </div>
-        <div class="ui popup bottom left transition hidden" style="inset: 564.969px auto auto 1px;">
-
-            <div class="ui action link list">
-                <a id="viewOptions" class="item" action="viewOptions">Options</a>
-                <a id="open_preferences_center" class="item">Cookie Preferences</a>
-                <a id="viewJson" class="item dataDependent" action="viewJSON">View JSON</a>
+    <div class="bt-search">
+        <div id="search" class="ui search">
+            <div class="ui fluid icon input">
+                <input class="prompt" type="text" placeholder="Search Operators and Routes (enter at least 2 characters)...">
+                <i class="search icon"></i>
             </div>
-
+            <div class="results"></div>
         </div>
-
-        <div class="item">
-            <h3>Bus Tracker</h3>
-        </div>
-
     </div>
 
-    <div id="menuContainer">
-        <div id="menuSearch" class="ui two column  grid">
-            <div class="twelve wide column">
-                <div id="search" class="ui search">
-                    <div class="ui fluid icon input">
-                        <input class="prompt" type="text" placeholder="Search Operators and Routes (enter at least 2 characters)...">
-                        <i class="search icon"></i>
-                    </div>
-                    <div class="results" style="overflow-y: auto; max-height: 300px;"></div>
-                </div>
-            </div>
-            <div class="four wide column">
-                <div id="locationSearch" class="ui icon button" title="Show buses near me">
-                    <i class="crosshairs icon"></i>
-                </div>
-            </div>
-        </div>
-        <div id="menuTracker" class="ui four column middle aligned grid" style="display: none">
+    <div class="bt-track">
+        <div class="ui four column middle aligned grid">
 
-            <div id="trackedVehicle" class="ten wide left aligned label column">
+            <div id="trackedVehicle" class="seven wide left aligned label column">
             </div>
 
-            <div class="two wide center aligned column">
+            <div class="three wide center aligned column">
                 <div id="trackerCounter" class="spinner container">
                     <div class="counter">Count</div>
                     <i class="loading overlay spinner big grey icon"></i>
                 </div>
             </div>
 
-            <div class="two wide column">
+            <div class="three wide column">
                 <div id="infoTracking" class="ui small icon button" title="Tracked Bus Details">
                     <i class="info icon"></i>
                 </div>
             </div>
 
-            <div class="two wide column">
+            <div class="three wide column">
                 <div id="stopTracking" class="ui small icon button" title="Stop Tracking">
                     <i class="stop icon"></i>
                 </div>
@@ -139,25 +91,60 @@
         </div>
     </div>
 
-    <div id="menuButtons" class="ui borderless secondary compact fitted menu">
-
-        <div id='viewSearches' class="browse toolbar item">
-            <i class="history icon"></i>
-        </div>
-        <div id="searchHistoryContainer" class="ui flowing popup bottom left transition hidden">
-            <div id='clearSearchHistory' title="Clear search history" class="ui right mini icon button">
-                <i class="trash icon"></i>
+    <div class="bt-menu-btn main">
+        <div class="ui borderless secondary compact fitted menu">
+            <div class="link browse item">
+                <i class="hamburger icon"></i>
             </div>
-            <div id="searchHistory" class="ui action link list">
+            <div class="ui flowing popup transition hidden">
+                <div class="ui sub header">
+                    Bus Tracker
+                </div>
+                <div class="ui action link list">
+                    <a id="viewOptions" class="item" action="viewOptions">Options</a>
+                    <a id="open_preferences_center" class="item">Cookie Preferences</a>
+                    <a id="viewJson" class="item dataDependent" action="viewJSON">View JSON</a>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div id="updateMap" class="dataDependent toolbar link item" title="Refresh map">
-            <i class="refresh icon"></i>
+    <div class="bt-menu-btn history">
+        <div class="ui borderless secondary compact fitted menu">
+            <div id='viewSearches' class="browse toolbar link item">
+                <i class="history icon"></i>
+            </div>
+            <div class="ui flowing popup transition hidden">
+                <div id="searchHistory" class="ui action link list">
+                </div>
+                <div id='clearSearchHistory' title="Clear search history" class="ui right floated mini icon button">
+                    <i class="trash icon"></i>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div id="viewData" class="dataDependent toolbar link item" title="View data">
-            <i class="table icon"></i>
+    <div class="bt-menu-btn here">
+        <div class="ui borderless secondary compact fitted menu">
+            <div id="locationSearch" class="ui toolbar link item" title="Show buses near me">
+                <i class="crosshairs icon"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bt-menu-btn refresh">
+        <div class="ui borderless secondary compact fitted menu">
+            <div id="updateMap" class="dataDependent toolbar link item" title="Refresh map">
+                <i class="refresh icon"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bt-menu-btn data">
+        <div class="ui borderless secondary compact fitted menu">
+            <div id="viewData" class="dataDependent toolbar link item" title="View data">
+                <i class="table icon"></i>
+            </div>
         </div>
     </div>
 

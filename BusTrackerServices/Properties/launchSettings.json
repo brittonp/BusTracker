@@ -20,6 +20,7 @@
     },
     "IIS": {
       "commandName": "IIS",
+      "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -37,7 +38,7 @@
       "sslPort": 0
     },
     "iisExpress": {
-      "applicationUrl": "http://localhost:65020",
+      "applicationUrl": "http://localhost:65020/",
       "sslPort": 0
     }
   }

@@ -1,0 +1,9 @@
+{
+  "Sql": {
+    "GetRecentSessions": "SELECT TOP (100) sess.* FROM dbo.bt_session sess ORDER BY sess.created DESC FOR JSON AUTO;",
+    "GetSessionHistory": "SELECT sesa.* FROM dbo.bt_session_audit sesa WHERE sesa.session_id = @sessionId ORDER BY sesa.updated DESC FOR JSON AUTO;",
+    "GetAllSystemParameters": "SELECT * FROM dbo.bt_system_parameter ORDER BY name FOR JSON AUTO;",
+    "GetSystemParameter": "SELECT * FROM dbo.bt_system_parameter WHERE name = @parameterName FOR JSON AUTO, WITHOUT_ARRAY_WRAPPER;",
+    "UpdateSystemParameter": "UPDATE dbo.bt_system_parameter SET value = @parameterValue, version = version + 1, updated = getdate(), updated_by = @updatedBy WHERE name = @parameterName AND version = @version;"
+  }
+}

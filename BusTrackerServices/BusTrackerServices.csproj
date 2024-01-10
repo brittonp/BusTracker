@@ -63,4 +63,11 @@
     <Folder Include="Resources\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="openalpr-net">
+      <HintPath>openalpr_64\openalpr-net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+
 </Project>
