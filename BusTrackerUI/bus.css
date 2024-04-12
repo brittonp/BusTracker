@@ -35,9 +35,87 @@
             flex: 0 1 40px;
         }
 
-        .box .row.header > .grid {
+/*        .box .row.header > .grid {
             border-bottom: lightgrey 1px solid;
-        }
+        }*/
+
+.bt-search {
+    position: absolute;
+    top: 3vh;
+    left: 1vw;
+    width: 90vw;
+    max-width: 500px;
+}
+    .bt-search .results {
+        width: max-content !important;
+        overflow-y: auto !important;
+        max-height: 300px !important;
+    }
+
+.bt-track {
+    position: absolute;
+    display: flex;
+    top: 3vh;
+    left: 1vw;
+    width: 90vw;
+    max-width: 500px;
+    background-color: #ffffff;
+    border-radius: 20px 20px;
+    border: solid 1px rgba(34,36,38,.15);
+    display: none;
+    /*opacity: 0.5;*/
+}
+
+.bt-menu-btn {
+    position: absolute;
+    height: 5vmin !important;
+    width: 5vmin !important;
+    max-height: 40px;
+    max-width: 40px;
+    min-height: 30px;
+    min-width: 30px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    border: solid 1px rgba(34,36,38,.15);
+    /*opacity: 0.5;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+    .bt-menu-btn .ui.menu .item > i.icon {
+        margin: 0 0 0 0;
+    }
+
+    .bt-menu-btn .popup {
+        width: 250px !important;
+        overflow-y: auto;
+        max-height: 300px;
+    }
+
+    .bt-menu-btn.main {
+        top: 10vh;
+        right: 1vw;
+    }
+
+    .bt-menu-btn.here {
+        top: 20vh;
+        right: 1vw;
+    }
+
+    .bt-menu-btn.history {
+        top: 30vh;
+        right: 1vw;
+    }
+
+    .bt-menu-btn.refresh {
+        top: 40vh;
+        right: 1vw;
+    }
+
+    .bt-menu-btn.data {
+        top: 50vh;
+        right: 1vw;
+    }
 
 .ui.grid {
     margin: 0em 0px 0em 0px !important;
@@ -324,6 +402,7 @@ table#vehicles tr.aged {
     -moz-transform: rotate(45deg);
     -o-transform: rotate(45deg);
     transform: rotate(45deg);
+    box-shadow: 0 2px 50px rgba(0, 0, 0, 0.3);
 }
 
 .dev.env-glyph {
@@ -371,4 +450,12 @@ table#vehicles tr.aged {
 
 .prod.env-glyph::after {
     content: "";
+}
+
+.user-glyph {
+    height: 25px;
+    width: 25px;
+    background-color: #8160d4;
+    border-radius: 50%;
+    display: inline-block;
 }

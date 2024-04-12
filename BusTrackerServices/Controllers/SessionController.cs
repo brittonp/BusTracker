@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using BusTrackerServices.Data;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 
 
 namespace BusTrackerServices.Controllers
@@ -24,8 +28,8 @@ namespace BusTrackerServices.Controllers
             _sqlData = sqlData;
         }
 
-        [HttpGet]
-        public JsonResult? CreateSession()
+        [HttpGet("Create")]
+        public JsonResult? Create()
         {
             // Insert record into session db table...
             int sessionId = _sqlData.CreateSession();
@@ -38,6 +42,25 @@ namespace BusTrackerServices.Controllers
                 ) ;
 
             return new JsonResult(result.ToString());
+        }
+
+        [HttpGet("GetRecent")]
+        public JsonResult? GetRecent()
+        {
+            // Query all session records...
+            string? strJson = _sqlData.GetRecentSessions();
+
+            return new JsonResult(strJson);
+        }
+
+        [HttpGet("GetSessionHistory")]
+        public JsonResult? GetSessionHistory(
+            int sessionId)
+        {
+            // Query all session records...
+            string? strJson = _sqlData.GetSessionHistory(sessionId);
+
+            return new JsonResult(strJson);
         }
 
     }
