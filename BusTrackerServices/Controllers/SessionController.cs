@@ -31,9 +31,12 @@ namespace BusTrackerServices.Controllers
         [HttpGet("Create")]
         public JsonResult? Create()
         {
+            int sessionId = 0;
             // Insert record into session db table...
-            int sessionId = _sqlData.CreateSession();
-            HttpContext.Session.SetInt32("SessionId", sessionId);
+            if (_configuration["USE_DATABASE"] == "true")
+            {
+                _sqlData.CreateSession();
+            }
 
             JObject result = new JObject(
                 new JProperty("sessionId", sessionId),

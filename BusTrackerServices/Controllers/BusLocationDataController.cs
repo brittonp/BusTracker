@@ -106,9 +106,12 @@ namespace BusTrackerServices.Controllers
             TimeSpan ts = responseTimestamp - requestTimestamp;
             _logger.LogInformation(999, "Response {URI} received at {DT}, duration {TS} milliseconds.", dftUri, responseTimestamp.ToLongTimeString(), ts.TotalMilliseconds);
 
-            int? sessionId = HttpContext.Session.GetInt32("SessionId");
-            sessionId = _sqlData.UpdateSession(sessionId, eventType);
-            HttpContext.Session.SetInt32("SessionId", (int)sessionId);
+            if (_configuration["USE_DATABASE"] == "true")
+            {
+                int? sessionId = HttpContext.Session.GetInt32("SessionId");
+                sessionId = _sqlData.UpdateSession(sessionId, eventType);
+                HttpContext.Session.SetInt32("SessionId", (int)sessionId);
+            }
 
             jsonString = JsonConvert.SerializeXmlNode(xmlDoc);
             myJson = new JsonResult(jsonString);
