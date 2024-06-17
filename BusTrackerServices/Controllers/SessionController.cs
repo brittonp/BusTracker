@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using BusTrackerServices.Data;
 using System.Runtime.CompilerServices;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+//using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
@@ -38,13 +38,20 @@ namespace BusTrackerServices.Controllers
                 _sqlData.CreateSession();
             }
 
-            JObject result = new JObject(
-                new JProperty("sessionId", sessionId),
-                new JProperty("environment", _configuration["ASPNETCORE_ENVIRONMENT"]),
-                new JProperty("googleMapKey", _configuration["GoogleMapKey"])
-                ) ;
+            //JObject result1 = new JObject(
+            //    new JProperty("sessionId", sessionId),
+            //    new JProperty("environment", _configuration["ASPNETCORE_ENVIRONMENT"]),
+            //    new JProperty("googleMapKey", _configuration["GoogleMapKey"])
+            //    );
 
-            return new JsonResult(result.ToString());
+            var result = new 
+            {
+                sessionId = sessionId,
+                environment = _configuration["ASPNETCORE_ENVIRONMENT"],
+                googleMapKey = _configuration["GoogleMapKey"]
+            };
+
+            return new JsonResult(result);
         }
 
         [HttpGet("GetRecent")]

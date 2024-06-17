@@ -1,0 +1,42 @@
+﻿:root {
+    --ident-start-rx: -45;
+    --ident-start-ry: 45;
+    --ident-start-rz: 0;
+}
+
+.threedee {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-style: preserve-3d;
+    transform-origin: 0px 0px;
+    backface-visibility: hidden;
+}
+
+    .threedee.face {
+        position: absolute;
+        left: unset;
+        top: unset;
+        transform-style: preserve-3d;
+        transform-origin: 0px 0px;
+        backface-visibility: hidden;
+    }
+
+.assembly {
+    transform: rotateX(calc(var(--ident-start-rx) * 1deg)) rotateY(calc(var(--ident-start-ry) * 1deg)) rotateZ(calc(var(--ident-start-rz) * 1deg));
+    animation: spin 3s linear infinite;
+}
+
+/*#box-toggle:checked ~ .assembly .face {
+    box-shadow: inset 0 0 0 1px #0f0;
+    mask-image: none !important;
+    backface-visibility: visible;
+}*/
+
+@keyframes spin {
+    to {
+/*        transform: rotateX(360deg) rotateY(720deg) rotateZ(720deg);*/
+        transform: rotateX(calc((var(--ident-start-rx) * 1deg) + 360deg)) rotateY(calc((var(--ident-start-ry) * 1deg) + 360deg)) rotateZ(calc((var(--ident-start-rz) * 1deg) + 360deg));
+    }
+}
+
