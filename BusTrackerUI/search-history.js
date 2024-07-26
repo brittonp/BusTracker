@@ -63,7 +63,7 @@ export const searchHistory = {
         return history;
     },
     removeAll: async function removeAll() {
-        Cookies.remove(this.cookie);
+        Cookies.remove(this.cookieName);
         $(this.eventTargetClass).trigger('load');
     }
 }

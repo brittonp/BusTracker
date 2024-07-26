@@ -8,7 +8,8 @@ export const operatorRoutes = {
     get: async function get() {
 
         log(`getOperatorRoutes: start`);
-        const response = await fetch(`./data/operatorRoutes.json`, {
+        //const response = await fetch(`./data/operatorRoutes.json`, {
+        const response = await fetch(`/services/OperatorRoute/Get`, {
             timeout: 30 * 1000,
             method: "GET"
         });

@@ -4,6 +4,9 @@
     userSearchesCookieName: 'userSearches',
     refreshCounter: 1, // seconds
     zoomLocation: 15,
+    maxBusDisplay: 800,
+    minBusDisplay: 100,
+    searchBoxSize: 0.2,
     envMap: {
         Development: 'dev',
         Test: 'test',
@@ -34,4 +37,17 @@
 
 export function log(msg) {
     console.log(`${appConstant.shortEnGBFormatter.format(new Date())}: ${msg}`);
+}
+
+
+export function queryStringToJSON(qs) {
+    var pairs = qs.slice(1).split('&');
+
+    var result = {};
+    pairs.forEach(function (pair) {
+        pair = pair.split('=');
+        result[pair[0]] = decodeURIComponent(pair[1] || '');
+    });
+
+    return JSON.parse(JSON.stringify(result));
 }

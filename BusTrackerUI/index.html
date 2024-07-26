@@ -37,9 +37,8 @@
     <script src='./datatables/jquery.dataTables.min.js'></script>
     <script src='./datatables/responsive.dataTables.min.js'></script>
 
-    <script src='./bus.js' type="module" data-cookie-consent="strictly-necessary"></script>
+    <script src='./bus.js?v=1.00.00' type="module" data-cookie-consent="strictly-necessary"></script>
 
-    <!--<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>-->
     <!-- CSS...-->
     <link rel='stylesheet' type='text/css' class='ui' href='./fomantic/semantic.min.css' />
     <link rel='stylesheet' type='text/css' href='./datatables/jquery.dataTables.min.css' />
@@ -107,10 +106,11 @@
                 <div class="ui sub header">
                     Bus Tracker
                 </div>
-                <div class="ui action link list">
-                    <a id="viewOptions" class="item" action="viewOptions">Options</a>
-                    <a id="open_preferences_center" class="item">Cookie Preferences</a>
-                    <a id="viewJson" class="item dataDependent" action="viewJSON">View JSON</a>
+                <div class="ui action link list">                   
+                    <div id="viewOptions" class="link item" action="viewOptions">Options</div>
+                    <div id="open_preferences_center" class="link item">Cookie Preferences</div>
+                    <div id="viewJson" class="link item" action="viewJSON">View JSON</div>
+                    <div id="viewData" class="link item dataDependent" action="viewData">View Data</div>
                 </div>
             </div>
         </div>
@@ -141,7 +141,7 @@
             <i class="user icon"></i>
         </div>
 
-        <div class="bt-menu-btn dataDependent disabled refresh" title="Refresh map">
+        <div class="bt-menu-btn refresh" title="Refresh map">
 
             <div id="refreshCounter" class="counter container">
                 <div class="counter"></div>
@@ -150,10 +150,10 @@
 
         </div>
 
-        <div class="bt-menu-btn data dataDependent disabled">
+        <div class="bt-menu-btn share">
             <div class="ui borderless secondary compact fitted menu">
                 <div id="viewData" class="dataDependent toolbar link item" title="View data">
-                    <i class="table icon"></i>
+                    <i class="share alternate icon"></i>
                 </div>
             </div>
         </div>
@@ -227,7 +227,11 @@
         </div>
     </div>
 
-    <div class="ui page dimmer">
+    <div class="ui page dimmer modals">
+
+    </div>
+
+    <div class="ui page dimmer ident">
         <div class="content">
             <div class="ident"></div>
             <div style="position: relative;">

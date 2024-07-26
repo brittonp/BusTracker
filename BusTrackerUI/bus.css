@@ -5,6 +5,7 @@
     --bus-color-aged: #dddada;
     --env-glph-dim: 2rem;
     --app-color: rgb(255, 5, 206);
+    --marker-radius: 15px;
 }
 html {
     font-size: 14px;
@@ -106,6 +107,14 @@ html {
         pointer-events: none;
     }
 
+    .bt-menu-btn .link.item {
+        color: rgba(0,0,0,.87) !important;
+    }
+
+        .bt-menu-btn .link.item.disabled {
+            cursor: none !important;
+            ;
+        }
 
     .bt-menu-btn .popup {
         width: 250px !important;
@@ -116,6 +125,7 @@ html {
     .bt-menu-btn.main {
         top: 10vh;
         right: 1vw;
+        cursor: auto;
     }
 
     .bt-menu-btn.here {
@@ -131,6 +141,7 @@ html {
     .bt-menu-btn.history {
         top: 40vh;
         right: 1vw;
+        cursor: auto;
     }
 
     .bt-menu-btn.refresh {
@@ -138,7 +149,7 @@ html {
         right: 1vw;
     }
 
-    .bt-menu-btn.data {
+    .bt-menu-btn.share {
         top: 60vh;
         right: 1vw;
     }
@@ -230,35 +241,34 @@ table#vehicles tr.aged {
 * Vehicle styles in unhighlighted state.
 */
 .vehicle {
+    --dir: null;
     align-items: center;
     background-color: #FFFFFF;
     border-radius: 50%;
     color: #263238;
     display: flex;
-    font-size: 14px;
-    gap: 15px;
-    height: 30px;
-    width: 30px;
+    left: 50%;
+    top:50%;
+    font-size: var(--marker-radius);
+    gap: var(--marker-radius);
+    height: calc(var(--marker-radius) *2);
+    width: calc(var(--marker-radius) *2);
+    transform: translate(0%, 50%); /* centre justify marker, not default bottom-centre */
     justify-content: center;
     padding: 4px;
     position: relative;
-    position: relative;
-    transition: all 0.3s ease-out;
 }
 
     .vehicle::after {
-        border-left: 9px solid transparent;
-        border-right: 9px solid transparent;
-        border-top: 9px solid #FFFFFF;
+        border-left: calc(var(--marker-radius) *2/3) solid transparent;
+        border-right: calc(var(--marker-radius) *2/3) solid transparent;
+        border-bottom: calc(var(--marker-radius) *2/3) solid red;
         content: "";
         height: 0;
-        left: 50%;
-        position: absolute;
-        top: 90%;
-        transform: translate(-50%, 0);
-        transition: all 0.3s ease-out;
         width: 0;
-        z-index: 1;
+        position: absolute;
+        transform: translate(calc(sin(calc(var(--dir) * 1deg)) * 80%), calc(cos(calc(var(--dir) * 1deg)) * -160%)) rotate(calc(var(--dir) * 1deg));
+        z-index: -1;
     }
 
     .vehicle .route {
@@ -293,7 +303,7 @@ table#vehicles tr.aged {
     }
 
     .vehicle.highlight::after {
-        border-top: 9px solid #FFFFFF;
+        border-bottom: 9px solid #FFFFFF;
         display: none;
     }
 
@@ -317,17 +327,13 @@ table#vehicles tr.aged {
     .vehicle.highlight:has(.bus-direction-1) .route {
         color: var(--bus-color-outbound);
     }    
-    
-/*    .vehicle.highlight:has(.bus-direction-1) .icon {
-        color: var(--bus-color-outbound);
-    }*/
 
     .vehicle:not(.highlight):has(.bus-direction-1) {
         background-color: var(--bus-color-outbound);
     }
 
     .vehicle:not(.highlight):has(.bus-direction-1)::after {
-        border-top: 9px solid var(--bus-color-outbound);
+        border-bottom-color: var(--bus-color-outbound);
     }
 
    
@@ -335,17 +341,13 @@ table#vehicles tr.aged {
     .vehicle.highlight:has(.bus-direction-2) .route {
         color: var(--bus-color-inbound);
     }
-    
-/*    .vehicle.highlight:has(.bus-direction-2) .icon {
-        color: var(--bus-color-inbound);
-    }*/
 
     .vehicle:not(.highlight):has(.bus-direction-2) {
         background-color: var(--bus-color-inbound);
     }
 
     .vehicle:not(.highlight):has(.bus-direction-2)::after {
-        border-top: 9px solid var(--bus-color-inbound);
+        border-bottom-color: var(--bus-color-inbound);
     }
 
     /* Highlight aged data */

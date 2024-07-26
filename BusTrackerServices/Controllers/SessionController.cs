@@ -51,6 +51,8 @@ namespace BusTrackerServices.Controllers
                 googleMapKey = _configuration["GoogleMapKey"]
             };
 
+            _logger.LogWarning(4001, "Session initiated");
+
             return new JsonResult(result);
         }
 

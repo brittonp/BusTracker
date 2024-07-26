@@ -6,13 +6,18 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UserSecretsId>1ac255c5-9710-43eb-afe2-f33d9d2cee66</UserSecretsId>
-    <Configurations>Debug;Release;Test</Configurations>
+    <Configurations>Debug;Release;Staging;Test</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Models\**" />
     <EmbeddedResource Remove="Models\**" />
     <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data.cs" />
+    <Compile Remove="Extensions.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>false</InvariantGlobalization>
     <UserSecretsId>dee553e7-e302-43e5-9baf-4a35a14ee48d</UserSecretsId>
-    <Configurations>Debug;Release;Test</Configurations>
+    <Configurations>Debug;Release;Staging;Test</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -65,6 +65,10 @@
       <HintPath>openalpr_64\openalpr-net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>

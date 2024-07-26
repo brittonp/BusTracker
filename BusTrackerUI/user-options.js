@@ -19,6 +19,8 @@ export let userOptions = {
         }
 
         Cookies.set(this.cookieName, JSON.stringify(userOptions), { expires: this.cookieExpiry });
+
+        //throw new Error('test error');
     },
     set: function set(prop, val) {
         this[prop] = val;

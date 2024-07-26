@@ -1,4 +1,4 @@
-﻿import { log, appConstant } from "./globals.js";
+﻿import { log, appConstant, queryStringToJSON } from "./globals.js";
 import { operatorRoutes } from "./operator-routes.js";
 import { searchHistory } from "./search-history.js";
 import { userOptions } from "./user-options.js";
@@ -6,8 +6,10 @@ import { session } from "./session.js";
 import { Ident } from "./ident.js";
 
 
+const defaultZoom = 6;
+
 const mapProps = {
-    zoom: 6,
+    zoom: defaultZoom,
     center: {
         lat: 54.87676318480376,
         lng: -3.1485196166071217
@@ -25,9 +27,11 @@ let vehicles = [];
 const defaultSearchCriteria = {
     lineRef: null,
     operatorRef: null,
-    showAll: false,
-    currentPosition: null,
-    initialRender: true
+    showAll: true,
+    initialRender: false,
+    lat: null,
+    lng: null,
+    zoom: defaultZoom
 };
 let searchCriteria;
 let markers = [];
@@ -61,6 +65,10 @@ let currentLocation = {
             return position;
         } catch (err) {
             log(err.message);
+            currentLocation = {
+                ...currentLocation,
+                canTrack: false
+            };
             return err;
         }
 
@@ -153,19 +161,14 @@ $(() => {
 
 async function initiate() {
 
-    //$('body')
-    //    .dimmer({
-    //        displayLoader: true,
-    //        loaderVariation: 'slow orange medium elastic',
-    //        loaderText: 'Initialising, please wait...',
-    //        closable: false,
-    //    })
-    //    .dimmer('show');
-
     const ident = new Ident();
 
-    $('.page.dimmer .ident').append(ident.content);
-    $('.page.dimmer').dimmer('show');
+    $('.page.dimmer.ident .ident').append(ident.content);
+    $('.page.dimmer.ident')
+        .dimmer({
+            closable: false,
+        })
+        .dimmer('show');
 
     const startTime = new Date();
     log(`initiate: start`);
@@ -189,8 +192,30 @@ async function initiate() {
 
         await initView();
 
-        // initiate search on all buses about current position...
-        $('.bt-menu-btn.here').trigger('click');
+        // initialise the searchCriteria (base from defaults, plus query string, if provided)...
+        if (location.search) {
+
+            searchCriteria =
+            {
+                ...defaultSearchCriteria,
+                ...queryStringToJSON(location.search)
+            }
+
+            // initiate search on search criteria...
+            $('.bt-menu-btn.refresh').trigger('click');
+
+        } else {
+
+            searchCriteria =
+            {
+                ...defaultSearchCriteria
+            }
+
+            // initiate search on all buses about current position...
+            $('.bt-menu-btn.here').trigger('click');
+
+        }
+        console.log(searchCriteria);
 
         const endTime = new Date();
         log(`initiate: complete after ${(endTime - startTime) / 1000}secs`);
@@ -200,11 +225,10 @@ async function initiate() {
         alert(`Error initiating: ${error.message}`);
     } finally {
 
-        //$('body').dimmer('hide');
-        $('.page.dimmer').dimmer('hide');
+        $('.page.dimmer.ident')
+            .dimmer('hide')
+            .dimmer('destroy');
     }
-
-
 }
 async function initiateMapApi() {
 
@@ -245,11 +269,10 @@ async function initView() {
                     ...defaultSearchCriteria,
                     lineRef: result.lineRef,
                     operatorRef: result.operatorRef,
-                    initialRender: true,
                     showAll: false,
+                    initialRender: true,
                 };
-                currentViewMode = appConstant.viewMode.search;
-                getBuses(searchCriteria, true);
+                getBuses();
             },
         })
         .on('click', '.clear', function (e) {
@@ -270,7 +293,171 @@ async function initView() {
             e.preventDefault();
         });
 
+    $('.ui.checkbox')
+        .checkbox();
 
+    $('.bt-menu-btn.here')
+        .on('click', (e) => {
+            let mapCentre = map.getCenter();
+            searchCriteria = {
+                ...defaultSearchCriteria,
+                lat: mapCentre.lat(),
+                lng: mapCentre.lng(),
+                zoom: map.getZoom()
+            };
+            getBuses();
+            e.preventDefault();
+        });
+
+    $('.bt-menu-btn.me')
+        .on('click', async (e) => {
+            await currentLocation.update();
+            searchCriteria = {
+                ...searchCriteria,
+                lat: currentLocation.position.latitude,
+                lng: currentLocation.position.longitude,
+                zoom: appConstant.zoomLocation
+            };
+            getBuses();
+            e.preventDefault();
+        });
+
+    $('.bt-menu-btn.main')
+        .on('click', '#viewOptions', (e) => {
+
+            $('#optFavouriteBus > input')
+                .val(userOptions.favouriteBus);
+
+            $('#optHideInactiveVehicles')
+                .checkbox(`set ${userOptions.hideAged ? 'checked' : 'unchecked'}`);
+
+            $('#optMaxMarkersToDisplay')
+                .slider('set value', userOptions.maxMarkers, false);
+
+            $('#optTrackerRefreshPeriod')
+                .slider('set value', userOptions.refreshPeriod, false);
+
+            $('#options')
+                .modal({
+                    closable: false,
+                })
+                .modal('show');
+        })
+        .on('click', '#viewData', (e) => {
+
+            // need to show modal (and the table) before loading the table else columns are all over the place...
+            $('#data')
+                .modal({
+                    closable: false,
+                })
+                .modal('show');
+
+            $('#vehicles').DataTable()
+                .clear()
+                .rows.add(vehicles)
+                .columns.adjust()
+                .responsive.recalc()
+                .draw()
+                ;
+        })
+        .on('click', '#viewJson', (e) => {
+            $('#json')
+                .modal({
+                    closable: false,
+                })
+                .modal('show');
+        });
+
+    $('.bt-menu-btn.refresh')
+        .on('click', (e) => {
+            getBuses();
+            e.preventDefault();
+        });
+
+    // Share...
+    $('.bt-menu-btn.share')
+        .on('click', async (e) => {
+
+            try {
+                await navigator.share({ title: 'BusTracker', url: `${window.location.origin}?${$.param(searchCriteria)}`});
+                console.log("Data was shared successfully");
+            } catch (err) {
+                console.error("Share failed:", err.message);
+            }
+
+            e.preventDefault();
+        });
+
+    $('#infoTracking')
+        .on('click', (e) => {
+
+            let v = $(e.currentTarget).data("vehicleActivity");
+            let vehicleDetails =
+            [
+                {
+                    title: "Operator",
+                    data: v.extendedAttributes.operatorName,
+                },
+                {
+                    title: "Route",
+                    data: v.MonitoredVehicleJourney.PublishedLineName,
+                },
+                {
+                    title: "Origin",
+                    data: v.MonitoredVehicleJourney.OriginName,
+                },
+                {
+                    title: "Aimed Origin Departure Time",
+                    data: v.MonitoredVehicleJourney.OriginAimedDepartureTime,
+                    formatter: (data) => {
+                        return (data ? appConstant.shortEnGBFormatter.format(new Date(data)) : null);
+                    },
+                },
+                {
+                    title: "Destination",
+                    data: v.MonitoredVehicleJourney.DestinationName,
+                },
+                {
+                    title: "Aimed Destination Arrival Time",
+                    data: v.MonitoredVehicleJourney.DestinationAimedArrivalTime,
+                    formatter: (data) => {
+                        return (data ? appConstant.shortEnGBFormatter.format(new Date(data)) : null);
+                    },
+                }
+            ];
+
+            let html = "";
+            let stripe = true;
+            vehicleDetails.forEach(v => {
+                html = html + `<div class="${(stripe ? " stripe1 " : "")}row">`;
+                html = html + `<div class="six wide label column">${v.title}</div>`;
+                html = html + `<div class="ten wide column">${(!v.data ? "Not provided" : (v.formatter ? v.formatter(v.data) : v.data))}</div>`;
+                html = html + `</div>`;
+                stripe = !stripe;
+            });
+
+            $('#trackedBusInfo .content .grid').html(html);
+
+
+            $('#trackedBusInfo').modal({
+                title: 'Tracked Bus Information',
+                class: 'tiny',
+                closeIcon: true,
+            }).modal('show');
+
+            e.preventDefault();
+        });
+
+    $('#stopTracking')
+        .on('click', (e) => {
+            clearTimeout(busTracker);
+            $('.bt-search').show();
+            $('.bt-menu').show();
+            $('.bt-track').hide();
+            // enable data dependent buttons...
+            $('.bt-menu-btn').removeClass('disabled');
+            e.preventDefault();
+        });
 
     // Create data table (will load later)...
     $('#vehicles')
@@ -351,165 +538,6 @@ async function initView() {
             ]
         });
 
-    $('.ui.checkbox')
-        .checkbox();
-
-    $('.bt-menu-btn.here')
-        .on('click', (e) => {
-            searchCriteria = {
-                ...defaultSearchCriteria,
-                initialRender: true,
-                showAll: true,
-            };
-            currentViewMode = appConstant.viewMode.search;
-            getBuses(searchCriteria);
-            e.preventDefault();
-        });
-
-    $('.bt-menu-btn.me')
-        .on('click', async (e) => {
-            await currentLocation.update();
-            map.setZoom(appConstant.zoomLocation);
-            map.panTo({
-                lat: currentLocation.position.latitude,
-                lng: currentLocation.position.longitude
-            });
-            getBuses(searchCriteria);
-            e.preventDefault();
-        });
-
-    $('.bt-menu-btn.history,.bt-menu-btn.main')
-        .on('click', (e) => {
-            $(e.target).find('.link.browse').trigger('click');
-            e.preventDefault();
-        });
-
-    $('.bt-menu-btn.refresh')
-        .on('click', (e) => {
-            getBuses(searchCriteria);
-            e.preventDefault();
-        });
-
-    // Show Data modal...
-    $('.bt-menu-btn.data')
-        .on('click', (e) => {
-
-            // need to show modal (and the table) before loading the table else columns are all over the place...
-            $('#data').modal('show');
-
-            $('#vehicles').DataTable()
-                .clear()
-                .rows.add(vehicles)
-                .columns.adjust()
-                .responsive.recalc()
-                .draw()
-                ;
-
-            e.preventDefault();
-        });
-
-    $('#infoTracking')
-        .on('click', (e) => {
-
-            let v = $(e.currentTarget).data("vehicleActivity");
-            let vehicleDetails =
-            [
-                {
-                    title: "Operator",
-                    data: v.extendedAttributes.operatorName,
-                },
-                {
-                    title: "Route",
-                    data: v.MonitoredVehicleJourney.PublishedLineName,
-                },
-                {
-                    title: "Origin",
-                    data: v.MonitoredVehicleJourney.OriginName,
-                },
-                {
-                    title: "Aimed Origin Departure Time",
-                    data: v.MonitoredVehicleJourney.OriginAimedDepartureTime,
-                    formatter: (data) => {
-                        return (data ? appConstant.shortEnGBFormatter.format(new Date(data)) : null);
-                    },
-                },
-                {
-                    title: "Destination",
-                    data: v.MonitoredVehicleJourney.DestinationName,
-                },
-                {
-                    title: "Aimed Destination Arrival Time",
-                    data: v.MonitoredVehicleJourney.DestinationAimedArrivalTime,
-                    formatter: (data) => {
-                        return (data ? appConstant.shortEnGBFormatter.format(new Date(data)) : null);
-                    },
-                }
-            ];
-
-            let html = "";
-            let stripe = true;
-            vehicleDetails.forEach(v => {
-                html = html + `<div class="${(stripe ? " stripe1 " : "")}row">`;
-                html = html + `<div class="six wide label column">${v.title}</div>`;
-                html = html + `<div class="ten wide column">${(!v.data ? "Not provided" : (v.formatter ? v.formatter(v.data) : v.data))}</div>`;
-                html = html + `</div>`;
-                stripe = !stripe;
-            });
-
-            $('#trackedBusInfo .content .grid').html(html);
-
-
-            $('#trackedBusInfo').modal({
-                title: 'Tracked Bus Information',
-                class: 'tiny',
-                closeIcon: true,
-            }).modal('show');
-
-            e.preventDefault();
-        });
-
-    $('#stopTracking')
-        .on('click', (e) => {
-            clearTimeout(busTracker);
-            $('.bt-search').show();
-            $('.bt-menu').show();
-            $('.bt-track').hide();
-            // enable data dependent buttons...
-            $('.bt-menu-btn').removeClass('disabled');
-            e.preventDefault();
-        });
-
-    // Show Json modal...
-    $('#viewJson')
-        .on('click', (e) => {
-            $('#json').modal('show');
-            e.preventDefault();
-        });
-
-    // Show Options modal...
-    $('#viewOptions')
-        .on('click', (e) => {
-
-            $('#optFavouriteBus > input')
-                .val(userOptions.favouriteBus);
-
-            $('#optHideInactiveVehicles')
-                .checkbox(`set ${userOptions.hideAged ? 'checked' : 'unchecked'}`);
-
-            $('#optMaxMarkersToDisplay')
-                .slider('set value', userOptions.maxMarkers, false);
-
-            $('#optTrackerRefreshPeriod')
-                .slider('set value', userOptions.refreshPeriod, false);
-
-            $('#options')
-                .modal({
-                    closable: false,
-                })
-                .modal('show');
-            e.preventDefault();
-        });
-
     $('.screen-message')
         .on('click', '.link.options', (e) => {
             $('#viewOptions').trigger('click');
@@ -532,9 +560,9 @@ async function initView() {
 
     $('#optMaxMarkersToDisplay')
         .slider({
-            min: 100,
-            max: 400,
-            step: 50,
+            min: appConstant.minBusDisplay,
+            max: appConstant.maxBusDisplay,
+            step: ((appConstant.maxBusDisplay - appConstant.minBusDisplay) > 500 ? 100 : 50),
             onChange: (val => userOptions.set('maxMarkers', val)),
         });
 
@@ -562,7 +590,12 @@ async function initView() {
     $('#searchHistory')
     .on('click', '.item', (e) => {
         searchCriteria = JSON.parse(e.currentTarget.attributes.data.value);
-        getBuses(searchCriteria, true);
+
+        // not ideal...
+        let title = operatorRoutes.flat.find(e => (e.operatorRef == searchCriteria.operatorRef && e.lineRef == searchCriteria.lineRef)).title;
+        $('#search').search('set value', title);
+
+        getBuses();
         e.preventDefault();
     })
     .on('load', (e) => {
@@ -606,8 +639,7 @@ async function initView() {
     $('#map')
         .on('click', '.route-link', e => {
             searchCriteria = JSON.parse(e.currentTarget.attributes.data.value);
-            currentViewMode = appConstant.viewMode.search;
-            getBuses(searchCriteria, true);
+            getBuses();
         })
         .on('click', '.track-link', e => {
             let vehicleRef = e.currentTarget.attributes.data.value;
@@ -853,14 +885,14 @@ async function addTrackedVehicle(vehicle) {
         map.setZoom(17);
 }
 
-function getBuses(sc, resizeMap = false, counter = 0) {
-
+function getBuses(counter = 0)
+{
     // clear any existing timer...
     if (refreshTimer) {
         clearTimeout(refreshTimer);
     }
 
-    if (!sc) {
+    if (!searchCriteria) {
         return false;
     }
 
@@ -871,48 +903,48 @@ function getBuses(sc, resizeMap = false, counter = 0) {
     // on all other calls update the counter...
     if (counter > 1) {
         // schedule next callback...
-        refreshTimer = setTimeout(getBuses, appConstant.refreshCounter * 1000, sc, false, counter);
+        refreshTimer = setTimeout(getBuses, appConstant.refreshCounter * 1000, counter);
         return;
     }
-
-    //$('#map')
-    //    .dimmer({
-    //        displayLoader: true,
-    //        loaderVariation: 'slow orange medium elastic',
-    //        loaderText: 'Retrieving data, please wait...',
-    //        closable: false,
-    //    })
-    //    .dimmer('show')
-    //    ;
 
     // clear map...
     clearMap();
 
+    // re-position map if positional data is in search criteria (only time it is not is when initially selecting a specific operator/route)...
+    if (searchCriteria.lat && searchCriteria.lng && searchCriteria.zoom) {
+        map.panTo({ lat: +searchCriteria.lat, lng: +searchCriteria.lng });
+        map.setZoom(+searchCriteria.zoom);
+    }
+
+    // only set this following global var after re-draw of map, else the setZoom change event gets fired reulting in infinite recursive call of this method...
+    currentViewMode = appConstant.viewMode.search;
+
     const busDataUrl = '/services/BusLocationData';
-    var operatorRef = sc.operatorRef;
-    var lineRef = sc.lineRef;
+    var operatorRef = searchCriteria.operatorRef;
+    var lineRef = searchCriteria.lineRef;
     var busDataUri = `${busDataUrl}?`
 
-    if (sc.operatorRef) {
+    if (searchCriteria.operatorRef) {
         busDataUri = `${busDataUri}&operatorRef=${operatorRef}`;
     }
 
-    if (sc.lineRef) {
+    if (searchCriteria.lineRef) {
         busDataUri = `${busDataUri}&lineRef=${lineRef}`;
     }
 
     // if the criteria is based on the maps central postion then add this to the query...
-    if (sc.showAll) {
+    if (searchCriteria.showAll) {
+
         const mapWest = map.getBounds().getSouthWest().lng();
         const mapSouth = map.getBounds().getSouthWest().lat();
         const mapEast = map.getBounds().getNorthEast().lng();
         const mapNorth = map.getBounds().getNorthEast().lat();
 
         // define bounding box 
-        boundingBox.west = Math.max(mapWest, (mapWest + (mapEast - mapWest) / 2) - 0.200);
-        boundingBox.east = Math.min(mapEast, (mapWest + (mapEast - mapWest) / 2) + 0.200);
-        boundingBox.south = Math.max(mapSouth, (mapSouth + (mapNorth - mapSouth) / 2) - 0.100);
-        boundingBox.north = Math.min(mapNorth, (mapSouth + (mapNorth - mapSouth) / 2) + 0.100);
+        boundingBox.west = Math.max(mapWest, (mapWest + (mapEast - mapWest) / 2) - (appConstant.searchBoxSize * 2));
+        boundingBox.east = Math.min(mapEast, (mapWest + (mapEast - mapWest) / 2) + (appConstant.searchBoxSize * 2));
+        boundingBox.south = Math.max(mapSouth, (mapSouth + (mapNorth - mapSouth) / 2) - appConstant.searchBoxSize);
+        boundingBox.north = Math.min(mapNorth, (mapSouth + (mapNorth - mapSouth) / 2) + appConstant.searchBoxSize);
         boundingBox.show = mapWest != boundingBox.west || mapSouth != boundingBox.south || mapEast != boundingBox.east || mapNorth != boundingBox.north;
 
         busDataUri = `${busDataUri}&boundingBox=${boundingBox.west},${boundingBox.south},${boundingBox.east},${boundingBox.north}`;
@@ -920,8 +952,8 @@ function getBuses(sc, resizeMap = false, counter = 0) {
 
 
     // add search criteria to cookie, (not including boundingBox only searches)...
-    if (sc.initialRender && sc.operatorRef) {
-        searchHistory.add(sc, operatorRoutes.routes);
+    if (searchCriteria.initialRender && searchCriteria.operatorRef) {
+        searchHistory.add(searchCriteria, operatorRoutes.routes);
     }
 
     $.get(busDataUri, resp => {
@@ -986,10 +1018,15 @@ function getBuses(sc, resizeMap = false, counter = 0) {
                     draggable: true,
                 });
 
-                mapBoundingBox.addListener('dragend', (x, y, z) => {
-                    // reposition map to be centered on the bounding box...
-                    map.setCenter(mapBoundingBox.getBounds().getCenter());
-                    getBuses(searchCriteria);
+                mapBoundingBox.addListener('dragend', () => {
+                    // reposition map to be centered on the repositioned bounding box...
+                    let mapCentre = mapBoundingBox.getBounds().getCenter();
+                    searchCriteria = {
+                        ...searchCriteria,
+                        lat: mapCentre.lat(),
+                        lng: mapCentre.lng()
+                    };
+                    getBuses();
                 });
             }
 
@@ -998,7 +1035,7 @@ function getBuses(sc, resizeMap = false, counter = 0) {
             addVehicles(vehicles)
                 .then(() => {
 
-                   if (resizeMap && vehicles.length > 0) {
+                    if (searchCriteria.initialRender && vehicles.length > 0) {
                         // resize/reposition map to show all markers...
                         const mapBounds = new google.maps.LatLngBounds();
                         markers.forEach((m) => {
@@ -1006,6 +1043,8 @@ function getBuses(sc, resizeMap = false, counter = 0) {
                         });
 
                         map.fitBounds(mapBounds);
+
+                        searchCriteria.initialRender = false;
                     };
 
                 })
@@ -1019,19 +1058,21 @@ function getBuses(sc, resizeMap = false, counter = 0) {
             // enable data dependent buttons...
             $('.dataDependent').removeClass('disabled');
 
-            // test automated refresh....
-            refreshTimer = setTimeout(getBuses, appConstant.refreshCounter * 1000, sc, false, counter);
-
         } else {
 
-            displayMessage('No data was returned matching the specified criteria.')
-
+            vehicles = null;
+            displayMessage('No buses matching your criteria are appearing here. Either zoom out or change your criteria.');
+            $('.dataDependent').addClass('disabled');
         }
+
+        // automated refresh....
+        refreshTimer = setTimeout(getBuses, appConstant.refreshCounter * 1000, counter);
+
     })
     .fail((rq, ts, e) => {
         displayError(`Error encountered when requesting bus data: ${ts}.`);
     })
-    .always(() => {
+        .always(() => {
         $('#map').dimmer('hide');
     });
 };
@@ -1081,6 +1122,10 @@ async function initMap() {
 
     await currentLocation.get();
 
+    if (!currentLocation.canTrack) {
+        $('.bt-menu-btn.me').addClass('disabled');
+    }
+
     // if location is known we shall centre the map on that, with a zoom of appConstant.zoomLocation, else use the default...
     if (currentLocation.canTrack) {
         mapProps.zoom = appConstant.zoomLocation;
@@ -1089,23 +1134,35 @@ async function initMap() {
             lng: currentLocation.position.longitude
         };
     }
-    map = new Map($('#map')[0], mapProps);
+    map = await new Map($('#map')[0], mapProps);
 
     if (currentLocation.canTrack) {
         await currentLocation.add();
     }
 
-    map.addListener('dragend', (x,y , z) => {
+    map.addListener('dragend', () => {
         // reposition the boundary box and search again...
         if (currentViewMode == appConstant.viewMode.search) {
-            getBuses(searchCriteria);
+            let mapCentre = map.getCenter();
+            searchCriteria = {
+                ...searchCriteria,
+                lat: mapCentre.lat(),
+                lng: mapCentre.lng()
+            };
+            getBuses();
         }
     });
 
-    map.addListener('zoom_changed', (x, y, z) => {
-        console.info(`map zoom: ${map.getZoom()}`);
+    map.addListener('zoom_changed', () => {
         if (currentViewMode == appConstant.viewMode.search) {
-            getBuses(searchCriteria);
+            let mapCentre = map.getCenter();
+            searchCriteria = {
+                ...searchCriteria,
+                lat: mapCentre.lat(),
+                lng: mapCentre.lng(),
+                zoom: map.getZoom()
+            };
+            getBuses();
         }
     });
 
@@ -1134,8 +1191,13 @@ async function addVehicles(vehicles) {
         const s = {
             lineRef: vehicle.MonitoredVehicleJourney.LineRef,
             operatorRef: vehicle.MonitoredVehicleJourney.OperatorRef,
-            showAll: false
+            showAll: false,
+            initialRender: true,
         };
+
+        if (!Number.isNaN(vehicle.MonitoredVehicleJourney.Bearing)) {
+            content.style.setProperty('--dir', Number(vehicle.MonitoredVehicleJourney.Bearing));
+        }
 
         content.innerHTML = `
     <div class="route bus-direction-${vehicle.extendedAttributes.directionCode} ${favourite} ${aged}">
@@ -1147,6 +1209,7 @@ async function addVehicles(vehicles) {
         <div class="vehicleRef">Destination: ${vehicle.MonitoredVehicleJourney.DestinationName}</div>
         <div class="vehicleRef">Origin: ${vehicle.MonitoredVehicleJourney.OriginName}</div>
         <div class="vehicleRef">Direction: ${vehicle.MonitoredVehicleJourney.DirectionRef}</div>
+        <div class="vehicleRef">Bearing: ${vehicle.MonitoredVehicleJourney.Bearing}</div>
         <div class="vehicleRef">Recorded: ${appConstant.shortEnGBFormatter.format(new Date(vehicle.RecordedAtTime))}</div>
         <div class="ui icon buttons" style="display: unset">
             <div class="ui route-link mini button" data='${JSON.stringify(s)}'><i class="bus icon"></i></div>
@@ -1216,6 +1279,8 @@ async function addVehicles(vehicles) {
 //}
 
 function clearMap() {
+
+    currentViewMode = null;
 
     // Clear any timeout callbacks...
     if (busTracker)

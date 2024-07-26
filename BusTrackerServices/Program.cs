@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 
 //logging - added by brittonp 26-Sep-2023
 builder.Logging
+    .ClearProviders()
     .AddDebug()
     .AddEventLog(eventLogSettings =>
     {
@@ -33,12 +34,10 @@ builder.Services.AddSession(options =>
 
 builder.Configuration.AddJsonFile("sqlCmds.json", optional: true, reloadOnChange: true);
 
-//  in-memory session provider.
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Test"))
+if (app.Environment.IsDevelopment() || app.Environment.IsStaging()  || app.Environment.IsEnvironment("Test"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
