@@ -408,3 +408,6 @@ FodyWeavers.xsd
 /BusTrackerUI/AKSS-1502.xml
 /BusTrackerUI/ANUM-1502.xml
 /BusTrackerKeepAliveWJ/BusTrackerWJKeepAlive.csproj
+/BusTrackerWebJob/BusTrackerWJOperatorRoutes.csproj
+/BusTrackerKeepAliveWJ/BusTrackerWJKeepAlive.csproj
+/BusTrackerWebJob/BusTrackerWJOperatorRoutes.csproj
