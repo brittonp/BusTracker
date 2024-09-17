@@ -5,7 +5,8 @@ namespace BusTrackerWebJob.KeepAlive
 {
 
     public interface IKeepAlive
-    {   Task Ping();
+    {   
+        Task Ping();
     }
 
     public class KeepAlive : IKeepAlive
