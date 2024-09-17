@@ -13120,6 +13120,10 @@
         "route": "532"
       },
       {
+        "lineRef": "534",
+        "route": "534"
+      },
+      {
         "lineRef": "918",
         "route": "918"
       }
@@ -18422,6 +18426,10 @@
         "route": "600"
       },
       {
+        "lineRef": "671",
+        "route": "671"
+      },
+      {
         "lineRef": "672",
         "route": "672"
       },
@@ -22480,6 +22488,10 @@
       {
         "lineRef": "82",
         "route": "82"
+      },
+      {
+        "lineRef": "82B",
+        "route": "82B"
       },
       {
         "lineRef": "83",
@@ -26724,6 +26736,10 @@
       {
         "lineRef": "406",
         "route": "406"
+      },
+      {
+        "lineRef": "408",
+        "route": "408"
       },
       {
         "lineRef": "409",
@@ -33838,8 +33854,20 @@
         "route": "651"
       },
       {
+        "lineRef": "652",
+        "route": "652"
+      },
+      {
+        "lineRef": "654",
+        "route": "654"
+      },
+      {
         "lineRef": "655",
         "route": "655"
+      },
+      {
+        "lineRef": "657",
+        "route": "657"
       },
       {
         "lineRef": "GS1",
