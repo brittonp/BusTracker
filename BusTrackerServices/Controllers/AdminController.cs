@@ -61,6 +61,18 @@ namespace BusTrackerServices.Controllers
             //JsonConvert.SerializeObject - Newtonsoft
             return new JsonResult(strJson);
         }
+
+        [HttpGet("Ping")]
+        public JsonResult? Ping()
+        {
+
+            var result = new
+            {
+                live = true,
+            };
+
+            return new JsonResult(result);
+        }
     }
 
 

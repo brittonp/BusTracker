@@ -223,11 +223,16 @@ async function initiate() {
     } catch (error) {
         log(`Error initiating: ${error.message}`);
         alert(`Error initiating: ${error.message}`);
+        window.location.href = "offline.html";
     } finally {
 
         $('.page.dimmer.ident')
             .dimmer('hide')
             .dimmer('destroy');
+
+        // session start message, this value is set in the services config...
+        if (session.startMessage != null)
+            displaySystemMessage(session.startMessage);
     }
 }
 async function initiateMapApi() {
@@ -1201,7 +1206,7 @@ async function addVehicles(vehicles) {
 
         content.innerHTML = `
     <div class="route bus-direction-${vehicle.extendedAttributes.directionCode} ${favourite} ${aged}">
-        ${vehicle.MonitoredVehicleJourney.PublishedLineName}
+        ${stringTrim(vehicle.MonitoredVehicleJourney.PublishedLineName, 3)}
     </div>
     <div class="details">
         <div class="vehicleRef">Operator: ${vehicle.extendedAttributes.operatorName}</div>
@@ -1233,11 +1238,6 @@ async function addVehicles(vehicles) {
 
         });
 
-        //beta only - stopped working 4-Jan-2024, so switched to weekly build and changes event listener...
-        //marker.addEventListener('gmp-click', (o) => {
-        //    toggleHighlight(marker, vehicle);
-        //});
-
         marker.addListener('click', (o) => {
             toggleHighlight(marker, vehicle);
         });
@@ -1247,6 +1247,13 @@ async function addVehicles(vehicles) {
         //Add marker to tracking array (for use in removing them)...
         markers.push(marker);
     });
+}
+
+function stringTrim(s, max) {
+    return s;
+
+    // Can I do this in CSS so it only affects the unghihlighted version of the route...
+    //return (s.length > max ? s.substring(0, max-1) + String.fromCharCode(0x2026) : s);
 }
 
 //function averageVehicleLocation(v) {
@@ -1349,11 +1356,21 @@ function displayError(content, autoHide = false) {
 
 function displayMessage(content) {
 
-    $('.screen-message .message-content').html(content);
-    $('.screen-message').removeClass('hidden');
+    $('.app.screen-message .message-content').html(content);
+    $('.app.screen-message').removeClass('hidden');
 
     setTimeout(() => {
-        $('.screen-message').addClass('hidden');
+        $('.app.screen-message').addClass('hidden');
+    }, 5000);
+}
+
+function displaySystemMessage(content) {
+
+    $('.system.screen-message .message-content').html(content);
+    $('.system.screen-message').removeClass('hidden');
+
+    setTimeout(() => {
+        $('.system.screen-message').addClass('hidden');
     }, 5000);
 }
 
