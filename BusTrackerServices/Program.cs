@@ -1,3 +1,5 @@
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -33,6 +35,28 @@ builder.Services.AddSession(options =>
 });
 
 builder.Configuration.AddJsonFile("sqlCmds.json", optional: true, reloadOnChange: true);
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "1.0.0",
+        Title = "BusTracker .Net Core API",
+        Description = "A .NET Core API for BusTracker, this API is built in C# .NET Core.",
+        //TermsOfService = new Uri("https://example.com/terms"),
+        Contact = new OpenApiContact
+        {
+            Name = "GitHub",
+            Url = new Uri("https://github.com/brittonp/BusTracker")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "MIT Licence",
+            Url = new Uri("https://github.com/brittonp/BusTracker/licence.html")
+        }
+    });
+});
+
 
 var app = builder.Build();
 

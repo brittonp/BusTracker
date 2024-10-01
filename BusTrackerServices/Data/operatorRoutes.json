@@ -136,7 +136,7 @@
       {
         "lineRef": "AL2",
         "route": "AL2",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "AL3",
@@ -196,6 +196,11 @@
     "operatorName": "A2B Bus and Coach",
     "routes": [
       {
+        "lineRef": "1",
+        "route": "1",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "114",
         "route": "114",
         "added": "16-Sept-2024 03:56 PM"
@@ -213,7 +218,7 @@
       {
         "lineRef": "75",
         "route": "75",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "8",
@@ -294,7 +299,7 @@
       {
         "lineRef": "91",
         "route": "91",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "91A",
@@ -307,6 +312,11 @@
     "operatorRef": "ABUS",
     "operatorName": "ABUS",
     "routes": [
+      {
+        "lineRef": "162",
+        "route": "162",
+        "added": "17-Sept-2024 11:25 AM"
+      },
       {
         "lineRef": "R2",
         "route": "R2",
@@ -352,7 +362,7 @@
       {
         "lineRef": "140",
         "route": "140",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "170",
@@ -485,7 +495,7 @@
       {
         "lineRef": "627",
         "route": "627",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "628",
@@ -515,7 +525,7 @@
       {
         "lineRef": "653",
         "route": "653",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "655",
@@ -530,7 +540,7 @@
       {
         "lineRef": "674",
         "route": "674",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "685",
@@ -555,7 +565,7 @@
       {
         "lineRef": "720",
         "route": "720",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "727",
@@ -573,6 +583,11 @@
     "operatorRef": "AMBS",
     "operatorName": "Ambassador Travel",
     "routes": [
+      {
+        "lineRef": "271",
+        "route": "271",
+        "added": "17-Sept-2024 11:25 AM"
+      },
       {
         "lineRef": "50",
         "route": "50",
@@ -819,6 +834,11 @@
         "lineRef": "CN4",
         "route": "CN4",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "CN5",
+        "route": "CN5",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "CN6",
@@ -1135,7 +1155,7 @@
       {
         "lineRef": "379",
         "route": "379",
-        "added": "29-Jun-2024 02:24 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "395",
@@ -1271,6 +1291,11 @@
         "lineRef": "M4",
         "route": "M4",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "M5",
+        "route": "M5",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "PR",
@@ -1481,7 +1506,7 @@
       {
         "lineRef": "4",
         "route": "4",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "402",
@@ -1496,7 +1521,7 @@
       {
         "lineRef": "402B",
         "route": "402B",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "402W",
@@ -1751,6 +1776,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "11",
+        "route": "11",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "11A",
         "route": "11A",
         "added": "16-Sept-2024 03:56 PM"
@@ -1906,9 +1936,19 @@
         "added": "16-Sept-2024 04:30 PM"
       },
       {
+        "lineRef": "73",
+        "route": "73",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "74",
         "route": "74",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "74A",
+        "route": "74A",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "74S",
@@ -1924,6 +1964,11 @@
         "lineRef": "78A",
         "route": "78A",
         "added": "16-Sept-2024 04:33 PM"
+      },
+      {
+        "lineRef": "79",
+        "route": "79",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "79A",
@@ -2017,6 +2062,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "113",
+        "route": "113",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "114",
         "route": "114",
         "added": "16-Sept-2024 03:56 PM"
@@ -2104,7 +2154,7 @@
       {
         "lineRef": "512",
         "route": "512",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "521",
@@ -2174,7 +2224,7 @@
       {
         "lineRef": "8A",
         "route": "8A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "9",
@@ -2456,6 +2506,11 @@
         "lineRef": "96",
         "route": "96",
         "added": "16-Sept-2024 04:30 PM"
+      },
+      {
+        "lineRef": "ED1",
+        "route": "ED1",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "ED3",
@@ -3062,7 +3117,7 @@
       {
         "lineRef": "61",
         "route": "61",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "61A",
@@ -3223,6 +3278,11 @@
         "lineRef": "F5",
         "route": "F5",
         "added": "16-Sept-2024 04:30 PM"
+      },
+      {
+        "lineRef": "cbs",
+        "route": "cbs",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -3650,7 +3710,7 @@
       {
         "lineRef": "102",
         "route": "102",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "103",
@@ -3813,9 +3873,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "21",
+        "route": "21",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "212",
         "route": "212",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "22",
+        "route": "22",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "229",
@@ -3830,7 +3900,7 @@
       {
         "lineRef": "230A",
         "route": "230A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "231",
@@ -3923,6 +3993,11 @@
         "added": "29-Jun-2024 02:23 PM"
       },
       {
+        "lineRef": "409",
+        "route": "409",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "415",
         "route": "415",
         "added": "16-Sept-2024 03:56 PM"
@@ -3990,7 +4065,7 @@
       {
         "lineRef": "8",
         "route": "8",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "CA2",
@@ -4058,6 +4133,11 @@
         "lineRef": "27",
         "route": "27",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "27A",
+        "route": "27A",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "52",
@@ -4144,6 +4224,11 @@
         "added": "16-Sept-2024 04:30 PM"
       },
       {
+        "lineRef": "52",
+        "route": "52",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "885",
         "route": "885",
         "added": "16-Sept-2024 03:56 PM"
@@ -4172,6 +4257,11 @@
         "lineRef": "899C",
         "route": "899C",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "899S",
+        "route": "899S",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "923",
@@ -4393,7 +4483,7 @@
       {
         "lineRef": "535",
         "route": "535",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "537",
@@ -4414,6 +4504,11 @@
         "lineRef": "553",
         "route": "553",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "557",
+        "route": "557",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "559",
@@ -4464,6 +4559,11 @@
         "lineRef": "597",
         "route": "597",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "634",
+        "route": "634",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "65",
@@ -4640,6 +4740,11 @@
         "lineRef": "839",
         "route": "839",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "850",
+        "route": "850",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "862",
@@ -4863,6 +4968,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "633",
+        "route": "633",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "635",
         "route": "635",
         "added": "16-Sept-2024 03:56 PM"
@@ -4993,6 +5103,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "931",
+        "route": "931",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "933",
         "route": "933",
         "added": "16-Sept-2024 03:56 PM"
@@ -5076,7 +5191,7 @@
       {
         "lineRef": "116",
         "route": "116",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "117",
@@ -5141,7 +5256,7 @@
       {
         "lineRef": "180",
         "route": "180",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "181",
@@ -5377,6 +5492,11 @@
         "lineRef": "82",
         "route": "82",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "822",
+        "route": "822",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "823",
@@ -5730,6 +5850,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "907",
+        "route": "907",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "909",
         "route": "909",
         "added": "16-Sept-2024 03:56 PM"
@@ -5817,7 +5942,12 @@
       {
         "lineRef": "957",
         "route": "957",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "958",
+        "route": "958",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "959",
@@ -5882,7 +6012,7 @@
       {
         "lineRef": "985",
         "route": "985",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "986",
@@ -5918,7 +6048,7 @@
       {
         "lineRef": "56",
         "route": "56",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "WX18",
@@ -5994,6 +6124,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "729",
+        "route": "729",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "739",
         "route": "739",
         "added": "16-Sept-2024 03:56 PM"
@@ -6007,6 +6142,11 @@
         "lineRef": "741",
         "route": "741",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "742",
+        "route": "742",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "744",
@@ -6074,6 +6214,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "804",
+        "route": "804",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "805",
         "route": "805",
         "added": "16-Sept-2024 03:56 PM"
@@ -6092,6 +6237,11 @@
         "lineRef": "843",
         "route": "843",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "847",
+        "route": "847",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "850",
@@ -6169,6 +6319,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "W3",
+        "route": "W3",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "Y77",
         "route": "Y77",
         "added": "29-Jun-2024 02:23 PM"
@@ -6239,7 +6394,7 @@
       {
         "lineRef": "10",
         "route": "10",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "12C",
@@ -6424,6 +6579,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "350",
+        "route": "350",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "373",
         "route": "373",
         "added": "16-Sept-2024 03:56 PM"
@@ -6520,6 +6680,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "23",
+        "route": "23",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "24",
         "route": "24",
         "added": "16-Sept-2024 03:56 PM"
@@ -6605,9 +6770,24 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "608",
+        "route": "608",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "609",
         "route": "609",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "610",
+        "route": "610",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "611",
+        "route": "611",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "612",
@@ -6623,6 +6803,11 @@
         "lineRef": "615",
         "route": "615",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "616",
+        "route": "616",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "617",
@@ -6658,6 +6843,11 @@
         "lineRef": "624",
         "route": "624",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "625",
+        "route": "625",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "626",
@@ -6733,6 +6923,11 @@
         "lineRef": "QC",
         "route": "QC",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "T3",
+        "route": "T3",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -6740,6 +6935,11 @@
     "operatorRef": "BPHI",
     "operatorName": "Blueworks Private Hire",
     "routes": [
+      {
+        "lineRef": "X11",
+        "route": "X11",
+        "added": "17-Sept-2024 11:25 AM"
+      },
       {
         "lineRef": "X12",
         "route": "X12",
@@ -6759,7 +6959,7 @@
       {
         "lineRef": "BR1",
         "route": "BR1",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -6806,6 +7006,11 @@
         "lineRef": "BH268",
         "route": "BH268",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "BTS",
+        "route": "BTS",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "SET",
@@ -6929,6 +7134,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "90B",
+        "route": "90B",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "91",
         "route": "91",
         "added": "16-Sept-2024 03:56 PM"
@@ -6936,7 +7146,7 @@
       {
         "lineRef": "93",
         "route": "93",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "B1",
@@ -7146,6 +7356,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "59",
+        "route": "59",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "59A",
         "route": "59A",
         "added": "16-Sept-2024 03:56 PM"
@@ -7164,6 +7379,11 @@
         "lineRef": "6",
         "route": "6",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "60",
+        "route": "60",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "7",
@@ -7306,7 +7526,7 @@
       {
         "lineRef": "B1B",
         "route": "B1B",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "B1C",
@@ -7336,7 +7556,7 @@
       {
         "lineRef": "B3X",
         "route": "B3X",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "B4",
@@ -7366,7 +7586,7 @@
       {
         "lineRef": "B7",
         "route": "B7",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "B75",
@@ -7485,7 +7705,7 @@
       {
         "lineRef": "734",
         "route": "734",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "779",
@@ -7517,6 +7737,16 @@
         "lineRef": "18x",
         "route": "18x",
         "added": "16-Sept-2024 04:30 PM"
+      },
+      {
+        "lineRef": "19",
+        "route": "19",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "20",
+        "route": "20",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "29",
@@ -7557,7 +7787,7 @@
       {
         "lineRef": "667",
         "route": "667",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "83",
@@ -7688,6 +7918,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "27",
+        "route": "27",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "275",
         "route": "275",
         "added": "16-Sept-2024 03:56 PM"
@@ -7760,7 +7995,7 @@
       {
         "lineRef": "39A",
         "route": "39A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "4",
@@ -7951,6 +8186,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "44",
+        "route": "44",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "45",
         "route": "45",
         "added": "16-Sept-2024 03:56 PM"
@@ -8075,6 +8315,11 @@
         "lineRef": "24",
         "route": "24",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "25",
+        "route": "25",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "27",
@@ -8250,7 +8495,7 @@
       {
         "lineRef": "349",
         "route": "349",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "350",
@@ -8281,6 +8526,11 @@
         "lineRef": "361",
         "route": "361",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "362",
+        "route": "362",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "647",
@@ -8334,6 +8584,11 @@
     "operatorRef": "CRDR",
     "operatorName": "Chaserider",
     "routes": [
+      {
+        "lineRef": "1",
+        "route": "1",
+        "added": "17-Sept-2024 11:25 AM"
+      },
       {
         "lineRef": "100",
         "route": "100",
@@ -8524,6 +8779,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "37T",
+        "route": "37T",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "401",
         "route": "401",
         "added": "16-Sept-2024 03:56 PM"
@@ -8597,7 +8857,7 @@
       {
         "lineRef": "93A",
         "route": "93A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "99",
@@ -8616,6 +8876,11 @@
     "operatorName": "Coastal and Country Coaches",
     "routes": [
       {
+        "lineRef": "G",
+        "route": "G",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "Y",
         "route": "Y",
         "added": "16-Sept-2024 03:56 PM"
@@ -8629,7 +8894,7 @@
       {
         "lineRef": "14",
         "route": "14",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "19",
@@ -8735,6 +9000,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "106",
+        "route": "106",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "107",
         "route": "107",
         "added": "16-Sept-2024 03:56 PM"
@@ -8780,6 +9050,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "145",
+        "route": "145",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "16",
         "route": "16",
         "added": "16-Sept-2024 03:56 PM"
@@ -8788,6 +9063,11 @@
         "lineRef": "166",
         "route": "166",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "167",
+        "route": "167",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "168",
@@ -8843,6 +9123,11 @@
         "lineRef": "31",
         "route": "31",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "31A",
+        "route": "31A",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "31B",
@@ -8930,6 +9215,16 @@
         "added": "16-Sept-2024 04:30 PM"
       },
       {
+        "lineRef": "69",
+        "route": "69",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "74",
+        "route": "74",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "740",
         "route": "740",
         "added": "16-Sept-2024 03:56 PM"
@@ -8963,6 +9258,11 @@
         "lineRef": "8A",
         "route": "8A",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "900",
+        "route": "900",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "99",
@@ -9145,7 +9445,7 @@
       {
         "lineRef": "40",
         "route": "40",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "50",
@@ -9153,14 +9453,29 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "54",
+        "route": "54",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "54A",
+        "route": "54A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "58",
         "route": "58",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "65A",
         "route": "65A",
         "added": "29-Jun-2024 02:23 PM"
+      },
+      {
+        "lineRef": "8",
+        "route": "8",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "8A",
@@ -9221,7 +9536,7 @@
       {
         "lineRef": "172",
         "route": "172",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "174",
@@ -9299,6 +9614,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "870",
+        "route": "870",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "88",
         "route": "88",
         "added": "16-Sept-2024 03:56 PM"
@@ -9306,7 +9626,12 @@
       {
         "lineRef": "88A",
         "route": "88A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "898",
+        "route": "898",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -9318,6 +9643,11 @@
         "lineRef": "514",
         "route": "514",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "517",
+        "route": "517",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "519",
@@ -9335,6 +9665,11 @@
     "operatorRef": "CRES",
     "operatorName": "Cresta Coaches",
     "routes": [
+      {
+        "lineRef": "206",
+        "route": "206",
+        "added": "17-Sept-2024 11:25 AM"
+      },
       {
         "lineRef": "208",
         "route": "208",
@@ -9354,7 +9689,7 @@
       {
         "lineRef": "B",
         "route": "B",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "D",
@@ -9391,7 +9726,7 @@
       {
         "lineRef": "106",
         "route": "106",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "571",
@@ -9420,6 +9755,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "618",
+        "route": "618",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "712",
         "route": "712",
         "added": "16-Sept-2024 03:56 PM"
@@ -9437,7 +9777,7 @@
       {
         "lineRef": "715",
         "route": "715",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "722",
@@ -9473,7 +9813,7 @@
       {
         "lineRef": "108",
         "route": "108",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "12",
@@ -9506,6 +9846,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "19A",
+        "route": "19A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "1A",
         "route": "1A",
         "added": "16-Sept-2024 03:56 PM"
@@ -9533,7 +9878,7 @@
       {
         "lineRef": "312",
         "route": "312",
-        "added": "29-Jun-2024 02:25 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "317",
@@ -9559,6 +9904,11 @@
         "lineRef": "32X",
         "route": "32X",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "33",
+        "route": "33",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "37",
@@ -9671,6 +10021,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "89",
+        "route": "89",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "8A",
         "route": "8A",
         "added": "16-Sept-2024 03:56 PM"
@@ -9733,7 +10088,7 @@
       {
         "lineRef": "X41",
         "route": "X41",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -9768,9 +10123,19 @@
     "operatorName": "Damory Coaches",
     "routes": [
       {
+        "lineRef": "1",
+        "route": "1",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "20",
         "route": "20",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "49",
+        "route": "49",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "5",
@@ -9847,6 +10212,11 @@
         "lineRef": "DB2",
         "route": "DB2",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "DC1",
+        "route": "DC1",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -9895,9 +10265,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "607",
+        "route": "607",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "668",
         "route": "668",
         "added": "16-Sept-2024 04:30 PM"
+      },
+      {
+        "lineRef": "675",
+        "route": "675",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "694",
@@ -9908,6 +10288,11 @@
         "lineRef": "PR3",
         "route": "PR3",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "SPR3",
+        "route": "SPR3",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -9933,7 +10318,7 @@
       {
         "lineRef": "X4",
         "route": "X4",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -10062,6 +10447,11 @@
         "lineRef": "400",
         "route": "400",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "401",
+        "route": "401",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "65",
@@ -10217,7 +10607,7 @@
       {
         "lineRef": "20",
         "route": "20",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "202",
@@ -10253,6 +10643,11 @@
         "lineRef": "226",
         "route": "226",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "226A",
+        "route": "226A",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "229",
@@ -10437,7 +10832,7 @@
       {
         "lineRef": "53",
         "route": "53",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "54",
@@ -10460,6 +10855,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "580",
+        "route": "580",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "61",
         "route": "61",
         "added": "16-Sept-2024 03:56 PM"
@@ -10472,7 +10872,7 @@
       {
         "lineRef": "63",
         "route": "63",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "64",
@@ -10535,6 +10935,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "88",
+        "route": "88",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "9A",
         "route": "9A",
         "added": "16-Sept-2024 04:30 PM"
@@ -10558,6 +10963,11 @@
         "lineRef": "A2",
         "route": "A2",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "B1",
+        "route": "B1",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "BEWD",
@@ -10631,6 +11041,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "17",
+        "route": "17",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "18",
         "route": "18",
         "added": "16-Sept-2024 04:30 PM"
@@ -10673,7 +11088,7 @@
       {
         "lineRef": "32",
         "route": "32",
-        "added": "29-Jun-2024 02:25 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "4",
@@ -10688,7 +11103,7 @@
       {
         "lineRef": "402",
         "route": "402",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "402A",
@@ -10703,7 +11118,7 @@
       {
         "lineRef": "6",
         "route": "6",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "70A",
@@ -10839,7 +11254,7 @@
       {
         "lineRef": "254",
         "route": "254",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "336",
@@ -11012,7 +11427,7 @@
       {
         "lineRef": "DuckTour",
         "route": "DuckTour",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -11073,7 +11488,7 @@
       {
         "lineRef": "130",
         "route": "130",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "136",
@@ -11088,12 +11503,17 @@
       {
         "lineRef": "142",
         "route": "142",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "144",
+        "route": "144",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "145",
         "route": "145",
-        "added": "29-Jun-2024 02:24 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "150",
@@ -11151,6 +11571,11 @@
         "added": "29-Jun-2024 02:23 PM"
       },
       {
+        "lineRef": "197",
+        "route": "197",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "20",
         "route": "20",
         "added": "16-Sept-2024 03:56 PM"
@@ -11183,7 +11608,7 @@
       {
         "lineRef": "277",
         "route": "277",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "296",
@@ -11198,7 +11623,7 @@
       {
         "lineRef": "31X",
         "route": "31X",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "341S",
@@ -11208,12 +11633,17 @@
       {
         "lineRef": "350",
         "route": "350",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "361",
         "route": "361",
         "added": "29-Jun-2024 02:23 PM"
+      },
+      {
+        "lineRef": "392S",
+        "route": "392S",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "399",
@@ -11233,7 +11663,7 @@
       {
         "lineRef": "46",
         "route": "46",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "4A",
@@ -11291,6 +11721,11 @@
         "added": "29-Jun-2024 02:23 PM"
       },
       {
+        "lineRef": "527",
+        "route": "527",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "54",
         "route": "54",
         "added": "16-Sept-2024 03:56 PM"
@@ -11308,7 +11743,7 @@
       {
         "lineRef": "558",
         "route": "558",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "56",
@@ -11384,6 +11819,11 @@
         "lineRef": "75",
         "route": "75",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "78",
+        "route": "78",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "79",
@@ -11561,6 +12001,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "BC0",
+        "route": "BC0",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "BC10",
         "route": "BC10",
         "added": "16-Sept-2024 04:34 PM"
@@ -11579,6 +12024,11 @@
         "lineRef": "BC6",
         "route": "BC6",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "G1",
+        "route": "G1",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "G2",
@@ -11628,7 +12078,7 @@
       {
         "lineRef": "S115",
         "route": "S115",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "SH6",
@@ -11699,9 +12149,14 @@
     "operatorName": "Ellenvale Coaches",
     "routes": [
       {
+        "lineRef": "39",
+        "route": "39",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "68",
         "route": "68",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "S1",
@@ -11790,6 +12245,11 @@
     "operatorRef": "EUTX",
     "operatorName": "Eurocoaches",
     "routes": [
+      {
+        "lineRef": "534",
+        "route": "534",
+        "added": "17-Sept-2024 11:25 AM"
+      },
       {
         "lineRef": "918",
         "route": "918",
@@ -11996,7 +12456,7 @@
       {
         "lineRef": "273",
         "route": "273",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "33",
@@ -12016,7 +12476,12 @@
       {
         "lineRef": "3C",
         "route": "3C",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "44B",
+        "route": "44B",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "44K",
@@ -12087,6 +12552,11 @@
         "lineRef": "91",
         "route": "91",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "95",
+        "route": "95",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "95A",
@@ -12357,7 +12827,7 @@
       {
         "lineRef": "682",
         "route": "682",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "686",
@@ -12424,6 +12894,11 @@
         "lineRef": "17",
         "route": "17",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "171",
+        "route": "171",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "172",
@@ -12611,6 +13086,11 @@
         "added": "16-Sept-2024 04:30 PM"
       },
       {
+        "lineRef": "6a",
+        "route": "6a",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "7",
         "route": "7",
         "added": "16-Sept-2024 03:56 PM"
@@ -12669,6 +13149,11 @@
         "lineRef": "A3",
         "route": "A3",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "AZ1",
+        "route": "AZ1",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "AZ2",
@@ -12962,6 +13447,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "BC06",
+        "route": "BC06",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "CR4",
         "route": "CR4",
         "added": "16-Sept-2024 03:56 PM"
@@ -13063,6 +13553,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "21C",
+        "route": "21C",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "21S",
         "route": "21S",
         "added": "16-Sept-2024 03:56 PM"
@@ -13116,6 +13611,11 @@
         "lineRef": "320",
         "route": "320",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "322",
+        "route": "322",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "323",
@@ -13233,6 +13733,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "69A",
+        "route": "69A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "70",
         "route": "70",
         "added": "16-Sept-2024 03:56 PM"
@@ -13255,7 +13760,7 @@
       {
         "lineRef": "73B",
         "route": "73B",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "74B",
@@ -13305,7 +13810,7 @@
       {
         "lineRef": "88A",
         "route": "88A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "88B",
@@ -13376,6 +13881,11 @@
         "lineRef": "C5",
         "route": "C5",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "C6",
+        "route": "C6",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "C7",
@@ -13458,6 +13968,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "X70",
+        "route": "X70",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "Z3",
         "route": "Z3",
         "added": "29-Jun-2024 02:23 PM"
@@ -13494,6 +14009,11 @@
         "added": "29-Jun-2024 02:23 PM"
       },
       {
+        "lineRef": "705",
+        "route": "705",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "710",
         "route": "710",
         "added": "16-Sept-2024 03:56 PM"
@@ -13522,6 +14042,11 @@
         "lineRef": "774",
         "route": "774",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "775",
+        "route": "775",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "846",
@@ -13557,7 +14082,7 @@
       {
         "lineRef": "510",
         "route": "510",
-        "added": "29-Jun-2024 02:25 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "511",
@@ -13703,7 +14228,7 @@
       {
         "lineRef": "342",
         "route": "342",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "356",
@@ -13812,6 +14337,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "24X",
+        "route": "24X",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "271",
         "route": "271",
         "added": "16-Sept-2024 03:56 PM"
@@ -13819,7 +14349,7 @@
       {
         "lineRef": "272",
         "route": "272",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "273",
@@ -13959,7 +14489,7 @@
       {
         "lineRef": "U1E",
         "route": "U1E",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "U1X",
@@ -14030,7 +14560,7 @@
       {
         "lineRef": "16A",
         "route": "16A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "19",
@@ -14118,6 +14648,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "48",
+        "route": "48",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "49",
         "route": "49",
         "added": "16-Sept-2024 03:56 PM"
@@ -14165,7 +14700,7 @@
       {
         "lineRef": "5A",
         "route": "5A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "6",
@@ -14382,12 +14917,12 @@
       {
         "lineRef": "102",
         "route": "102",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "105",
         "route": "105",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "109",
@@ -14407,7 +14942,7 @@
       {
         "lineRef": "116",
         "route": "116",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "11A",
@@ -14433,6 +14968,11 @@
         "lineRef": "14",
         "route": "14",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "14A",
+        "route": "14A",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "15",
@@ -14537,7 +15077,7 @@
       {
         "lineRef": "30",
         "route": "30",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "33",
@@ -14657,7 +15197,7 @@
       {
         "lineRef": "73",
         "route": "73",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "75",
@@ -14790,6 +15330,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "987",
+        "route": "987",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "99",
         "route": "99",
         "added": "16-Sept-2024 03:56 PM"
@@ -14883,6 +15428,11 @@
         "lineRef": "X41",
         "route": "X41",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "X7",
+        "route": "X7",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -15303,6 +15853,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "145",
+        "route": "145",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "146",
         "route": "146",
         "added": "16-Sept-2024 04:30 PM"
@@ -15311,6 +15866,11 @@
         "lineRef": "16",
         "route": "16",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "165",
+        "route": "165",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "166",
@@ -15453,6 +16013,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "4A",
+        "route": "4A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "58",
         "route": "58",
         "added": "16-Sept-2024 03:56 PM"
@@ -15465,7 +16030,7 @@
       {
         "lineRef": "6",
         "route": "6",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "63",
@@ -15480,7 +16045,7 @@
       {
         "lineRef": "68",
         "route": "68",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "69",
@@ -15550,7 +16115,7 @@
       {
         "lineRef": "901",
         "route": "901",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "902",
@@ -15625,7 +16190,7 @@
       {
         "lineRef": "T1A",
         "route": "T1A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "TNB",
@@ -15906,7 +16471,7 @@
       {
         "lineRef": "404",
         "route": "404",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "429",
@@ -15922,6 +16487,11 @@
         "lineRef": "47",
         "route": "47",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "472",
+        "route": "472",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "474",
@@ -15967,6 +16537,11 @@
         "lineRef": "52a",
         "route": "52a",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "552",
+        "route": "552",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "56",
@@ -16195,6 +16770,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "3",
+        "route": "3",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "4",
         "route": "4",
         "added": "16-Sept-2024 03:56 PM"
@@ -16258,6 +16838,11 @@
         "lineRef": "C2",
         "route": "C2",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "CB1",
+        "route": "CB1",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "CR6",
@@ -16351,6 +16936,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "31A",
+        "route": "31A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "32",
         "route": "32",
         "added": "16-Sept-2024 03:56 PM"
@@ -16383,7 +16973,7 @@
       {
         "lineRef": "36",
         "route": "36",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "363",
@@ -16403,7 +16993,7 @@
       {
         "lineRef": "417",
         "route": "417",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "420",
@@ -16434,6 +17024,11 @@
         "lineRef": "54",
         "route": "54",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "671",
+        "route": "671",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "674",
@@ -16641,7 +17236,7 @@
       {
         "lineRef": "212",
         "route": "212",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "223",
@@ -16649,9 +17244,14 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "228",
+        "route": "228",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "4",
         "route": "4",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "5",
@@ -16731,6 +17331,11 @@
     "operatorName": "Fowlers Travel",
     "routes": [
       {
+        "lineRef": "43",
+        "route": "43",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "6067",
         "route": "6067",
         "added": "29-Jun-2024 02:23 PM"
@@ -16777,6 +17382,11 @@
         "added": "16-Sept-2024 04:30 PM"
       },
       {
+        "lineRef": "31B",
+        "route": "31B",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "414",
         "route": "414",
         "added": "16-Sept-2024 03:56 PM"
@@ -16784,7 +17394,7 @@
       {
         "lineRef": "424",
         "route": "424",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "45",
@@ -16794,7 +17404,7 @@
       {
         "lineRef": "45A",
         "route": "45A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "47",
@@ -16830,6 +17440,11 @@
         "lineRef": "77",
         "route": "77",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "96",
+        "route": "96",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "98",
@@ -16957,6 +17572,11 @@
         "lineRef": "204",
         "route": "204",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "204A",
+        "route": "204A",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "335",
@@ -17099,6 +17719,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "TB22",
+        "route": "TB22",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "TB23",
         "route": "TB23",
         "added": "16-Sept-2024 03:56 PM"
@@ -17138,7 +17763,7 @@
       {
         "lineRef": "473",
         "route": "473",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "476",
@@ -17234,7 +17859,7 @@
       {
         "lineRef": "94A",
         "route": "94A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "96",
@@ -17308,6 +17933,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "171",
+        "route": "171",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "172",
         "route": "172",
         "added": "16-Sept-2024 04:33 PM"
@@ -17321,6 +17951,11 @@
         "lineRef": "175",
         "route": "175",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "176",
+        "route": "176",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "177",
@@ -17343,6 +17978,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "182",
+        "route": "182",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "185",
         "route": "185",
         "added": "16-Sept-2024 04:30 PM"
@@ -17351,6 +17991,11 @@
         "lineRef": "187",
         "route": "187",
         "added": "16-Sept-2024 04:30 PM"
+      },
+      {
+        "lineRef": "188",
+        "route": "188",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "189",
@@ -17393,6 +18038,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "220",
+        "route": "220",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "223",
         "route": "223",
         "added": "16-Sept-2024 04:33 PM"
@@ -17430,7 +18080,7 @@
       {
         "lineRef": "306",
         "route": "306",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "34",
@@ -17451,6 +18101,11 @@
         "lineRef": "36S",
         "route": "36S",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "37",
+        "route": "37",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "37A",
@@ -17481,6 +18136,11 @@
         "lineRef": "425",
         "route": "425",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "426",
+        "route": "426",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "46",
@@ -17588,6 +18248,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "78A",
+        "route": "78A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "79",
         "route": "79",
         "added": "16-Sept-2024 03:56 PM"
@@ -17648,6 +18313,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "95A",
+        "route": "95A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "96",
         "route": "96",
         "added": "16-Sept-2024 03:56 PM"
@@ -17670,7 +18340,7 @@
       {
         "lineRef": "97",
         "route": "97",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "97S",
@@ -17776,7 +18446,7 @@
       {
         "lineRef": "105N",
         "route": "105N",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "10A",
@@ -17812,6 +18482,21 @@
         "lineRef": "135N",
         "route": "135N",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "137N",
+        "route": "137N",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "139N",
+        "route": "139N",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "142N",
+        "route": "142N",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "16",
@@ -17994,6 +18679,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "444N",
+        "route": "444N",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "449N",
         "route": "449N",
         "added": "16-Sept-2024 03:56 PM"
@@ -18156,7 +18846,7 @@
       {
         "lineRef": "686",
         "route": "686",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "687",
@@ -18222,6 +18912,11 @@
         "lineRef": "8",
         "route": "8",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "81",
+        "route": "81",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "819",
@@ -18334,6 +19029,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "842N",
+        "route": "842N",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "843N",
         "route": "843N",
         "added": "16-Sept-2024 03:56 PM"
@@ -18357,6 +19057,11 @@
         "lineRef": "85",
         "route": "85",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "850N",
+        "route": "850N",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "854N",
@@ -18386,7 +19091,7 @@
       {
         "lineRef": "863N",
         "route": "863N",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "865N",
@@ -18456,12 +19161,12 @@
       {
         "lineRef": "893N",
         "route": "893N",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "896N",
         "route": "896N",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "898N",
@@ -18527,6 +19232,11 @@
         "lineRef": "R2",
         "route": "R2",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "S2",
+        "route": "S2",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "TOON",
@@ -18726,6 +19436,11 @@
         "added": "16-Sept-2024 04:30 PM"
       },
       {
+        "lineRef": "2",
+        "route": "2",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "208",
         "route": "208",
         "added": "16-Sept-2024 03:56 PM"
@@ -18746,9 +19461,19 @@
         "added": "29-Jun-2024 02:23 PM"
       },
       {
+        "lineRef": "289",
+        "route": "289",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "3",
+        "route": "3",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "429",
         "route": "429",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "6",
@@ -18773,7 +19498,12 @@
       {
         "lineRef": "C3",
         "route": "C3",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "D1",
+        "route": "D1",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "D12",
@@ -19035,6 +19765,16 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "28",
+        "route": "28",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "4",
+        "route": "4",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "E66S",
         "route": "E66S",
         "added": "29-Jun-2024 02:23 PM"
@@ -19097,6 +19837,11 @@
         "lineRef": "S116S",
         "route": "S116S",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "S125S",
+        "route": "S125S",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -19112,7 +19857,7 @@
       {
         "lineRef": "2",
         "route": "2",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "207",
@@ -19178,6 +19923,11 @@
         "lineRef": "771",
         "route": "771",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "773",
+        "route": "773",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "HC1",
@@ -19250,6 +20000,11 @@
         "lineRef": "19",
         "route": "19",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "23",
+        "route": "23",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "23B",
@@ -19399,6 +20154,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "373",
+        "route": "373",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "374",
         "route": "374",
         "added": "16-Sept-2024 03:56 PM"
@@ -19442,6 +20202,11 @@
         "lineRef": "6B",
         "route": "6B",
         "added": "16-Sept-2024 04:30 PM"
+      },
+      {
+        "lineRef": "70",
+        "route": "70",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "704",
@@ -19509,6 +20274,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "80",
+        "route": "80",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "80A",
         "route": "80A",
         "added": "16-Sept-2024 03:56 PM"
@@ -19527,6 +20297,11 @@
         "lineRef": "82",
         "route": "82",
         "added": "16-Sept-2024 04:30 PM"
+      },
+      {
+        "lineRef": "82B",
+        "route": "82B",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "83",
@@ -19844,7 +20619,7 @@
       {
         "lineRef": "14",
         "route": "14",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "14A",
@@ -19874,7 +20649,7 @@
       {
         "lineRef": "389",
         "route": "389",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "390",
@@ -19909,7 +20684,7 @@
       {
         "lineRef": "60A",
         "route": "60A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "61",
@@ -19950,7 +20725,7 @@
       {
         "lineRef": "113",
         "route": "113",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "155",
@@ -19968,6 +20743,11 @@
         "added": "29-Jun-2024 02:23 PM"
       },
       {
+        "lineRef": "17",
+        "route": "17",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "18",
         "route": "18",
         "added": "16-Sept-2024 03:56 PM"
@@ -19981,6 +20761,11 @@
         "lineRef": "34",
         "route": "34",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "35A",
+        "route": "35A",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "54",
@@ -20152,6 +20937,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "92",
+        "route": "92",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "93",
         "route": "93",
         "added": "29-Jun-2024 02:23 PM"
@@ -20184,7 +20974,7 @@
       {
         "lineRef": "JL02",
         "route": "JL02",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "JL03",
@@ -20194,7 +20984,7 @@
       {
         "lineRef": "JL04",
         "route": "JL04",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "JL10",
@@ -20301,7 +21091,7 @@
       {
         "lineRef": "272",
         "route": "272",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "55",
@@ -20366,6 +21156,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "153",
+        "route": "153",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "156",
         "route": "156",
         "added": "16-Sept-2024 03:56 PM"
@@ -20408,7 +21203,7 @@
       {
         "lineRef": "247",
         "route": "247",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "248",
@@ -20446,6 +21241,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "742",
+        "route": "742",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "743",
         "route": "743",
         "added": "16-Sept-2024 04:30 PM"
@@ -20468,7 +21268,7 @@
       {
         "lineRef": "791",
         "route": "791",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "8981",
@@ -20515,6 +21315,11 @@
         "lineRef": "15a",
         "route": "15a",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "16",
+        "route": "16",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "18a",
@@ -20662,6 +21467,11 @@
         "lineRef": "903",
         "route": "903",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "904",
+        "route": "904",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -20686,9 +21496,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "106",
+        "route": "106",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "116D",
         "route": "116D",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "117",
+        "route": "117",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "128",
@@ -20709,6 +21529,11 @@
         "lineRef": "134",
         "route": "134",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "135",
+        "route": "135",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "141",
@@ -20761,14 +21586,29 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "556",
+        "route": "556",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "558",
         "route": "558",
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "802",
+        "route": "802",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "803",
         "route": "803",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "804",
+        "route": "804",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "807",
@@ -20796,6 +21636,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "833",
+        "route": "833",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "834",
         "route": "834",
         "added": "16-Sept-2024 03:56 PM"
@@ -20804,6 +21649,21 @@
         "lineRef": "836",
         "route": "836",
         "added": "29-Jun-2024 02:23 PM"
+      },
+      {
+        "lineRef": "843",
+        "route": "843",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "846",
+        "route": "846",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "847",
+        "route": "847",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "849",
@@ -20831,14 +21691,44 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "872",
+        "route": "872",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "873",
         "route": "873",
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "874",
+        "route": "874",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "874D",
         "route": "874D",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "875",
+        "route": "875",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "876",
+        "route": "876",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "877",
+        "route": "877",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "879",
+        "route": "879",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "881",
@@ -20869,6 +21759,11 @@
         "lineRef": "893",
         "route": "893",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "899",
+        "route": "899",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "92",
@@ -21094,9 +21989,14 @@
         "added": "29-Jun-2024 02:23 PM"
       },
       {
+        "lineRef": "550",
+        "route": "550",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "552",
         "route": "552",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "565",
@@ -21156,7 +22056,7 @@
       {
         "lineRef": "9",
         "route": "9",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "L1",
@@ -21191,6 +22091,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "111",
+        "route": "111",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "113",
         "route": "113",
         "added": "16-Sept-2024 03:56 PM"
@@ -21213,7 +22118,7 @@
       {
         "lineRef": "11C",
         "route": "11C",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "12",
@@ -21224,6 +22129,11 @@
         "lineRef": "121",
         "route": "121",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "18",
+        "route": "18",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "1A",
@@ -21241,6 +22151,11 @@
         "added": "29-Jun-2024 02:25 PM"
       },
       {
+        "lineRef": "22",
+        "route": "22",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "23",
         "route": "23",
         "added": "16-Sept-2024 03:56 PM"
@@ -21249,6 +22164,11 @@
         "lineRef": "3",
         "route": "3",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "30A",
+        "route": "30A",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "31",
@@ -21331,6 +22251,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "81",
+        "route": "81",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "82",
         "route": "82",
         "added": "16-Sept-2024 03:56 PM"
@@ -21403,9 +22328,19 @@
         "added": "29-Jun-2024 02:23 PM"
       },
       {
+        "lineRef": "20A",
+        "route": "20A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "20B",
         "route": "20B",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "21",
+        "route": "21",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "210",
@@ -21431,6 +22366,11 @@
         "lineRef": "423",
         "route": "423",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "564",
+        "route": "564",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "564A",
@@ -21486,7 +22426,7 @@
       {
         "lineRef": "597",
         "route": "597",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -21507,7 +22447,7 @@
       {
         "lineRef": "208",
         "route": "208",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "21",
@@ -21652,6 +22592,11 @@
         "lineRef": "X84",
         "route": "X84",
         "added": "29-Jun-2024 02:23 PM"
+      },
+      {
+        "lineRef": "X85",
+        "route": "X85",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -21668,6 +22613,11 @@
         "lineRef": "82",
         "route": "82",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "84",
+        "route": "84",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -21693,7 +22643,7 @@
       {
         "lineRef": "33",
         "route": "33",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "654",
@@ -21713,7 +22663,7 @@
       {
         "lineRef": "B29",
         "route": "B29",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -21747,6 +22697,11 @@
         "lineRef": "36",
         "route": "36",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "500",
+        "route": "500",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "504",
@@ -21890,7 +22845,7 @@
       {
         "lineRef": "403",
         "route": "403",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "404",
@@ -21920,12 +22875,17 @@
       {
         "lineRef": "496",
         "route": "496",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "501",
         "route": "501",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "507",
+        "route": "507",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "76",
@@ -21936,6 +22896,11 @@
         "lineRef": "76A",
         "route": "76A",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "802",
+        "route": "802",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -21974,9 +22939,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "38",
+        "route": "38",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "39",
         "route": "39",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "41",
+        "route": "41",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "414",
@@ -22056,9 +23031,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "646",
+        "route": "646",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "647",
         "route": "647",
         "added": "29-Jun-2024 02:23 PM"
+      },
+      {
+        "lineRef": "669",
+        "route": "669",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -22066,6 +23051,11 @@
     "operatorRef": "MRDL",
     "operatorName": "MRD Ltd",
     "routes": [
+      {
+        "lineRef": "90",
+        "route": "90",
+        "added": "17-Sept-2024 11:25 AM"
+      },
       {
         "lineRef": "91",
         "route": "91",
@@ -22085,7 +23075,7 @@
       {
         "lineRef": "619",
         "route": "619",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "698",
@@ -22096,6 +23086,11 @@
         "lineRef": "705",
         "route": "705",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "780",
+        "route": "780",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -22236,6 +23231,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "236",
+        "route": "236",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "270",
         "route": "270",
         "added": "16-Sept-2024 03:56 PM"
@@ -22269,6 +23269,11 @@
         "lineRef": "3",
         "route": "3",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "318",
+        "route": "318",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "324",
@@ -22346,6 +23351,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "485",
+        "route": "485",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "5",
         "route": "5",
         "added": "16-Sept-2024 03:56 PM"
@@ -22368,7 +23378,7 @@
       {
         "lineRef": "61",
         "route": "61",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "611",
@@ -22673,9 +23683,19 @@
     "operatorName": "NIBSbuses",
     "routes": [
       {
+        "lineRef": "104",
+        "route": "104",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "2",
         "route": "2",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "21BA",
+        "route": "21BA",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "21ON",
@@ -22715,7 +23735,7 @@
       {
         "lineRef": "44",
         "route": "44",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "45",
@@ -22758,6 +23778,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "51",
+        "route": "51",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "565",
         "route": "565",
         "added": "16-Sept-2024 03:56 PM"
@@ -22775,7 +23800,7 @@
       {
         "lineRef": "81",
         "route": "81",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "94",
@@ -22924,6 +23949,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "161",
+        "route": "161",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "170",
         "route": "170",
         "added": "16-Sept-2024 03:56 PM"
@@ -23039,6 +24069,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "408",
+        "route": "408",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "409",
         "route": "409",
         "added": "16-Sept-2024 03:56 PM"
@@ -23049,9 +24084,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "422",
+        "route": "422",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "423",
         "route": "423",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "424",
+        "route": "424",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "425",
@@ -23097,6 +24142,16 @@
         "lineRef": "460",
         "route": "460",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "465",
+        "route": "465",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "466",
+        "route": "466",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "482",
@@ -23209,6 +24264,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "598",
+        "route": "598",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "707",
         "route": "707",
         "added": "16-Sept-2024 03:56 PM"
@@ -23262,6 +24322,11 @@
         "lineRef": "785",
         "route": "785",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "786",
+        "route": "786",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "788",
@@ -23903,12 +24968,12 @@
       {
         "lineRef": "62",
         "route": "62",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "62A",
         "route": "62A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "63",
@@ -24053,7 +25118,7 @@
       {
         "lineRef": "78A",
         "route": "78A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "79",
@@ -24292,6 +25357,11 @@
         "added": "16-Sept-2024 04:30 PM"
       },
       {
+        "lineRef": "103B",
+        "route": "103B",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "1A",
         "route": "1A",
         "added": "16-Sept-2024 03:56 PM"
@@ -24357,6 +25427,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "CS2",
+        "route": "CS2",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "CS3",
         "route": "CS3",
         "added": "16-Sept-2024 03:56 PM"
@@ -24399,7 +25474,12 @@
       {
         "lineRef": "PVN",
         "route": "PVN",
-        "added": "29-Jun-2024 02:24 PM"
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "UM01",
+        "route": "UM01",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -24477,7 +25557,7 @@
       {
         "lineRef": "40",
         "route": "40",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "456",
@@ -24488,6 +25568,11 @@
         "lineRef": "478",
         "route": "478",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "479",
+        "route": "479",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "844",
@@ -24514,6 +25599,11 @@
         "lineRef": "599",
         "route": "599",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "643",
+        "route": "643",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "801",
@@ -24597,6 +25687,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "NT1E",
+        "route": "1E",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "NT24",
         "route": "24",
         "added": "16-Sept-2024 03:56 PM"
@@ -24650,6 +25745,11 @@
         "lineRef": "NT35",
         "route": "35",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "NT35B",
+        "route": "35B",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "NT36",
@@ -24832,6 +25932,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "NT77C",
+        "route": "77C",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "NT78",
         "route": "78",
         "added": "16-Sept-2024 03:56 PM"
@@ -24958,6 +26063,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "255",
+        "route": "255",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "261",
         "route": "261",
         "added": "16-Sept-2024 03:56 PM"
@@ -24985,7 +26095,7 @@
       {
         "lineRef": "404",
         "route": "404",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "433",
@@ -25006,6 +26116,11 @@
         "lineRef": "5JCB",
         "route": "5JCB",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "666",
+        "route": "666",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "71",
@@ -25036,6 +26151,11 @@
         "lineRef": "DC2",
         "route": "DC2",
         "added": "16-Sept-2024 04:33 PM"
+      },
+      {
+        "lineRef": "DC3",
+        "route": "DC3",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "DC4",
@@ -25089,6 +26209,16 @@
     "operatorName": "Nu-Venture",
     "routes": [
       {
+        "lineRef": "102",
+        "route": "102",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "121",
+        "route": "121",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "13",
         "route": "13",
         "added": "16-Sept-2024 04:30 PM"
@@ -25099,9 +26229,14 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "130A",
+        "route": "130A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "142",
         "route": "142",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "149",
@@ -25117,6 +26252,11 @@
         "lineRef": "169",
         "route": "169",
         "added": "16-Sept-2024 04:33 PM"
+      },
+      {
+        "lineRef": "172",
+        "route": "172",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "173",
@@ -25154,9 +26294,19 @@
         "added": "16-Sept-2024 04:30 PM"
       },
       {
+        "lineRef": "25",
+        "route": "25",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "26",
         "route": "26",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "29",
+        "route": "29",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "506",
@@ -25254,6 +26404,16 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "78",
+        "route": "78",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "79",
+        "route": "79",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "88",
         "route": "88",
         "added": "29-Jun-2024 02:23 PM"
@@ -25287,7 +26447,7 @@
       {
         "lineRef": "35",
         "route": "35",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "35A",
@@ -25320,6 +26480,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "64A",
+        "route": "64A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "65",
         "route": "65",
         "added": "29-Jun-2024 02:23 PM"
@@ -25342,7 +26507,7 @@
       {
         "lineRef": "69A",
         "route": "69A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -25375,6 +26540,16 @@
         "lineRef": "33",
         "route": "33",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "33A",
+        "route": "33A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "70A",
+        "route": "70A",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "71A",
@@ -25571,7 +26746,7 @@
       {
         "lineRef": "24",
         "route": "24",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "30",
@@ -25582,6 +26757,11 @@
         "lineRef": "40A",
         "route": "40A",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "40B",
+        "route": "40B",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "43",
@@ -25596,7 +26776,7 @@
       {
         "lineRef": "48",
         "route": "48",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "49",
@@ -25731,7 +26911,7 @@
       {
         "lineRef": "LCCC051E",
         "route": "LCCC051E",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "LCCC051N",
@@ -25825,9 +27005,25 @@
     ]
   },
   {
+    "operatorRef": "HDGT",
+    "operatorName": "Peter Hodgson Travel",
+    "routes": [
+      {
+        "lineRef": "479",
+        "route": "479",
+        "added": "17-Sept-2024 11:25 AM"
+      }
+    ]
+  },
+  {
     "operatorRef": "PCNE",
     "operatorName": "Phoenix Coaches",
     "routes": [
+      {
+        "lineRef": "417",
+        "route": "417",
+        "added": "17-Sept-2024 11:25 AM"
+      },
       {
         "lineRef": "436",
         "route": "436",
@@ -25870,9 +27066,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "11",
+        "route": "11",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "14",
         "route": "14",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "2",
+        "route": "2",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "25",
@@ -25882,7 +27088,7 @@
       {
         "lineRef": "25A",
         "route": "25A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "4B",
@@ -25918,6 +27124,11 @@
         "lineRef": "623",
         "route": "623",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "8",
+        "route": "8",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "882",
@@ -26287,6 +27498,16 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "433",
+        "route": "433",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "437",
+        "route": "437",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "44",
         "route": "44",
         "added": "16-Sept-2024 03:56 PM"
@@ -26383,6 +27604,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "144",
+        "route": "144",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "53",
         "route": "53",
         "added": "29-Jun-2024 02:25 PM"
@@ -26454,6 +27680,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "803",
+        "route": "803",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "855",
         "route": "855",
         "added": "16-Sept-2024 03:56 PM"
@@ -26472,6 +27703,11 @@
         "lineRef": "P",
         "route": "P",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "Q",
+        "route": "Q",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "R",
@@ -26585,6 +27821,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "25a",
+        "route": "25a",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "26",
         "route": "26",
         "added": "16-Sept-2024 03:56 PM"
@@ -26628,6 +27869,11 @@
         "lineRef": "4",
         "route": "4",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "43",
+        "route": "43",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "5",
@@ -26818,6 +28064,16 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "149",
+        "route": "149",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "158",
+        "route": "158",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "160",
         "route": "160",
         "added": "16-Sept-2024 03:56 PM"
@@ -26826,6 +28082,11 @@
         "lineRef": "307",
         "route": "307",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "319",
+        "route": "319",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "331",
@@ -26858,6 +28119,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "380",
+        "route": "380",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "385",
         "route": "385",
         "added": "16-Sept-2024 04:30 PM"
@@ -26888,6 +28154,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "68",
+        "route": "68",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "77",
         "route": "77",
         "added": "16-Sept-2024 03:56 PM"
@@ -26903,6 +28174,16 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "H11",
+        "route": "H11",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "H19",
+        "route": "H19",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "KL80",
         "route": "KL80",
         "added": "16-Sept-2024 03:56 PM"
@@ -26911,6 +28192,11 @@
         "lineRef": "R1",
         "route": "R1",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "R2",
+        "route": "R2",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "R9",
@@ -26948,9 +28234,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "S9",
+        "route": "S9",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "W1",
         "route": "W1",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "W2",
+        "route": "W2",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "W20",
@@ -26996,7 +28292,7 @@
       {
         "lineRef": "108",
         "route": "108",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "109",
@@ -27041,7 +28337,7 @@
       {
         "lineRef": "320",
         "route": "320",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "322",
@@ -27061,7 +28357,7 @@
       {
         "lineRef": "346",
         "route": "346",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "346A",
@@ -27124,9 +28420,19 @@
         "added": "29-Jun-2024 02:23 PM"
       },
       {
+        "lineRef": "73A",
+        "route": "73A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "73S",
         "route": "73S",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "78",
+        "route": "78",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "7A",
@@ -27190,6 +28496,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "130D",
+        "route": "130D",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "131",
         "route": "131",
         "added": "16-Sept-2024 03:56 PM"
@@ -27197,7 +28508,12 @@
       {
         "lineRef": "132",
         "route": "132",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "134",
+        "route": "134",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "14",
@@ -27332,6 +28648,11 @@
     "operatorName": "Redwoods Travel",
     "routes": [
       {
+        "lineRef": "682",
+        "route": "682",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "697",
         "route": "697",
         "added": "29-Jun-2024 02:23 PM"
@@ -27427,7 +28748,7 @@
       {
         "lineRef": "478",
         "route": "478",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "513",
@@ -27469,6 +28790,11 @@
         "lineRef": "20",
         "route": "20",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "386",
+        "route": "386",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "831",
@@ -27578,7 +28904,12 @@
       {
         "lineRef": "12",
         "route": "12",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "122",
+        "route": "122",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "123",
@@ -27633,7 +28964,7 @@
       {
         "lineRef": "V3",
         "route": "V3",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -27684,6 +29015,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "39C",
+        "route": "39C",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "4",
         "route": "4",
         "added": "16-Sept-2024 03:56 PM"
@@ -27710,6 +29046,11 @@
     "operatorName": "Salisbury Reds",
     "routes": [
       {
+        "lineRef": "100X",
+        "route": "100X",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "101",
         "route": "101",
         "added": "16-Sept-2024 03:56 PM"
@@ -27733,6 +29074,11 @@
         "lineRef": "25",
         "route": "25",
         "added": "16-Sept-2024 04:30 PM"
+      },
+      {
+        "lineRef": "26",
+        "route": "26",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "27",
@@ -27768,6 +29114,11 @@
         "lineRef": "44",
         "route": "44",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "601",
+        "route": "601",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "603",
@@ -27870,6 +29221,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "979",
+        "route": "979",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "B1",
         "route": "B1",
         "added": "16-Sept-2024 03:56 PM"
@@ -27952,7 +29308,7 @@
       {
         "lineRef": "R12",
         "route": "R12",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "R14",
@@ -28026,14 +29382,24 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "103",
+        "route": "103",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "15A",
         "route": "15A",
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "16",
+        "route": "16",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "18",
         "route": "18",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "18A",
@@ -28054,6 +29420,16 @@
         "lineRef": "203",
         "route": "203",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "22A",
+        "route": "22A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "26",
+        "route": "26",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "26A",
@@ -28098,7 +29474,7 @@
       {
         "lineRef": "42",
         "route": "42",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "43",
@@ -28128,7 +29504,7 @@
       {
         "lineRef": "45",
         "route": "45",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "45A",
@@ -28214,6 +29590,11 @@
         "lineRef": "7000",
         "route": "7000",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "7001",
+        "route": "7001",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "704",
@@ -28314,7 +29695,7 @@
       {
         "lineRef": "462",
         "route": "462",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "71_71B",
@@ -28371,6 +29752,11 @@
         "lineRef": "31A",
         "route": "31A",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "5",
+        "route": "5",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -28436,9 +29822,24 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "652",
+        "route": "652",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "654",
+        "route": "654",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "655",
         "route": "655",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "657",
+        "route": "657",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "GS1",
@@ -28499,14 +29900,19 @@
     "operatorName": "Simonds",
     "routes": [
       {
+        "lineRef": "110",
+        "route": "110",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "112",
         "route": "112",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "113",
         "route": "113",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "114",
@@ -28653,7 +30059,7 @@
       {
         "lineRef": "105",
         "route": "105",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "R15",
@@ -28676,6 +30082,11 @@
     "operatorRef": "SWCO",
     "operatorName": "South West Coaches",
     "routes": [
+      {
+        "lineRef": "000",
+        "route": "000",
+        "added": "17-Sept-2024 11:25 AM"
+      },
       {
         "lineRef": "1",
         "route": "1",
@@ -28850,12 +30261,17 @@
       {
         "lineRef": "24",
         "route": "24",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "3",
         "route": "3",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "32",
+        "route": "32",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "37",
@@ -28981,7 +30397,7 @@
       {
         "lineRef": "80",
         "route": "80",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "81",
@@ -29153,12 +30569,12 @@
       {
         "lineRef": "43A",
         "route": "43A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "44",
         "route": "44",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "445",
@@ -29298,7 +30714,7 @@
       {
         "lineRef": "64",
         "route": "64",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "67",
@@ -29313,7 +30729,7 @@
       {
         "lineRef": "69",
         "route": "69",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "6A",
@@ -29323,7 +30739,7 @@
       {
         "lineRef": "6B",
         "route": "6B",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "6C",
@@ -29371,6 +30787,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "93",
+        "route": "93",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "935",
         "route": "935",
         "added": "16-Sept-2024 03:56 PM"
@@ -29391,6 +30812,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "942",
+        "route": "942",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "99",
         "route": "99",
         "added": "16-Sept-2024 03:56 PM"
@@ -29404,6 +30830,11 @@
         "lineRef": "C2",
         "route": "C2",
         "added": "16-Sept-2024 04:30 PM"
+      },
+      {
+        "lineRef": "C3",
+        "route": "C3",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "S11",
@@ -29454,6 +30885,11 @@
         "lineRef": "S94",
         "route": "S94",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "S96",
+        "route": "S96",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "UB1",
@@ -29730,6 +31166,11 @@
         "lineRef": "X5",
         "route": "X5",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "X9",
+        "route": "X9",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -29825,7 +31266,7 @@
       {
         "lineRef": "151",
         "route": "151",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "152",
@@ -29855,7 +31296,7 @@
       {
         "lineRef": "18",
         "route": "18",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "180",
@@ -29913,6 +31354,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "217",
+        "route": "217",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "218",
         "route": "218",
         "added": "16-Sept-2024 03:56 PM"
@@ -29933,9 +31379,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "231",
+        "route": "231",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "23A",
         "route": "23A",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "23B",
+        "route": "23B",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "240",
@@ -30013,6 +31469,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "305",
+        "route": "305",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "31",
         "route": "31",
         "added": "16-Sept-2024 03:56 PM"
@@ -30031,6 +31492,11 @@
         "lineRef": "33S",
         "route": "33S",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "34",
+        "route": "34",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "343",
@@ -30078,6 +31544,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "398",
+        "route": "398",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "399",
         "route": "399",
         "added": "29-Jun-2024 02:23 PM"
@@ -30115,7 +31586,7 @@
       {
         "lineRef": "47",
         "route": "47",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "47A",
@@ -30268,6 +31739,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "619",
+        "route": "619",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "620",
         "route": "620",
         "added": "16-Sept-2024 03:56 PM"
@@ -30288,6 +31764,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "68",
+        "route": "68",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "7",
         "route": "7",
         "added": "16-Sept-2024 03:56 PM"
@@ -30296,6 +31777,11 @@
         "lineRef": "732",
         "route": "732",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "733",
+        "route": "733",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "749",
@@ -30311,6 +31797,11 @@
         "lineRef": "79",
         "route": "79",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "7X",
+        "route": "7X",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "8",
@@ -30438,6 +31929,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "CHA2",
+        "route": "CHA2",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "CHAA",
         "route": "CHAA",
         "added": "16-Sept-2024 04:30 PM"
@@ -30491,6 +31987,16 @@
         "lineRef": "PRO",
         "route": "PRO",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "RC3",
+        "route": "RC3",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "RC4A",
+        "route": "RC4A",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "RC5",
@@ -30606,7 +32112,7 @@
       {
         "lineRef": "221",
         "route": "221",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "23",
@@ -30772,6 +32278,11 @@
         "lineRef": "50",
         "route": "50",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "51",
+        "route": "51",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "7",
@@ -31187,7 +32698,7 @@
       {
         "lineRef": "31A",
         "route": "31A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "32",
@@ -31325,9 +32836,29 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "617",
+        "route": "617",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "62",
+        "route": "62",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "621",
         "route": "621",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "623",
+        "route": "623",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "625",
+        "route": "625",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "627",
@@ -31340,14 +32871,29 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "648",
+        "route": "648",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "651",
         "route": "651",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "652",
         "route": "652",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "654",
+        "route": "654",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "658",
+        "route": "658",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "659",
@@ -31373,6 +32919,11 @@
         "lineRef": "683",
         "route": "683",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "684",
+        "route": "684",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "685",
@@ -31415,9 +32966,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "716",
+        "route": "716",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "717",
         "route": "717",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "719",
+        "route": "719",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "720",
@@ -31477,7 +33038,7 @@
       {
         "lineRef": "754",
         "route": "754",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "757",
@@ -31500,9 +33061,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "774",
+        "route": "774",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "781",
         "route": "781",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "782",
+        "route": "782",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "783",
@@ -31513,6 +33084,11 @@
         "lineRef": "784",
         "route": "784",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "786",
+        "route": "786",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "787",
@@ -31543,6 +33119,16 @@
         "lineRef": "82",
         "route": "82",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "835",
+        "route": "835",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "839",
+        "route": "839",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "84",
@@ -31630,9 +33216,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "X722",
+        "route": "X722",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "X725",
         "route": "X725",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "X741",
+        "route": "X741",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "X8",
@@ -31678,7 +33274,7 @@
       {
         "lineRef": "13",
         "route": "13",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "14",
@@ -31786,6 +33382,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "42",
+        "route": "42",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "46",
         "route": "46",
         "added": "16-Sept-2024 03:56 PM"
@@ -31871,6 +33472,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "59",
+        "route": "59",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "5A",
         "route": "5A",
         "added": "16-Sept-2024 03:56 PM"
@@ -31878,7 +33484,7 @@
       {
         "lineRef": "6",
         "route": "6",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "60",
@@ -31939,6 +33545,11 @@
         "lineRef": "703",
         "route": "703",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "75",
+        "route": "75",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "75A",
@@ -32074,6 +33685,11 @@
         "lineRef": "AS1",
         "route": "AS1",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "CB1",
+        "route": "CB1",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "D1",
@@ -32457,6 +34073,11 @@
         "added": "16-Sept-2024 04:30 PM"
       },
       {
+        "lineRef": "681",
+        "route": "681",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "682",
         "route": "682",
         "added": "16-Sept-2024 03:56 PM"
@@ -32527,6 +34148,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "99",
+        "route": "99",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "E1",
         "route": "E1",
         "added": "16-Sept-2024 03:56 PM"
@@ -32555,6 +34181,11 @@
         "lineRef": "UTCC",
         "route": "UTCC",
         "added": "16-Sept-2024 04:33 PM"
+      },
+      {
+        "lineRef": "UTCG",
+        "route": "UTCG",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "X1",
@@ -32700,7 +34331,7 @@
       {
         "lineRef": "B10",
         "route": "B10",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "B3",
@@ -32741,6 +34372,11 @@
         "lineRef": "N1",
         "route": "N1",
         "added": "29-Jun-2024 02:23 PM"
+      },
+      {
+        "lineRef": "N2",
+        "route": "N2",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "S1",
@@ -32894,6 +34530,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "22",
+        "route": "22",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "23",
         "route": "23",
         "added": "16-Sept-2024 03:56 PM"
@@ -33036,7 +34677,7 @@
       {
         "lineRef": "50",
         "route": "50",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "500",
@@ -33117,6 +34758,11 @@
         "lineRef": "615",
         "route": "615",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "62",
+        "route": "62",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "621",
@@ -33407,7 +35053,7 @@
       {
         "lineRef": "11B",
         "route": "11B",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "12",
@@ -33418,6 +35064,11 @@
         "lineRef": "125",
         "route": "125",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "14",
+        "route": "14",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "15",
@@ -33457,7 +35108,7 @@
       {
         "lineRef": "2",
         "route": "2",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "20",
@@ -33467,7 +35118,7 @@
       {
         "lineRef": "21",
         "route": "21",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "21A",
@@ -33487,7 +35138,7 @@
       {
         "lineRef": "23A",
         "route": "23A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "25",
@@ -33607,7 +35258,7 @@
       {
         "lineRef": "349",
         "route": "349",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "359",
@@ -33790,6 +35441,11 @@
         "added": "29-Jun-2024 02:23 PM"
       },
       {
+        "lineRef": "7",
+        "route": "7",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "70",
         "route": "70",
         "added": "16-Sept-2024 04:30 PM"
@@ -33830,6 +35486,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "80",
+        "route": "80",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "80A",
         "route": "80A",
         "added": "16-Sept-2024 03:56 PM"
@@ -33865,6 +35526,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "85",
+        "route": "85",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "88",
         "route": "88",
         "added": "16-Sept-2024 03:56 PM"
@@ -33887,7 +35553,7 @@
       {
         "lineRef": "9",
         "route": "9",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "903",
@@ -33917,7 +35583,7 @@
       {
         "lineRef": "91",
         "route": "91",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "911",
@@ -33963,6 +35629,11 @@
         "lineRef": "932",
         "route": "932",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "94",
+        "route": "94",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "942",
@@ -34105,6 +35776,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "991",
+        "route": "991",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "9X",
         "route": "9X",
         "added": "16-Sept-2024 04:30 PM"
@@ -34117,7 +35793,7 @@
       {
         "lineRef": "AD",
         "route": "AD",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "B",
@@ -34296,6 +35972,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "16",
+        "route": "16",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "17",
         "route": "17",
         "added": "16-Sept-2024 03:56 PM"
@@ -34378,7 +36059,7 @@
       {
         "lineRef": "40B",
         "route": "40B",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "43",
@@ -34526,6 +36207,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "C16",
+        "route": "C16",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "C9",
         "route": "C9",
         "added": "16-Sept-2024 03:56 PM"
@@ -34533,7 +36219,7 @@
       {
         "lineRef": "D",
         "route": "D",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "E",
@@ -34667,6 +36353,11 @@
         "added": "29-Jun-2024 02:23 PM"
       },
       {
+        "lineRef": "14",
+        "route": "14",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "15",
         "route": "15",
         "added": "16-Sept-2024 03:56 PM"
@@ -34689,7 +36380,7 @@
       {
         "lineRef": "17",
         "route": "17",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "173",
@@ -34834,7 +36525,7 @@
       {
         "lineRef": "353",
         "route": "353",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "355",
@@ -34967,6 +36658,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "60",
+        "route": "60",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "62A",
         "route": "62A",
         "added": "16-Sept-2024 03:56 PM"
@@ -35027,14 +36723,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "855",
+        "route": "855",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "86",
         "route": "86",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "87",
         "route": "87",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "87A",
@@ -35070,6 +36771,11 @@
         "lineRef": "91",
         "route": "91",
         "added": "29-Jun-2024 02:23 PM"
+      },
+      {
+        "lineRef": "919",
+        "route": "919",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "92",
@@ -35272,6 +36978,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "SD3",
+        "route": "SD3",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "UNI",
         "route": "UNI",
         "added": "29-Jun-2024 02:23 PM"
@@ -35378,6 +37089,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "353",
+        "route": "353",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "36",
         "route": "36",
         "added": "29-Jun-2024 02:23 PM"
@@ -35408,6 +37124,11 @@
         "added": "16-Sept-2024 04:30 PM"
       },
       {
+        "lineRef": "46A",
+        "route": "46A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "48",
         "route": "48",
         "added": "16-Sept-2024 03:56 PM"
@@ -35415,7 +37136,7 @@
       {
         "lineRef": "48A",
         "route": "48A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "49",
@@ -35465,7 +37186,7 @@
       {
         "lineRef": "6",
         "route": "6",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "60",
@@ -35879,9 +37600,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "141",
+        "route": "141",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "142",
         "route": "142",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "143",
+        "route": "143",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "143a",
@@ -35894,9 +37625,14 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "157",
+        "route": "157",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "158",
         "route": "158",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "159",
@@ -36059,6 +37795,11 @@
         "added": "29-Jun-2024 02:23 PM"
       },
       {
+        "lineRef": "412",
+        "route": "412",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "420",
         "route": "420",
         "added": "16-Sept-2024 03:56 PM"
@@ -36086,7 +37827,7 @@
       {
         "lineRef": "48",
         "route": "48",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "48A",
@@ -36335,6 +38076,11 @@
         "added": "29-Jun-2024 02:23 PM"
       },
       {
+        "lineRef": "836",
+        "route": "836",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "842",
         "route": "842",
         "added": "16-Sept-2024 03:56 PM"
@@ -36343,6 +38089,11 @@
         "lineRef": "844",
         "route": "844",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "849",
+        "route": "849",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "DRT_4167",
@@ -36368,7 +38119,7 @@
       {
         "lineRef": "123",
         "route": "123",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "19",
@@ -36391,6 +38142,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "26",
+        "route": "26",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "262",
         "route": "262",
         "added": "16-Sept-2024 03:56 PM"
@@ -36408,7 +38164,7 @@
       {
         "lineRef": "50",
         "route": "50",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "60",
@@ -36429,6 +38185,11 @@
         "lineRef": "90",
         "route": "90",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "GO2",
+        "route": "GO2",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "IN2",
@@ -36459,12 +38220,22 @@
       {
         "lineRef": "204",
         "route": "204",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "46A",
+        "route": "46A",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "47",
         "route": "47",
         "added": "16-Sept-2024 04:30 PM"
+      },
+      {
+        "lineRef": "901",
+        "route": "901",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "902",
@@ -36495,7 +38266,7 @@
       {
         "lineRef": "4E",
         "route": "4E",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -36524,9 +38295,14 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "DTB",
+        "route": "DTB",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "ML1",
         "route": "ML1",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -36676,6 +38452,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "319",
+        "route": "319",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "32",
         "route": "32",
         "added": "16-Sept-2024 03:56 PM"
@@ -36689,6 +38470,11 @@
         "lineRef": "321",
         "route": "321",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "34",
+        "route": "34",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "38",
@@ -36708,7 +38494,7 @@
       {
         "lineRef": "39",
         "route": "39",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "414",
@@ -36806,6 +38592,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "590",
+        "route": "590",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "60",
         "route": "60",
         "added": "16-Sept-2024 03:56 PM"
@@ -36849,6 +38640,11 @@
         "lineRef": "806",
         "route": "806",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "807",
+        "route": "807",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "813",
@@ -37031,7 +38827,17 @@
       {
         "lineRef": "H6",
         "route": "H6",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "H7",
+        "route": "H7",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "K185",
+        "route": "K185",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "K20A",
@@ -37120,6 +38926,16 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "701",
+        "route": "701",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "719",
+        "route": "719",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "770",
         "route": "770",
         "added": "16-Sept-2024 03:56 PM"
@@ -37142,7 +38958,7 @@
       {
         "lineRef": "830",
         "route": "830",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "838",
@@ -37271,6 +39087,11 @@
         "lineRef": "1B",
         "route": "1B",
         "added": "16-Sept-2024 04:30 PM"
+      },
+      {
+        "lineRef": "2",
+        "route": "2",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -37282,6 +39103,11 @@
         "lineRef": "525",
         "route": "525",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "590",
+        "route": "590",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "626",
@@ -37330,6 +39156,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "354",
+        "route": "354",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "K",
         "route": "K",
         "added": "16-Sept-2024 03:56 PM"
@@ -37359,6 +39190,11 @@
         "lineRef": "766",
         "route": "766",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "820",
+        "route": "820",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "851",
@@ -37496,12 +39332,12 @@
       {
         "lineRef": "21",
         "route": "21",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "217",
         "route": "217",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "22",
@@ -37511,7 +39347,7 @@
       {
         "lineRef": "23",
         "route": "23",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "40A",
@@ -37562,6 +39398,22 @@
         "lineRef": "R26",
         "route": "R26",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "X76",
+        "route": "X76",
+        "added": "17-Sept-2024 11:25 AM"
+      }
+    ]
+  },
+  {
+    "operatorRef": "TKTR",
+    "operatorName": "TK Travel",
+    "routes": [
+      {
+        "lineRef": "151",
+        "route": "151",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -37597,7 +39449,7 @@
       {
         "lineRef": "378",
         "route": "378",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "595",
@@ -37672,7 +39524,7 @@
       {
         "lineRef": "ML2",
         "route": "ML2",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "T1",
@@ -37685,6 +39537,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "T4",
+        "route": "T4",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "T6",
         "route": "T6",
         "added": "16-Sept-2024 04:30 PM"
@@ -37692,7 +39549,7 @@
       {
         "lineRef": "T8",
         "route": "T8",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -37821,9 +39678,14 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "C5",
+        "route": "C5",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "M17",
         "route": "M17",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "M44",
@@ -37841,6 +39703,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "M76",
+        "route": "M76",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "PFP",
         "route": "PFP",
         "added": "16-Sept-2024 03:56 PM"
@@ -37848,7 +39715,7 @@
       {
         "lineRef": "SP",
         "route": "SP",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "X30",
@@ -37877,6 +39744,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "160",
+        "route": "160",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "162",
         "route": "162",
         "added": "29-Jun-2024 02:23 PM"
@@ -37884,7 +39756,7 @@
       {
         "lineRef": "162_Sch_AM",
         "route": "162_Sch_AM",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "162_Sch_PM",
@@ -37920,7 +39792,7 @@
       {
         "lineRef": "403",
         "route": "403",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "437",
@@ -37950,7 +39822,7 @@
       {
         "lineRef": "72",
         "route": "72",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "74",
@@ -37970,7 +39842,7 @@
       {
         "lineRef": "79A",
         "route": "79A",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "81",
@@ -37985,7 +39857,7 @@
       {
         "lineRef": "86C",
         "route": "86C",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "88",
@@ -38040,9 +39912,14 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "654",
+        "route": "654",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "658",
         "route": "658",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -38159,12 +40036,12 @@
       {
         "lineRef": "530",
         "route": "530",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "532",
         "route": "532",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "534",
@@ -38214,7 +40091,7 @@
       {
         "lineRef": "C39",
         "route": "C39",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "C40",
@@ -38254,7 +40131,7 @@
       {
         "lineRef": "FTB",
         "route": "FTB",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "K3",
@@ -38269,7 +40146,7 @@
       {
         "lineRef": "K5",
         "route": "K5",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "K65",
@@ -38336,6 +40213,11 @@
         "lineRef": "127A",
         "route": "127A",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "680",
+        "route": "680",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -38369,6 +40251,16 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "41",
+        "route": "41",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "43",
+        "route": "43",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "44",
         "route": "44",
         "added": "16-Sept-2024 03:56 PM"
@@ -38387,6 +40279,16 @@
         "lineRef": "67",
         "route": "67",
         "added": "29-Jun-2024 02:23 PM"
+      },
+      {
+        "lineRef": "91",
+        "route": "91",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "94",
+        "route": "94",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "94A",
@@ -38482,7 +40384,7 @@
       {
         "lineRef": "122",
         "route": "122",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "125A",
@@ -38565,6 +40467,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "238",
+        "route": "238",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "239",
         "route": "239",
         "added": "16-Sept-2024 04:30 PM"
@@ -38583,6 +40490,11 @@
         "lineRef": "53",
         "route": "53",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "598",
+        "route": "598",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "7",
@@ -38649,6 +40561,11 @@
         "lineRef": "K1",
         "route": "K1",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "P1",
+        "route": "P1",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "X10",
@@ -38897,7 +40814,7 @@
       {
         "lineRef": "1",
         "route": "1",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "1A",
@@ -38985,6 +40902,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "S8",
+        "route": "S8",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "X98",
         "route": "X98",
         "added": "16-Sept-2024 03:56 PM"
@@ -39066,6 +40988,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "975",
+        "route": "975",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "A2",
         "route": "A2",
         "added": "16-Sept-2024 03:56 PM"
@@ -39089,6 +41016,16 @@
         "lineRef": "B2",
         "route": "B2",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "B27",
+        "route": "B27",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
+        "lineRef": "B28",
+        "route": "B28",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "B3",
@@ -39286,6 +41223,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "S23",
+        "route": "S23",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "S30",
         "route": "S30",
         "added": "16-Sept-2024 03:56 PM"
@@ -39293,7 +41235,7 @@
       {
         "lineRef": "S32",
         "route": "S32",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "S34",
@@ -39396,7 +41338,7 @@
       {
         "lineRef": "SB1",
         "route": "SB1",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "SB5",
@@ -42580,7 +44522,7 @@
       {
         "lineRef": "31",
         "route": "31",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "405",
@@ -42590,7 +44532,7 @@
       {
         "lineRef": "428",
         "route": "428",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "466",
@@ -42630,7 +44572,7 @@
       {
         "lineRef": "497",
         "route": "497",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "51",
@@ -43068,6 +45010,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "38A",
+        "route": "38A",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "418",
         "route": "418",
         "added": "29-Jun-2024 02:23 PM"
@@ -43143,6 +45090,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "90B",
+        "route": "90B",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "92",
         "route": "92",
         "added": "16-Sept-2024 03:56 PM"
@@ -43160,12 +45112,17 @@
       {
         "lineRef": "F2",
         "route": "F2",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "F3",
         "route": "F3",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "H1",
+        "route": "H1",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "H3",
@@ -43206,6 +45163,11 @@
         "lineRef": "R4",
         "route": "R4",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "SB11",
+        "route": "SB11",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "SB6",
@@ -43480,7 +45442,7 @@
       {
         "lineRef": "24",
         "route": "24",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "25",
@@ -43558,6 +45520,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "741",
+        "route": "741",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "755",
         "route": "755",
         "added": "16-Sept-2024 03:56 PM"
@@ -43588,9 +45555,19 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "C41",
+        "route": "C41",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "C41A",
         "route": "C41A",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "C42",
+        "route": "C42",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "C43",
@@ -43620,7 +45597,7 @@
       {
         "lineRef": "C47",
         "route": "C47",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "C48",
@@ -43671,6 +45648,11 @@
         "lineRef": "CAT9",
         "route": "CAT9",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "N3",
+        "route": "N3",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "N4",
@@ -43769,6 +45751,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "102",
+        "route": "102",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "109",
         "route": "109",
         "added": "16-Sept-2024 03:56 PM"
@@ -43781,7 +45768,7 @@
       {
         "lineRef": "115",
         "route": "115",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "51",
@@ -43934,12 +45921,17 @@
       {
         "lineRef": "462",
         "route": "462",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "463",
         "route": "463",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "48",
+        "route": "48",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "500",
@@ -44019,6 +46011,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "889T",
+        "route": "889T",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "889W",
         "route": "889W",
         "added": "29-Jun-2024 02:23 PM"
@@ -44038,6 +46035,11 @@
         "lineRef": "X11",
         "route": "X11",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "X12",
+        "route": "X12",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -44082,6 +46084,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "442",
+        "route": "442",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "446",
         "route": "446",
         "added": "16-Sept-2024 04:30 PM"
@@ -44090,6 +46097,11 @@
         "lineRef": "447",
         "route": "447",
         "added": "29-Jun-2024 02:23 PM"
+      },
+      {
+        "lineRef": "448",
+        "route": "448",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "449",
@@ -44130,6 +46142,11 @@
         "lineRef": "88",
         "route": "88",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "88A",
+        "route": "88A",
+        "added": "17-Sept-2024 11:25 AM"
       }
     ]
   },
@@ -44176,7 +46193,7 @@
       {
         "lineRef": "37",
         "route": "37",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "496",
@@ -44266,6 +46283,11 @@
         "added": "16-Sept-2024 04:30 PM"
       },
       {
+        "lineRef": "113",
+        "route": "113",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "165",
         "route": "165",
         "added": "16-Sept-2024 03:56 PM"
@@ -44279,6 +46301,11 @@
         "lineRef": "60",
         "route": "60",
         "added": "16-Sept-2024 03:56 PM"
+      },
+      {
+        "lineRef": "60A",
+        "route": "60A",
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "611",
@@ -44319,7 +46346,7 @@
       {
         "lineRef": "120",
         "route": "120",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "13",
@@ -44382,6 +46409,11 @@
         "added": "16-Sept-2024 03:56 PM"
       },
       {
+        "lineRef": "24",
+        "route": "24",
+        "added": "17-Sept-2024 11:25 AM"
+      },
+      {
         "lineRef": "25",
         "route": "25",
         "added": "16-Sept-2024 03:56 PM"
@@ -44409,7 +46441,7 @@
       {
         "lineRef": "32",
         "route": "32",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "33",
@@ -44429,7 +46461,7 @@
       {
         "lineRef": "38",
         "route": "38",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "3x",
@@ -44649,7 +46681,7 @@
       {
         "lineRef": "898",
         "route": "898",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "9",
@@ -44804,7 +46836,7 @@
       {
         "lineRef": "RG2",
         "route": "RG2",
-        "added": "29-Jun-2024 02:23 PM"
+        "added": "17-Sept-2024 11:25 AM"
       },
       {
         "lineRef": "SSS",
