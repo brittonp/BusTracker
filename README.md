@@ -11,7 +11,7 @@ BusTracker has been developed as an exercise in the use of:
 * .NET Core to create REST services;
 * GitHub to manage and control code;
 * Visual Studio to create a solution containing projects:
- * Services;
+ * .NET Core API Services;
  * Web UI.
 * Google Map API;
 * Sourcing data from the [Open Data Service](https://data.bus-data.dft.gov.uk/).
