@@ -14,9 +14,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="public\licence.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_WebToolingArtifacts Remove="Properties\PublishProfiles\BusTrackerServices - Web Deploy - Test.pubxml" />
     <_WebToolingArtifacts Remove="Properties\PublishProfiles\BusTrackerServices - Web Prod Deploy.pubxml" />
     <_WebToolingArtifacts Remove="Properties\PublishProfiles\BusTrackerServices - Web Test Deploy.pubxml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="public\licence.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,10 +53,16 @@ builder.Services.AddSwaggerGen(options =>
         License = new OpenApiLicense
         {
             Name = "MIT Licence",
-            Url = new Uri("https://github.com/brittonp/BusTracker/licence.html")
+            Url = new Uri("https://bustrackerservices.azurewebsites.net/public/licence.html") 
         }
     });
 });
+
+//builder.Services.Configure<StaticFileOptions>(options =>
+//{
+//    options.FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "public"));
+//    options.RequestPath = "/public"
+//});
 
 
 var app = builder.Build();
@@ -65,6 +72,13 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging()  || app.Envir
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    //app.UseStaticFiles();
+
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "public")),
+        RequestPath = "/public"
+    });
 }
 
 app.UseAuthorization();

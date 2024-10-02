@@ -9212,6 +9212,10 @@
         "route": "BF"
       },
       {
+        "lineRef": "DL",
+        "route": "DL"
+      },
+      {
         "lineRef": "HH",
         "route": "HH"
       },
@@ -11678,6 +11682,10 @@
       {
         "lineRef": "242",
         "route": "242"
+      },
+      {
+        "lineRef": "242S",
+        "route": "242S"
       },
       {
         "lineRef": "247",
@@ -25252,6 +25260,10 @@
       {
         "lineRef": "8A",
         "route": "8A"
+      },
+      {
+        "lineRef": "907",
+        "route": "907"
       },
       {
         "lineRef": "B3",
@@ -43048,6 +43060,10 @@
       {
         "lineRef": "298",
         "route": "298"
+      },
+      {
+        "lineRef": "42",
+        "route": "42"
       },
       {
         "lineRef": "430",

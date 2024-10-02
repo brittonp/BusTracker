@@ -27,8 +27,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5EA58822-E1AA-464E-BB51-71177430121B}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		licence.html = licence.html
 		README.md = README.md
+		licence.md = licence.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusTrackerRoutes", "BusTrackerRoutes\BusTrackerRoutes.csproj", "{E838CF6D-D0DC-4E47-A819-D7581B86996E}"
