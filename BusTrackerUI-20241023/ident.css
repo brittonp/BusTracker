@@ -1,0 +1,38 @@
+﻿:root {
+    --ident-start-rx: -45;
+    --ident-start-ry: 45;
+    --ident-start-rz: 0;
+}
+
+.threedee {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-style: preserve-3d;
+    transform-origin: 0px 0px;
+    backface-visibility: hidden;
+}
+
+    .threedee.face {
+        position: absolute;
+        left: unset;
+        top: unset;
+        transform-style: preserve-3d;
+        transform-origin: 0px 0px;
+        backface-visibility: hidden;
+    }
+
+.assembly {
+    animation: spin 4s linear infinite;
+}
+
+
+@keyframes spin {
+    from {
+        transform: rotateX(calc(var(--ident-start-rx) * 1deg)) rotateY(calc(var(--ident-start-ry) * 1deg)) rotateZ(calc(var(--ident-start-rz) * 1deg));
+    }
+    to {
+        transform: rotateX(calc((var(--ident-start-rx) * 1deg) + 360deg)) rotateY(calc((var(--ident-start-ry) * 1deg) + 360deg)) rotateZ(calc((var(--ident-start-rz) * 1deg) + 360deg));
+    }
+}
+

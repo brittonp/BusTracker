@@ -1,11 +1,10 @@
-﻿import { appConstant } from "./globals.js";
-import { appUtils } from "./utils.js";
+﻿import { log, appConstant } from "./globals.js";
 
 export let session = {
 
     init: async function initiateSession() {
 
-        appUtils.log(`initiateSession: start`);
+        log(`initiateSession: start`);
         const response = await fetch('/services/Session/Create', { timeout: 30 * 1000 });
         if (!response.ok) {
             throw new Error(`Failed to create session. Error: ${response.status}`);
@@ -14,7 +13,7 @@ export let session = {
 
         session = { ...this, ...data };
 
-        appUtils.log(`initiateSession: complete`);
+        log(`initiateSession: complete`);
         return true;
     }
 }

@@ -49,7 +49,8 @@ namespace BusTrackerServices.Controllers
                 sessionId = sessionId,
                 environment = _configuration["ASPNETCORE_ENVIRONMENT"],
                 googleMapKey = _configuration["GoogleMapKey"],
-                startMessage = _configuration["SessionStartMessage"]
+                startMessage = _configuration["SessionStartMessage"],
+                mapProvider = _configuration["MapProvider"],
             };
 
             _logger.LogWarning(4001, "Session initiated");

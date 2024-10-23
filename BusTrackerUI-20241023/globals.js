@@ -3,7 +3,7 @@
     userOptionsCookieName: 'userOptions',
     userSearchesCookieName: 'userSearches',
     refreshCounter: 1, // seconds
-    defaultZoom: 13,
+    zoomLocation: 15,
     maxBusDisplay: 800,
     minBusDisplay: 100,
     searchBoxSize: 0.2,
@@ -31,14 +31,23 @@
     timeENGFormatter: new Intl.DateTimeFormat('en-GB', {
         hour: 'numeric',
         minute: 'numeric',
-        second: 'numeric',
         hour12: false,
-    }),
-    mapBounds: {
-        north: 61.02637,
-        south: 49.624946,
-        west: -7.239990,
-        east: 3.691406,
-    }
+    })
 }
 
+export function log(msg) {
+    console.log(`${appConstant.shortEnGBFormatter.format(new Date())}: ${msg}`);
+}
+
+
+export function queryStringToJSON(qs) {
+    var pairs = qs.slice(1).split('&');
+
+    var result = {};
+    pairs.forEach(function (pair) {
+        pair = pair.split('=');
+        result[pair[0]] = decodeURIComponent(pair[1] || '');
+    });
+
+    return JSON.parse(JSON.stringify(result));
+}

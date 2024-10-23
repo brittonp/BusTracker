@@ -1,77 +1,51 @@
-﻿import { log, appConstant, queryStringToJSON } from "./globals.js";
+﻿import { appConstant } from "./globals.js";
+import { appUtils } from "./utils.js";
 import { operatorRoutes } from "./operator-routes.js";
 import { searchHistory } from "./search-history.js";
 import { userOptions } from "./user-options.js";
 import { session } from "./session.js";
 import { Ident } from "./ident.js";
 
-
-const defaultZoom = 6;
-
-const mapProps = {
-    zoom: defaultZoom,
-    center: {
-        lat: 54.87676318480376,
-        lng: -3.1485196166071217
-    },
-    mapId: "DEMO_MAP_ID",
-    zoomControl: true,
-    mapTypeControl: false,
-    scaleControl: true,
-    streetViewControl: false,
-    rotateControl: false,
-    fullscreenControl: false,
-};
-
+let mapObj;
 let vehicles = [];
 const defaultSearchCriteria = {
     lineRef: null,
     operatorRef: null,
     showAll: true,
-    initialRender: false,
+    resize: false,
     lat: null,
     lng: null,
-    zoom: defaultZoom
+    zoom: appConstant.defaultZoom
 };
 let searchCriteria;
-let markers = [];
-let paths = [];
-let speedMarkers = []
-let map, trackerInfoWindow;
 let extendedAttributes;
-
-var boundingBox = {
-    north: null,
-    south: null,
-    east: null,
-    west: null
-};
-let mapBoundingBox;
-let accuracyCircle;
 let busTracker;
 let refreshTimer;
-
-let currentViewMode;
 let currentLocation = {
-    get: async function get() {
+    get: async function () {
 
         try {
+            //throw new Error("Test Error");
             const position = await getGeoLocation();
+
             currentLocation = {
                 ...currentLocation,
                 position: position,
+                center: {
+                    lat: position.latitude,
+                    lng: position.longitude,
+                },
                 canTrack: !(position.code == 1)
             };
             return position;
         } catch (err) {
-            log(err.message);
+            appUtils.log(err.message);
             currentLocation = {
                 ...currentLocation,
                 canTrack: false
             };
             return err;
         }
-
         function getGeoLocation() {
             return new Promise((resolve, reject) => {
                 navigator.geolocation.getCurrentPosition(
@@ -81,82 +55,39 @@ let currentLocation = {
             });
         }
     },
-    add: async function add() {
+    set: async function () {
 
-        await currentLocation.get();
-        if (!(currentLocation.canTrack)) return false;
+        await this.get();
+        if (!(this.canTrack)) return false;
 
-        // Request needed libraries.
-        const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker",);
-        const meSmallTag = document.createElement("div");
-        meSmallTag.className = "location-small-tag";
-        meSmallTag.innerHTML = `<i class="white crosshairs icon"></i>`;
+        mapObj.showCurrentLocation(currentLocation);
 
-        // add markers for current location...
-        const markerMe = new google.maps.marker.AdvancedMarkerElement({
-            map: map,
-            position: {
-                lat: currentLocation.position.latitude,
-                lng: currentLocation.position.longitude,
-            },
-            content: meSmallTag,
-            title: (currentLocation.accuracy > 10 ? `This is an estimate of your location within ${Math.floor(currentLocation.accuracy)} metres.` : "Your location.")
-        });
-        markerMe.content.style.transform = 'translateY(50%)';
+        //setTimeout(this.set.bind(this), 5 * 1000);
 
-        const accuracyCircle = new google.maps.Circle({
-            strokeColor: "#8160d4",
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: "#8160d4",
-            fillOpacity: 0.05,
-            map: map,
-            center: {
-                lat: currentLocation.position.latitude,
-                lng: currentLocation.position.longitude,
-            },
-            radius: currentLocation.position.accuracy,  //metres..
-        });
-
-        currentLocation = {
-            ...currentLocation,
-            markerMe: markerMe,
-            accuracyCircle: accuracyCircle 
-        };
-
-        setTimeout(currentLocation.update, 5 * 1000);
-
-        return markerMe;
     },
-    update: async function move() {
 
-        await currentLocation.get();
-        if (!(currentLocation.canTrack)) return false;
-        
-        currentLocation.markerMe.position = {
-            lat: currentLocation.position.latitude,
-            lng: currentLocation.position.longitude,
-        };
+};
 
-        // important to ensure the marker is anchored on centre....
-        currentLocation.markerMe.content.style.transform = 'translateY(50%)';
+const appMessage = new appUtils.BTMessage();
+const systemMessage = new appUtils.BTMessage({
+    className: 'system',
+    closeAction: true,
+    actions: [
+        {
+            className: 'hide',
+            label: 'Close and do not show again',
+            action: function () {
+                userOptions.set('hideSystemMessage', true);
+            }
+        }
+    ],
 
-        currentLocation.accuracyCircle.setCenter({
-            lat: currentLocation.position.latitude,
-            lng: currentLocation.position.longitude,
-        });
-        currentLocation.accuracyCircle.setRadius(currentLocation.position.accuracy);  //metres..
-
-        //console.info('Current Location', currentLocation);
-        setTimeout(currentLocation.update, 5 * 1000);
-    },
-}
+});
 
 // Document Ready function...
 $(() => {
     // asynch call to initiate page...
     initiate();
-
 });
 
 async function initiate() {
@@ -171,12 +102,12 @@ async function initiate() {
         .dimmer('show');
 
     const startTime = new Date();
-    log(`initiate: start`);
+    appUtils.log(`initiate: start`);
 
     // Initiate service worker...
     if (!navigator.serviceWorker.controller) {
         navigator.serviceWorker.register("/sw.js").then(function (reg) {
-            log("Service worker has been registered for scope: " + reg.scope);
+            appUtils.log("Service worker has been registered for scope: " + reg.scope);
         });
     }
 
@@ -184,8 +115,18 @@ async function initiate() {
 
         await session.init();
 
+        // Import appropriate map provider...
+        //session.mapProvider = 'Leaflet';
+        const module = (session.mapProvider == 'Leaflet' ? await import('./map-leaflet.js') : await import('./map-google.js'));
+
+        // temp ...
+        //const query = appUtils.queryStringToJSON(location.search);
+        //const module = (query.mapProvider == 'leaflet' ? await import('./map-leaflet.js') : await import('./map-google.js'));
+
+        mapObj = module.mapObj;
+
         await Promise.all([
-            initiateMapApi(),
+            mapObj.initiate(session),
             operatorRoutes.get(),
             userOptions.init()
         ]);
@@ -198,7 +139,7 @@ async function initiate() {
             searchCriteria =
             {
                 ...defaultSearchCriteria,
-                ...queryStringToJSON(location.search)
+                ...appUtils.queryStringToJSON(location.search)
             }
 
             // initiate search on search criteria...
@@ -206,24 +147,18 @@ async function initiate() {
 
         } else {
 
-            searchCriteria =
-            {
-                ...defaultSearchCriteria
-            }
-
-            // initiate search on all buses about current position...
             $('.bt-menu-btn.here').trigger('click');
 
         }
         console.log(searchCriteria);
 
         const endTime = new Date();
-        log(`initiate: complete after ${(endTime - startTime) / 1000}secs`);
+        appUtils.log(`initiate: complete after ${(endTime - startTime) / 1000}secs`);
 
     } catch (error) {
-        log(`Error initiating: ${error.message}`);
+        appUtils.log(`Error initiating: ${error.message}`);
         alert(`Error initiating: ${error.message}`);
-        window.location.href = "offline.html";
+        //window.location.href = "offline.html";
     } finally {
 
         $('.page.dimmer.ident')
@@ -231,25 +166,12 @@ async function initiate() {
             .dimmer('destroy');
 
         // session start message, this value is set in the services config...
-        if (session.startMessage != null)
-            displaySystemMessage(session.startMessage);
+        if (session.startMessage != null & userOptions.hideSystemMessage != true)
+            systemMessage.display(session.startMessage);
+
     }
 }
-async function initiateMapApi() {
 
-    try {
-        (g => {
-            var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window;
-            b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
-        })
-            ({ key: session.googleMapKey, v: "weekly" });
-
-        return true;
-
-    } catch (err) {
-        return false;
-    }
-}
 async function initView() { 
 
     // Set environment glyph..
@@ -275,7 +197,7 @@ async function initView() {
                     lineRef: result.lineRef,
                     operatorRef: result.operatorRef,
                     showAll: false,
-                    initialRender: true,
+                    resize: true,
                 };
                 getBuses();
             },
@@ -301,14 +223,57 @@ async function initView() {
     $('.ui.checkbox')
         .checkbox();
 
+    // Map event handlers...
+    $('#map')
+        .on('search-route', (e, sc) => {
+            searchCriteria = sc;
+            getBuses();
+        })
+        .on('track-vehicle', (e, vehicleRef) => {
+            mapObj.currentViewMode = appConstant.viewMode.track;
+            trackBus(vehicleRef, true, 0);
+        })
+        .on('add-favourite', (e, vehicleRef) => {
+            userOptions.set('favouriteBus', vehicleRef);
+        })
+        .on('map-move', e => {
+
+            if (mapObj.currentViewMode == appConstant.viewMode.search) {
+
+                if (searchCriteria.resize) {
+                    searchCriteria.resize = false;
+
+                } else {
+
+                    if (searchCriteria.showAll) {
+
+                        appUtils.log(`Zoom: ${mapObj.getZoom()}`);
+                        appUtils.log(`Bounds: ${JSON.stringify(mapObj.getBounds())}`);
+
+                        let mapcenter = mapObj.getCenter();
+                        searchCriteria = {
+                            ...searchCriteria,
+                            lat: mapcenter.lat,
+                            lng: mapcenter.lng,
+                            zoom: mapObj.getZoom()
+                        };
+                    }
+                    getBuses();
+                }
+
+            }
+            e.preventDefault();
+        });
+
     $('.bt-menu-btn.here')
         .on('click', (e) => {
-            let mapCentre = map.getCenter();
+
+            let mapCentre = mapObj.getCenter();
             searchCriteria = {
                 ...defaultSearchCriteria,
-                lat: mapCentre.lat(),
-                lng: mapCentre.lng(),
-                zoom: map.getZoom()
+                lat: mapCentre.lat,
+                lng: mapCentre.lng,
+                zoom: mapObj.getZoom(),
             };
             getBuses();
             e.preventDefault();
@@ -316,13 +281,25 @@ async function initView() {
 
     $('.bt-menu-btn.me')
         .on('click', async (e) => {
-            await currentLocation.update();
-            searchCriteria = {
-                ...searchCriteria,
-                lat: currentLocation.position.latitude,
-                lng: currentLocation.position.longitude,
-                zoom: appConstant.zoomLocation
-            };
+            await currentLocation.get();
+            if (currentLocation.canTrack) {
+                // if location is known we shall recenter the map on that...
+                searchCriteria = {
+                    ...defaultSearchCriteria,
+                    lat: currentLocation.position.lat,
+                    lng: currentLocation.position.lng,
+                };
+                getBuses();
+                e.preventDefault();
+
+                // on completion of flyTo (map-move) the search will be executed...
+                mapObj.flyTo(currentLocation.center);
+            }
+            e.preventDefault();
+        });
+
+    $('.bt-menu-btn.refresh')
+        .on('click', (e) => {
             getBuses();
             e.preventDefault();
         });
@@ -341,6 +318,9 @@ async function initView() {
 
             $('#optTrackerRefreshPeriod')
                 .slider('set value', userOptions.refreshPeriod, false);
+
+            $('#optHideSystemMessage')
+                .checkbox(`set ${userOptions.hideSystemMessage ? 'checked' : 'unchecked'}`);
 
             $('#options')
                 .modal({
@@ -373,11 +353,6 @@ async function initView() {
                 .modal('show');
         });
 
-    $('.bt-menu-btn.refresh')
-        .on('click', (e) => {
-            getBuses();
-            e.preventDefault();
-        });
 
     // Share...
     $('.bt-menu-btn.share')
@@ -461,6 +436,7 @@ async function initView() {
             $('.bt-track').hide();
             // enable data dependent buttons...
             $('.bt-menu-btn').removeClass('disabled');
+            $('.bt-menu-btn.refresh').trigger('click');
             e.preventDefault();
         });
 
@@ -543,7 +519,8 @@ async function initView() {
             ]
         });
 
-    $('.screen-message')
+    // this is for the appMessage with link to open Options dialog...
+    $('body')
         .on('click', '.link.options', (e) => {
             $('#viewOptions').trigger('click');
         });
@@ -573,11 +550,21 @@ async function initView() {
 
     $('#optTrackerRefreshPeriod')
         .slider({
-            min: 20,
+            min: 10,
             max: 40,
             step: 5,
             onChange: (val => userOptions.set('refreshPeriod', val)),
         });
+
+    $('#optHideSystemMessage')
+        .checkbox({
+            onChecked: (() => {
+                userOptions.set('hideSystemMessage', true);
+            }),
+            onUnchecked: (() => {
+                userOptions.set('hideSystemMessage', false);
+            }),
+        }); 
 
     // Bind search button to form...
     $('#closeOptionsForm')
@@ -640,74 +627,8 @@ async function initView() {
         }
     );
 
-    // Map pop-up event handlers...
-    $('#map')
-        .on('click', '.route-link', e => {
-            searchCriteria = JSON.parse(e.currentTarget.attributes.data.value);
-            getBuses();
-        })
-        .on('click', '.track-link', e => {
-            let vehicleRef = e.currentTarget.attributes.data.value;
-            currentViewMode = appConstant.viewMode.track;
-            trackBus(vehicleRef, true, 0);
-        })
-        .on('click', '.favourite-link', e => userOptions.set('favouriteBus', e.currentTarget.attributes.data.value)
-        );
 };
 
-// overwrite the search logic to control the list order of matching operators and routes (need to also replicate the message function too, not sure why)...
-$.fn.search.settings.templates = {
-    message: function (message, type, header) {
-        var
-            html = ''
-            ;
-        if (message !== undefined && type !== undefined) {
-            html += ''
-                + '<div class="message ' + type + '">';
-            if (header) {
-                html += ''
-                    + '<div class="header">' + header + '</div>';
-            }
-            html += ' <div class="description">' + message + '</div>';
-            html += '</div>';
-        }
-
-        return html;
-    },
-    standard: function (response) {
-        // Your own sorting logic here
-        var sortedResults = response.results
-            .sort((a, b) => {
-                if (a.operatorName == b.operatorName) {
-                    a.routePrefix = a.route.match(/^[A-Z]+/);
-                    a.routeNumber = parseInt(a.route.replace(/^[A-Z]+/, '').replace(/[A-Z]+$/, ''));
-                    if (isNaN(a.routeNumber)) a.routeNumber = 0;
-                    a.routeSuffix = a.route.match(/[A-Z]+$/);
-
-                    b.routePrefix = b.route.match(/^[A-Z]+/);
-                    b.routeNumber = parseInt(b.route.replace(/^[A-Z]+/, '').replace(/[A-Z]+$/, ''));
-                    if (isNaN(b.routeNumber)) b.routeNumber = 0;
-                    b.routeSuffix = b.route.match(/[A-Z]+$/);
-
-                    if (a.routeNumber == b.routeNumber) {
-                        return a.routePrefix < b.routePrefix ? -1 : 1;
-                    }
-
-                    return  a.routeNumber < b.routeNumber ? -1 : 1;
-                }
-                return a.operatorName < b.operatorName ? -1 : 1;
-        });
-
-        // Create the DOM as as it normally should be
-         return $.map(sortedResults, function (item) {
-                return $('<div>').append($('<a>').addClass('result').append(
-                    $('<div>').addClass('content').append(
-                        $('<div>').addClass('title').text(item.title)
-                    )
-                )).html();
-            });
-    }
-};
 function trackBus(vehicleRef, firstTime, counter) {
 
     counter = (counter == parseInt(userOptions.refreshPeriod/appConstant.refreshCounter) ? 1 : counter + 1);
@@ -731,7 +652,8 @@ function trackBus(vehicleRef, firstTime, counter) {
         .dimmer('show');
 
     if (firstTime) {
-        clearMap();
+        mapObj.clear();
+
         $('.bt-search').hide();
         $('.bt-menu').hide();
         $('.bt-track').show();
@@ -762,7 +684,7 @@ function trackBus(vehicleRef, firstTime, counter) {
         let title = `${vehicleActivity.MonitoredVehicleJourney.VehicleRef} (${vehicleActivity.extendedAttributes.operatorName} - ${vehicleActivity.MonitoredVehicleJourney.PublishedLineName})`;
         $('#trackedVehicle').html(title);
 
-        addTrackedVehicle(vehicleActivity);
+        mapObj.addTrackedVehicle(vehicleActivity);
     })
     .fail((rq, ts, e) => {
         displayError(`Error encountered when requesting bus data: ${ts}.`);
@@ -775,120 +697,6 @@ function trackBus(vehicleRef, firstTime, counter) {
         $('#map').dimmer('hide');
     });
 };
-
-async function addTrackedVehicle(vehicle) {
-
-    // Request needed libraries.
-    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker",);
-    const { LatLngBounds } = await google.maps.importLibrary("core");
-    const mapBounds = new google.maps.LatLngBounds();
-
-    // do not add a marker if has not moved...
-    if (markers.length > 0) {
-        if (JSON.stringify(markers[markers.length - 1].vehicle.MonitoredVehicleJourney.VehicleLocation) === JSON.stringify(vehicle.MonitoredVehicleJourney.VehicleLocation)) {
-            return;
-        }
-    }
-
-    const timeTag = document.createElement("div");
-    timeTag.className = "time-tag";
-    timeTag.textContent = appConstant.timeENGFormatter.format(new Date(vehicle.RecordedAtTime));
- 
-    // add markers for timeTag...
-    let marker = new google.maps.marker.AdvancedMarkerElement({
-        map: map,
-        position: { lat: Number(vehicle.MonitoredVehicleJourney.VehicleLocation.Latitude), lng: Number(vehicle.MonitoredVehicleJourney.VehicleLocation.Longitude) },
-        content: timeTag,
-        title: vehicle.MonitoredVehicleJourney.VehicleRef + '-' + vehicle.MonitoredVehicleJourney.DestinationName,
-    });
-
-    //marker.addEventListener("gmp-click", (o) => {
-    //    toggleHighlight(marker, vehicle);
-    //});
-
-    marker.addListener("click", (o) => {
-        toggleHighlight(marker, vehicle);
-    });
-
-
-    marker.vehicle = vehicle;
-
-    //Add marker to tracking array (for use in removing them)...
-    markers.push(marker);
-
-    // Draw a polyline between the last timeTag and the latest...
-    if (markers.length > 1) {
-
-        const lineSymbol = {
-            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-        };
-
-        let prevPoint =
-        {
-            timestamp: markers[markers.length - 2].vehicle.RecordedAtTime,
-            lat: Number(markers[markers.length - 2].vehicle.MonitoredVehicleJourney.VehicleLocation.Latitude),
-            lng: Number(markers[markers.length - 2].vehicle.MonitoredVehicleJourney.VehicleLocation.Longitude)
-        };
-
-        let currentPoint = {
-            timestamp: markers[markers.length - 1].vehicle.RecordedAtTime,
-            lat: Number(markers[markers.length - 1].vehicle.MonitoredVehicleJourney.VehicleLocation.Latitude),
-            lng: Number(markers[markers.length - 1].vehicle.MonitoredVehicleJourney.VehicleLocation.Longitude)
-        };
-
-        let dMetres = distanceBetweenPoints(prevPoint, currentPoint);
-        let dMiles = dMetres * 0.000621371;
-        let tHours = (new Date(currentPoint.timestamp) - new Date(prevPoint.timestamp)) / (1000*60*60);
-        let speedMPH = dMiles / tHours;
-
-        const path = new google.maps.Polyline({
-            path: [prevPoint, currentPoint],
-            geodesic: true,
-            strokeColor: "#FF0000",
-            strokeOpacity: 1.0,
-            strokeWeight: 2,
-            icons: [
-                {
-                    icon: lineSymbol,
-                    offset: "60%",
-                },
-            ],
-            map: map,
-        });
-
-        let speedMarkerPos = {
-            lat: prevPoint.lat + ((currentPoint.lat - prevPoint.lat) / 2),
-            lng: prevPoint.lng + ((currentPoint.lng - prevPoint.lng) / 2)
-        };
-        const speedTag = document.createElement("div");
-        speedTag.className = "speed-tag";
-        speedTag.textContent = `${Math.floor(speedMPH).toString()} mph`;
-
-        let speedMarker = new google.maps.marker.AdvancedMarkerElement({
-            map: map,
-            position: speedMarkerPos,
-            content: speedTag,
-            title: "Point to point speed",
-        });
-
-
-        // add path to array of paths (for use in removing them)...
-        paths.push(path);
-        speedMarkers.push(speedMarker);
-       
-    }
-
-    // get the last 3 points, to use as the mapBounds limit...
-    let markerBounds = markers.filter((el, i, arr) => (i > arr.length - 4 ? el : false));
-    markerBounds.forEach((m) => {
-        mapBounds.extend(m.position);
-    });
-    map.fitBounds(mapBounds);
-
-    // set the minimum zoom to be 17...
-    if (map.zoom > 17)
-        map.setZoom(17);
-}
 
 function getBuses(counter = 0)
 {
@@ -913,16 +721,12 @@ function getBuses(counter = 0)
     }
 
     // clear map...
-    clearMap();
+    mapObj.clear();
 
-    // re-position map if positional data is in search criteria (only time it is not is when initially selecting a specific operator/route)...
-    if (searchCriteria.lat && searchCriteria.lng && searchCriteria.zoom) {
-        map.panTo({ lat: +searchCriteria.lat, lng: +searchCriteria.lng });
-        map.setZoom(+searchCriteria.zoom);
-    }
+    // hide any messages...
+    appMessage.hide();
 
-    // only set this following global var after re-draw of map, else the setZoom change event gets fired reulting in infinite recursive call of this method...
-    currentViewMode = appConstant.viewMode.search;
+    mapObj.currentViewMode = appConstant.viewMode.search;
 
     const busDataUrl = '/services/BusLocationData';
     var operatorRef = searchCriteria.operatorRef;
@@ -938,26 +742,13 @@ function getBuses(counter = 0)
     }
 
     // if the criteria is based on the maps central postion then add this to the query...
-    if (searchCriteria.showAll) {
-
-        const mapWest = map.getBounds().getSouthWest().lng();
-        const mapSouth = map.getBounds().getSouthWest().lat();
-        const mapEast = map.getBounds().getNorthEast().lng();
-        const mapNorth = map.getBounds().getNorthEast().lat();
-
-        // define bounding box 
-        boundingBox.west = Math.max(mapWest, (mapWest + (mapEast - mapWest) / 2) - (appConstant.searchBoxSize * 2));
-        boundingBox.east = Math.min(mapEast, (mapWest + (mapEast - mapWest) / 2) + (appConstant.searchBoxSize * 2));
-        boundingBox.south = Math.max(mapSouth, (mapSouth + (mapNorth - mapSouth) / 2) - appConstant.searchBoxSize);
-        boundingBox.north = Math.min(mapNorth, (mapSouth + (mapNorth - mapSouth) / 2) + appConstant.searchBoxSize);
-        boundingBox.show = mapWest != boundingBox.west || mapSouth != boundingBox.south || mapEast != boundingBox.east || mapNorth != boundingBox.north;
-
-        busDataUri = `${busDataUri}&boundingBox=${boundingBox.west},${boundingBox.south},${boundingBox.east},${boundingBox.north}`;
+    if (searchCriteria.showAll == true) {
+        const bounds = mapObj.getBounds();
+        busDataUri = `${busDataUri}&boundingBox=${bounds.west},${bounds.south},${bounds.east},${bounds.north}`;
     }
 
-
     // add search criteria to cookie, (not including boundingBox only searches)...
-    if (searchCriteria.initialRender && searchCriteria.operatorRef) {
+    if (searchCriteria.resize && searchCriteria.operatorRef) {
         searchHistory.add(searchCriteria, operatorRoutes.routes);
     }
 
@@ -992,64 +783,23 @@ function getBuses(counter = 0)
 
             // Display a message when no vehicles to be displayed...
             if (vehicles.length < 1) {   
-                displayMessage(`<p>There are no active buses to display.<br>To see inactive buses click <a class="link options">here</a> and unselect the <strong>Hide inactive buses</strong> option.</p>`);
+                appMessage.display(`<p>There are no active buses to display.<br>To see inactive buses click <a class="link options">here</a> and unselect the <strong>Hide inactive buses</strong> option.</p>`);
                 return false;
             }
             // limit number of markers loaded onto the map...
             else if (vehicles.length > userOptions.maxMarkers) {     
-                displayMessage(`<p>There are ${vehicles.length} buses identified, only ${userOptions.maxMarkers} are shown.<br>Either zoom in on an area to see all buses, or click <a class="link options">here</a> to adjust the maximum number of buses displayed.</p>`);
+                appMessage.display(`<p>There are ${vehicles.length} buses identified, only ${userOptions.maxMarkers} are shown.<br>Either zoom in on an area to see all buses, or click <a class="link options">here</a> to adjust the maximum number of buses displayed.</p>`);
                 vehicles = vehicles.filter((v, i) => i < userOptions.maxMarkers);
             }
 
-            // only draw a bounding box if the box is within the bounds of the displayed map....
-            if (boundingBox.show) {
-
-                if (mapBoundingBox)
-                    mapBoundingBox.setMap(null);
-
-                // Draw a rectangle to show the boundaryBox...
-                mapBoundingBox = new google.maps.Rectangle({
-                    strokeColor: "#FF0000",
-                    strokeOpacity: 0.8,
-                    strokeWeight: 2,
-                    fillOpacity: 0.1,
-                    map,
-                    bounds: {
-                        north: boundingBox.north,
-                        south: boundingBox.south,
-                        east: boundingBox.east,
-                        west: boundingBox.west,
-                    },
-                    draggable: true,
-                });
-
-                mapBoundingBox.addListener('dragend', () => {
-                    // reposition map to be centered on the repositioned bounding box...
-                    let mapCentre = mapBoundingBox.getBounds().getCenter();
-                    searchCriteria = {
-                        ...searchCriteria,
-                        lat: mapCentre.lat(),
-                        lng: mapCentre.lng()
-                    };
-                    getBuses();
-                });
-            }
-
-            // add vehicles to the map, then the current location, if required, then resize/reposition the map as appropriate...
-            // this is an asynchronous call so the always fn, below, is generally actioned before this addVehicles call completes...
-            addVehicles(vehicles)
+            // add vehicles to the map, then resize/reposition the map as appropriate...
+            mapObj.addVehicles(vehicles)
                 .then(() => {
 
-                    if (searchCriteria.initialRender && vehicles.length > 0) {
+                    if (searchCriteria.resize && vehicles.length > 0) {
                         // resize/reposition map to show all markers...
-                        const mapBounds = new google.maps.LatLngBounds();
-                        markers.forEach((m) => {
-                            mapBounds.extend(m.position);
-                        });
-
-                        map.fitBounds(mapBounds);
-
-                        searchCriteria.initialRender = false;
+                        mapObj.fitAllVehicles();
+                        //searchCriteria.resize = false;
                     };
 
                 })
@@ -1066,7 +816,7 @@ function getBuses(counter = 0)
         } else {
 
             vehicles = null;
-            displayMessage('No buses matching your criteria are appearing here. Either zoom out or change your criteria.');
+            appMessage.display('No buses matching your criteria are appearing here. Either zoom out or change your criteria.');
             $('.dataDependent').addClass('disabled');
         }
 
@@ -1119,222 +869,19 @@ function enrichVehicleAttributes(v) {
 
 async function initMap() {
 
-    // Request needed libraries.
-    //@ts-ignore
-    const { Map } = await google.maps.importLibrary("maps");
-    //const { event } = await google.maps.importLibrary("core");
-    //const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker",);
-
     await currentLocation.get();
-
     if (!currentLocation.canTrack) {
         $('.bt-menu-btn.me').addClass('disabled');
-    }
+    } 
 
-    // if location is known we shall centre the map on that, with a zoom of appConstant.zoomLocation, else use the default...
+    mapObj.create('map', currentLocation.center);
+
+    // show the current location, if known...
     if (currentLocation.canTrack) {
-        mapProps.zoom = appConstant.zoomLocation;
-        mapProps.center = {
-            lat: currentLocation.position.latitude,
-            lng: currentLocation.position.longitude
-        };
-    }
-    map = await new Map($('#map')[0], mapProps);
-
-    if (currentLocation.canTrack) {
-        await currentLocation.add();
-    }
-
-    map.addListener('dragend', () => {
-        // reposition the boundary box and search again...
-        if (currentViewMode == appConstant.viewMode.search) {
-            let mapCentre = map.getCenter();
-            searchCriteria = {
-                ...searchCriteria,
-                lat: mapCentre.lat(),
-                lng: mapCentre.lng()
-            };
-            getBuses();
-        }
-    });
-
-    map.addListener('zoom_changed', () => {
-        if (currentViewMode == appConstant.viewMode.search) {
-            let mapCentre = map.getCenter();
-            searchCriteria = {
-                ...searchCriteria,
-                lat: mapCentre.lat(),
-                lng: mapCentre.lng(),
-                zoom: map.getZoom()
-            };
-            getBuses();
-        }
-    });
-
-    //event.addListenerOnce(map, 'tilesloaded', (e) => {
-    //    // automatically show buses near you...
-    //    $('#locationSearch').trigger('click');
-    //});
-}
-
-async function addVehicles(vehicles) {
-
-    // Request needed libraries.
-    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker",);
-    const { LatLngBounds } = await google.maps.importLibrary("core");
-
-    function buildContent(vehicle) {
-        const content = document.createElement("div");
-
-        content.classList.add("vehicle");
-
-        // A request from H...
-        const favourite = (vehicle.extendedAttributes.favourite == true) ? 'favourite' : '';
-        // aged infers recorded at time > 1 hour....
-        const aged = (vehicle.extendedAttributes.aged == true) ? 'aged' : '';
-
-        const s = {
-            lineRef: vehicle.MonitoredVehicleJourney.LineRef,
-            operatorRef: vehicle.MonitoredVehicleJourney.OperatorRef,
-            showAll: false,
-            initialRender: true,
-        };
-
-        if (!Number.isNaN(vehicle.MonitoredVehicleJourney.Bearing)) {
-            content.style.setProperty('--dir', Number(vehicle.MonitoredVehicleJourney.Bearing));
-        }
-
-        content.innerHTML = `
-    <div class="route bus-direction-${vehicle.extendedAttributes.directionCode} ${favourite} ${aged}">
-        ${stringTrim(vehicle.MonitoredVehicleJourney.PublishedLineName, 3)}
-    </div>
-    <div class="details">
-        <div class="vehicleRef">Operator: ${vehicle.extendedAttributes.operatorName}</div>
-        <div class="vehicleRef">Vehicle Reference: ${vehicle.MonitoredVehicleJourney.VehicleRef}</div>
-        <div class="vehicleRef">Destination: ${vehicle.MonitoredVehicleJourney.DestinationName}</div>
-        <div class="vehicleRef">Origin: ${vehicle.MonitoredVehicleJourney.OriginName}</div>
-        <div class="vehicleRef">Direction: ${vehicle.MonitoredVehicleJourney.DirectionRef}</div>
-        <div class="vehicleRef">Bearing: ${vehicle.MonitoredVehicleJourney.Bearing}</div>
-        <div class="vehicleRef">Recorded: ${appConstant.shortEnGBFormatter.format(new Date(vehicle.RecordedAtTime))}</div>
-        <div class="ui icon buttons" style="display: unset">
-            <div class="ui route-link mini button" data='${JSON.stringify(s)}'><i class="bus icon"></i></div>
-            <div class="ui favourite-link mini button" data='${vehicle.MonitoredVehicleJourney.VehicleRef}'><i class="heart outline icon"></i></div>
-            <div class="ui track-link mini button" data='${vehicle.MonitoredVehicleJourney.VehicleRef}'><i class="eye icon"></i></div>
-        </div>
-    </div>
-    `;
-
-        return content;
-    }
-
-    // add markers for each vehicle...
-    $.each(vehicles, function (index, vehicle) {
-
-        const marker = new google.maps.marker.AdvancedMarkerElement({
-            map: (userOptions.hideAged && vehicle.extendedAttributes.aged) ? null : map,
-            position: { lat: Number(vehicle.MonitoredVehicleJourney.VehicleLocation.Latitude), lng: Number(vehicle.MonitoredVehicleJourney.VehicleLocation.Longitude) },
-            content: buildContent(vehicle),
-            title: vehicle.MonitoredVehicleJourney.VehicleRef + '-' + vehicle.MonitoredVehicleJourney.DestinationName,
-
-        });
-
-        marker.addListener('click', (o) => {
-            toggleHighlight(marker, vehicle);
-        });
-
-        marker.vehicle = vehicle;
-
-        //Add marker to tracking array (for use in removing them)...
-        markers.push(marker);
-    });
-}
-
-function stringTrim(s, max) {
-    return s;
-
-    // Can I do this in CSS so it only affects the unghihlighted version of the route...
-    //return (s.length > max ? s.substring(0, max-1) + String.fromCharCode(0x2026) : s);
-}
-
-//function averageVehicleLocation(v) {
-
-//    var latTotal = 0;
-//    var longTotal = 0;
-
-//    const location = v
-//        .map((v) => {
-//            return {
-//                lat: Number(v.MonitoredVehicleJourney.VehicleLocation.Latitude),
-//                long: Number(v.MonitoredVehicleJourney.VehicleLocation.Longitude),
-//            }
-//        });
-
-//    var i = 0;
-//    location.forEach((l) => {
-
-//        if (l.lat != 0 && i.long != 0) {
-//            latTotal = latTotal + l.lat;
-//            longTotal = longTotal + l.long;
-//            i++;
-//        }
-//    });
-
-//    return {
-//        lat: latTotal / i,
-//        lng: longTotal / i
-//    }
-//}
-
-function clearMap() {
-
-    currentViewMode = null;
-
-    // Clear any timeout callbacks...
-    if (busTracker)
-        clearTimeout(busTracker);
-
-    // delete existing boundingBox...
-    if (mapBoundingBox)
-        mapBoundingBox.setMap(null);
-
-    if (accuracyCircle)
-        accuracyCircle.setMap(null);
-
-    if (trackerInfoWindow) {
-        trackerInfoWindow.close();
-        trackerWindow = null;
-    }
-
-    // delete existing markers...
-    for (let i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
-    }
-    markers = [];
-
-    // delete paths...
-    for (let i = 0; i < paths.length; i++) {
-        paths[i].setMap(null);
-    }
-    paths = [];
-
-    // delete speedMarkers...
-    for (let i = 0; i < speedMarkers.length; i++) {
-        speedMarkers[i].setMap(null);
-    }
-    speedMarkers = [];
-
-
-}
-
-function toggleHighlight(markerView, vehicle) {
-    if (markerView.content.classList.contains("highlight")) {
-        markerView.content.classList.remove("highlight");
-        markerView.zIndex = null;
-    } else {
-        markerView.content.classList.add("highlight");
-        markerView.zIndex = 1;
+        await currentLocation.set();
     }
 }
+
 
 function displayError(content, autoHide = false) { 
 
@@ -1354,45 +901,75 @@ function displayError(content, autoHide = false) {
     }
 }
 
-function displayMessage(content) {
-
-    $('.app.screen-message .message-content').html(content);
-    $('.app.screen-message').removeClass('hidden');
-
-    setTimeout(() => {
-        $('.app.screen-message').addClass('hidden');
-    }, 5000);
-}
-
 function displaySystemMessage(content) {
 
-    $('.system.screen-message .message-content').html(content);
-    $('.system.screen-message').removeClass('hidden');
+    $('#system-message .message-content').html(content);
+    $('#system-message').removeClass('hidden');
 
-    setTimeout(() => {
-        $('.system.screen-message').addClass('hidden');
-    }, 5000);
+    $('#system-message')
+        .on('click', '.close', (e) => {
+            $('#system-message').addClass('hidden');
+        })
+        .on('click', '.hide', (e) => {
+            userOptions.set('hideSystemMessage', true);
+            $('#system-message').addClass('hidden');
+        });
+
 }
 
-function distanceBetweenPoints(point1, point2)
-{
-    const lat1 = point1.lat;
-    const lon1 = point1.lng;
-    const lat2 = point2.lat;
-    const lon2 = point2.lng;
+// overwrite the search logic to control the list order of matching operators and routes (need to also replicate the message function too, not sure why)...
+$.fn.search.settings.templates = {
+    message: function (message, type, header) {
+        var
+            html = ''
+            ;
+        if (message !== undefined && type !== undefined) {
+            html += ''
+                + '<div class="message ' + type + '">';
+            if (header) {
+                html += ''
+                    + '<div class="header">' + header + '</div>';
+            }
+            html += ' <div class="description">' + message + '</div>';
+            html += '</div>';
+        }
 
-    const R = 6371e3; // metres
-    const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
-    const φ2 = lat2 * Math.PI / 180;
-    const Δφ = (lat2 - lat1) * Math.PI / 180;
-    const Δλ = (lon2 - lon1) * Math.PI / 180;
+        return html;
+    },
+    standard: function (response) {
+        // Your own sorting logic here
+        var sortedResults = response.results
+            .sort((a, b) => {
+                if (a.operatorName == b.operatorName) {
+                    a.routePrefix = a.route.match(/^[A-Z]+/);
+                    a.routeNumber = parseInt(a.route.replace(/^[A-Z]+/, '').replace(/[A-Z]+$/, ''));
+                    if (isNaN(a.routeNumber)) a.routeNumber = 0;
+                    a.routeSuffix = a.route.match(/[A-Z]+$/);
 
-    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-        Math.cos(φ1) * Math.cos(φ2) *
-        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                    b.routePrefix = b.route.match(/^[A-Z]+/);
+                    b.routeNumber = parseInt(b.route.replace(/^[A-Z]+/, '').replace(/[A-Z]+$/, ''));
+                    if (isNaN(b.routeNumber)) b.routeNumber = 0;
+                    b.routeSuffix = b.route.match(/[A-Z]+$/);
 
-    const d = R * c; // in metres
+                    if (a.routeNumber == b.routeNumber) {
+                        return a.routePrefix < b.routePrefix ? -1 : 1;
+                    }
 
-    return d;
-}
+                    return a.routeNumber < b.routeNumber ? -1 : 1;
+                }
+                return a.operatorName < b.operatorName ? -1 : 1;
+            });
+
+        // Create the DOM as as it normally should be
+        return $.map(sortedResults, function (item) {
+            return $('<div>').append($('<a>').addClass('result').append(
+                $('<div>').addClass('content').append(
+                    $('<div>').addClass('title').text(item.title)
+                )
+            )).html();
+        });
+    }
+};
+
+
+

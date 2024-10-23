@@ -35,10 +35,8 @@ var checkResponse = function (request) {
 var addToCache = function (request) {
     return caches.open("offline").then(function (cache) {
         return fetch(request.clone()).then(function (response) {
-            //console.log(response.url + " was cached");
-            if (request.method == 'GET') {
-                return cache.put(request, response);
-            }
+            console.log(response.url + " was cached");
+            return cache.put(request, response);
         });
     });
 };

@@ -582,6 +582,14 @@
         "route": "272"
       },
       {
+        "lineRef": "358",
+        "route": "358"
+      },
+      {
+        "lineRef": "359",
+        "route": "359"
+      },
+      {
         "lineRef": "40",
         "route": "40"
       },
@@ -600,12 +608,20 @@
     "operatorName": "Al's Coaches",
     "routes": [
       {
+        "lineRef": "22",
+        "route": "22"
+      },
+      {
         "lineRef": "224",
         "route": "224"
       },
       {
         "lineRef": "226",
         "route": "226"
+      },
+      {
+        "lineRef": "227",
+        "route": "227"
       },
       {
         "lineRef": "229",
@@ -620,6 +636,30 @@
         "route": "601"
       },
       {
+        "lineRef": "602",
+        "route": "602"
+      },
+      {
+        "lineRef": "605",
+        "route": "605"
+      },
+      {
+        "lineRef": "606",
+        "route": "606"
+      },
+      {
+        "lineRef": "607",
+        "route": "607"
+      },
+      {
+        "lineRef": "609",
+        "route": "609"
+      },
+      {
+        "lineRef": "610",
+        "route": "610"
+      },
+      {
         "lineRef": "611",
         "route": "611"
       },
@@ -628,8 +668,20 @@
         "route": "612"
       },
       {
+        "lineRef": "613",
+        "route": "613"
+      },
+      {
+        "lineRef": "614",
+        "route": "614"
+      },
+      {
         "lineRef": "615",
         "route": "615"
+      },
+      {
+        "lineRef": "616",
+        "route": "616"
       },
       {
         "lineRef": "618",
@@ -638,6 +690,18 @@
       {
         "lineRef": "619",
         "route": "619"
+      },
+      {
+        "lineRef": "621",
+        "route": "621"
+      },
+      {
+        "lineRef": "621A",
+        "route": "621A"
+      },
+      {
+        "lineRef": "626",
+        "route": "626"
       },
       {
         "lineRef": "627",
@@ -656,12 +720,32 @@
         "route": "632"
       },
       {
+        "lineRef": "633",
+        "route": "633"
+      },
+      {
         "lineRef": "635",
         "route": "635"
       },
       {
+        "lineRef": "637",
+        "route": "637"
+      },
+      {
+        "lineRef": "643",
+        "route": "643"
+      },
+      {
+        "lineRef": "648",
+        "route": "648"
+      },
+      {
         "lineRef": "649",
         "route": "649"
+      },
+      {
+        "lineRef": "652",
+        "route": "652"
       },
       {
         "lineRef": "653",
@@ -672,20 +756,60 @@
         "route": "655"
       },
       {
+        "lineRef": "656",
+        "route": "656"
+      },
+      {
+        "lineRef": "658",
+        "route": "658"
+      },
+      {
         "lineRef": "661",
         "route": "661"
+      },
+      {
+        "lineRef": "662",
+        "route": "662"
+      },
+      {
+        "lineRef": "663",
+        "route": "663"
+      },
+      {
+        "lineRef": "670",
+        "route": "670"
+      },
+      {
+        "lineRef": "672",
+        "route": "672"
       },
       {
         "lineRef": "674",
         "route": "674"
       },
       {
+        "lineRef": "675",
+        "route": "675"
+      },
+      {
         "lineRef": "685",
         "route": "685"
       },
       {
+        "lineRef": "695",
+        "route": "695"
+      },
+      {
         "lineRef": "696",
         "route": "696"
+      },
+      {
+        "lineRef": "698",
+        "route": "698"
+      },
+      {
+        "lineRef": "699",
+        "route": "699"
       },
       {
         "lineRef": "701",
@@ -696,8 +820,24 @@
         "route": "702"
       },
       {
+        "lineRef": "704",
+        "route": "704"
+      },
+      {
+        "lineRef": "711",
+        "route": "711"
+      },
+      {
+        "lineRef": "713",
+        "route": "713"
+      },
+      {
         "lineRef": "720",
         "route": "720"
+      },
+      {
+        "lineRef": "723",
+        "route": "723"
       },
       {
         "lineRef": "727",
@@ -706,6 +846,10 @@
       {
         "lineRef": "739",
         "route": "739"
+      },
+      {
+        "lineRef": "X22",
+        "route": "X22"
       }
     ]
   },
@@ -1190,6 +1334,14 @@
       {
         "lineRef": "5A",
         "route": "5A"
+      },
+      {
+        "lineRef": "5S",
+        "route": "5S"
+      },
+      {
+        "lineRef": "6",
+        "route": "6"
       },
       {
         "lineRef": "7",
@@ -2230,6 +2382,10 @@
         "route": "116"
       },
       {
+        "lineRef": "11FS",
+        "route": "11FS"
+      },
+      {
         "lineRef": "12",
         "route": "12"
       },
@@ -2424,6 +2580,10 @@
       {
         "lineRef": "PNK",
         "route": "PNK"
+      },
+      {
+        "lineRef": "S521",
+        "route": "S521"
       },
       {
         "lineRef": "ST1",
@@ -4492,6 +4652,10 @@
       {
         "lineRef": "J23",
         "route": "J23"
+      },
+      {
+        "lineRef": "J53",
+        "route": "J53"
       }
     ]
   },
@@ -6280,12 +6444,36 @@
     "operatorName": "Beestons",
     "routes": [
       {
+        "lineRef": "316",
+        "route": "316"
+      },
+      {
+        "lineRef": "338",
+        "route": "338"
+      },
+      {
+        "lineRef": "339",
+        "route": "339"
+      },
+      {
+        "lineRef": "340",
+        "route": "340"
+      },
+      {
+        "lineRef": "84C",
+        "route": "84C"
+      },
+      {
         "lineRef": "90",
         "route": "90"
       },
       {
         "lineRef": "91",
         "route": "91"
+      },
+      {
+        "lineRef": "91C",
+        "route": "91C"
       }
     ]
   },
@@ -6522,6 +6710,20 @@
       {
         "lineRef": "Y77",
         "route": "Y77"
+      }
+    ]
+  },
+  {
+    "operatorRef": "BENC",
+    "operatorName": "Bennetts Travel",
+    "routes": [
+      {
+        "lineRef": "102",
+        "route": "102"
+      },
+      {
+        "lineRef": "102A",
+        "route": "102A"
       }
     ]
   },
@@ -6918,6 +7120,10 @@
       {
         "lineRef": "20",
         "route": "20"
+      },
+      {
+        "lineRef": "22",
+        "route": "22"
       },
       {
         "lineRef": "23",
@@ -8068,6 +8274,10 @@
         "route": "300"
       },
       {
+        "lineRef": "66",
+        "route": "66"
+      },
+      {
         "lineRef": "866",
         "route": "866"
       },
@@ -8492,6 +8702,10 @@
         "route": "13A"
       },
       {
+        "lineRef": "13B",
+        "route": "13B"
+      },
+      {
         "lineRef": "14",
         "route": "14"
       },
@@ -8530,6 +8744,10 @@
       {
         "lineRef": "18",
         "route": "18"
+      },
+      {
+        "lineRef": "18A",
+        "route": "18A"
       },
       {
         "lineRef": "18C",
@@ -8576,6 +8794,10 @@
         "route": "25"
       },
       {
+        "lineRef": "25A",
+        "route": "25A"
+      },
+      {
         "lineRef": "25B",
         "route": "25B"
       },
@@ -8594,6 +8816,10 @@
       {
         "lineRef": "2X",
         "route": "2X"
+      },
+      {
+        "lineRef": "3",
+        "route": "3"
       },
       {
         "lineRef": "30",
@@ -8819,7 +9045,7 @@
   },
   {
     "operatorRef": "CBBH",
-    "operatorName": "centerbus",
+    "operatorName": "Centrebus",
     "routes": [
       {
         "lineRef": "10",
@@ -9021,7 +9247,7 @@
   },
   {
     "operatorRef": "CBNL",
-    "operatorName": "centerbus",
+    "operatorName": "Centrebus",
     "routes": [
       {
         "lineRef": "1",
@@ -11126,6 +11352,10 @@
         "route": "CR9"
       },
       {
+        "lineRef": "D2",
+        "route": "D2"
+      },
+      {
         "lineRef": "L3",
         "route": "L3"
       },
@@ -11486,6 +11716,10 @@
         "route": "302"
       },
       {
+        "lineRef": "303",
+        "route": "303"
+      },
+      {
         "lineRef": "305",
         "route": "305"
       },
@@ -11548,6 +11782,10 @@
       {
         "lineRef": "ZIP2",
         "route": "ZIP2"
+      },
+      {
+        "lineRef": "ZIP3",
+        "route": "ZIP3"
       }
     ]
   },
@@ -11690,6 +11928,10 @@
       {
         "lineRef": "229",
         "route": "229"
+      },
+      {
+        "lineRef": "229A",
+        "route": "229A"
       },
       {
         "lineRef": "23",
@@ -11882,6 +12124,10 @@
       {
         "lineRef": "61",
         "route": "61"
+      },
+      {
+        "lineRef": "61A",
+        "route": "61A"
       },
       {
         "lineRef": "62",
@@ -12286,6 +12532,10 @@
         "route": "MA2"
       },
       {
+        "lineRef": "RDS",
+        "route": "RDS"
+      },
+      {
         "lineRef": "Rail",
         "route": "Rail"
       },
@@ -12348,6 +12598,10 @@
         "route": "52"
       },
       {
+        "lineRef": "705",
+        "route": "705"
+      },
+      {
         "lineRef": "728",
         "route": "728"
       },
@@ -12364,6 +12618,10 @@
         "route": "790"
       },
       {
+        "lineRef": "840",
+        "route": "840"
+      },
+      {
         "lineRef": "850",
         "route": "850"
       },
@@ -12374,6 +12632,10 @@
       {
         "lineRef": "87",
         "route": "87"
+      },
+      {
+        "lineRef": "874",
+        "route": "874"
       },
       {
         "lineRef": "Blossoms",
@@ -14420,6 +14682,10 @@
         "route": "376a"
       },
       {
+        "lineRef": "376x",
+        "route": "376x"
+      },
+      {
         "lineRef": "39",
         "route": "39"
       },
@@ -14602,6 +14868,10 @@
       {
         "lineRef": "AZ2",
         "route": "AZ2"
+      },
+      {
+        "lineRef": "AZ5",
+        "route": "AZ5"
       },
       {
         "lineRef": "D1",
@@ -17248,6 +17518,10 @@
         "route": "H1"
       },
       {
+        "lineRef": "Hover_TS",
+        "route": "Hover_TS"
+      },
+      {
         "lineRef": "PC1",
         "route": "PC1"
       },
@@ -17862,6 +18136,10 @@
       {
         "lineRef": "A2",
         "route": "A2"
+      },
+      {
+        "lineRef": "AZ10",
+        "route": "AZ10"
       },
       {
         "lineRef": "L1",
@@ -18718,6 +18996,10 @@
       {
         "lineRef": "PORT",
         "route": "PORT"
+      },
+      {
+        "lineRef": "T53",
+        "route": "T53"
       },
       {
         "lineRef": "X50",
@@ -26948,6 +27230,10 @@
         "route": "45"
       },
       {
+        "lineRef": "45SW",
+        "route": "45SW"
+      },
+      {
         "lineRef": "46",
         "route": "46"
       },
@@ -27806,6 +28092,10 @@
         "route": "LV8"
       },
       {
+        "lineRef": "N01",
+        "route": "N01"
+      },
+      {
         "lineRef": "N02",
         "route": "N02"
       },
@@ -27920,6 +28210,10 @@
       {
         "lineRef": "W20",
         "route": "W20"
+      },
+      {
+        "lineRef": "W23",
+        "route": "W23"
       },
       {
         "lineRef": "W24",
@@ -29888,6 +30182,10 @@
       {
         "lineRef": "U2",
         "route": "U2"
+      },
+      {
+        "lineRef": "U2X",
+        "route": "U2X"
       },
       {
         "lineRef": "X52",
@@ -32106,6 +32404,10 @@
       {
         "lineRef": "HR1",
         "route": "HR1"
+      },
+      {
+        "lineRef": "OD2",
+        "route": "OD2"
       },
       {
         "lineRef": "OD3",
@@ -34490,6 +34792,24 @@
       {
         "lineRef": "H1",
         "route": "H1"
+      }
+    ]
+  },
+  {
+    "operatorRef": "SSSN",
+    "operatorName": "Shoreline Suncruisers",
+    "routes": [
+      {
+        "lineRef": "109",
+        "route": "109"
+      },
+      {
+        "lineRef": "333",
+        "route": "333"
+      },
+      {
+        "lineRef": "555",
+        "route": "555"
       }
     ]
   },
@@ -41402,6 +41722,10 @@
         "route": "22"
       },
       {
+        "lineRef": "22S",
+        "route": "22S"
+      },
+      {
         "lineRef": "23",
         "route": "23"
       },
@@ -41442,8 +41766,16 @@
         "route": "303"
       },
       {
+        "lineRef": "309",
+        "route": "309"
+      },
+      {
         "lineRef": "31",
         "route": "31"
+      },
+      {
+        "lineRef": "310",
+        "route": "310"
       },
       {
         "lineRef": "317",
@@ -41886,6 +42218,10 @@
         "route": "L78"
       },
       {
+        "lineRef": "MBA",
+        "route": "MBA"
+      },
+      {
         "lineRef": "P",
         "route": "P"
       },
@@ -42286,6 +42622,10 @@
       {
         "lineRef": "C1",
         "route": "C1"
+      },
+      {
+        "lineRef": "C10",
+        "route": "C10"
       },
       {
         "lineRef": "C2",
@@ -43090,6 +43430,10 @@
         "route": "19"
       },
       {
+        "lineRef": "19A",
+        "route": "19A"
+      },
+      {
         "lineRef": "218",
         "route": "218"
       },
@@ -43256,6 +43600,24 @@
       {
         "lineRef": "5B",
         "route": "5B"
+      }
+    ]
+  },
+  {
+    "operatorRef": "SLNE",
+    "operatorName": "Starline",
+    "routes": [
+      {
+        "lineRef": "235",
+        "route": "235"
+      },
+      {
+        "lineRef": "66",
+        "route": "66"
+      },
+      {
+        "lineRef": "L3",
+        "route": "L3"
       }
     ]
   },
@@ -46694,6 +47056,10 @@
       {
         "lineRef": "4A",
         "route": "4A"
+      },
+      {
+        "lineRef": "87S",
+        "route": "87S"
       }
     ]
   },
@@ -51814,6 +52180,10 @@
         "route": "198"
       },
       {
+        "lineRef": "198X",
+        "route": "198X"
+      },
+      {
         "lineRef": "19A",
         "route": "19A"
       },
@@ -52354,6 +52724,10 @@
       {
         "lineRef": "912",
         "route": "912"
+      },
+      {
+        "lineRef": "914",
+        "route": "914"
       },
       {
         "lineRef": "915",

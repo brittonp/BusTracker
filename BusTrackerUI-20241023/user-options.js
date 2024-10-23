@@ -1,5 +1,4 @@
-﻿import { appConstant } from "./globals.js";
-import { appUtils } from "./utils.js";
+﻿import { log, appConstant } from "./globals.js";
 
 export let userOptions = {
     cookieName: appConstant.userOptionsCookieName,
@@ -7,8 +6,7 @@ export let userOptions = {
     hideAged: true,
     favouriteBus: '',
     maxMarkers: 200,
-    refreshPeriod: 15,  // seconds...
-    hideSystemMessage: false,
+    refreshPeriod: 30,  // seconds...
     init: async function init() {
 
         // Get user options...

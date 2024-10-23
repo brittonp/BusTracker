@@ -58,13 +58,6 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-//builder.Services.Configure<StaticFileOptions>(options =>
-//{
-//    options.FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "public"));
-//    options.RequestPath = "/public"
-//});
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -72,8 +65,6 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging()  || app.Envir
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    //app.UseStaticFiles();
-
     app.UseStaticFiles(new StaticFileOptions
     {
         FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "public")),

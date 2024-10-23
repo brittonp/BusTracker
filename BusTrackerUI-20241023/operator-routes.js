@@ -1,5 +1,4 @@
-﻿import { appConstant } from "./globals.js";
-import { appUtils } from "./utils.js";
+﻿import { log, appConstant } from "./globals.js";
 
 
 export const operatorRoutes = {
@@ -8,7 +7,7 @@ export const operatorRoutes = {
     flat: null,
     get: async function get() {
 
-        appUtils.log(`getOperatorRoutes: start`);
+        log(`getOperatorRoutes: start`);
         //const response = await fetch(`./data/operatorRoutes.json`, {
         const response = await fetch(`/services/OperatorRoute/Get`, {
             timeout: 30 * 1000,
@@ -53,7 +52,7 @@ export const operatorRoutes = {
             return operatorRoutes;
         });
 
-        appUtils.log(`getOperatorRoutes: complete`);
+        log(`getOperatorRoutes: complete`);
         return true;
         //return this.routes; // JSON.parse(data);
     },

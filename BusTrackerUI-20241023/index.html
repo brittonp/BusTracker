@@ -52,7 +52,7 @@
     <!--Env Glyph-->
     <div class="env-glyph"></div>
 
-    <div class="box">
+    <div class="box ">
         <div class="row content">
             <div id='map'></div>
         </div>
@@ -61,7 +61,7 @@
     <div class="bt-search">
         <div id="search" class="ui search">
             <div class="ui fluid left icon input">
-                <input class="prompt shadow" type="text" placeholder="Search Operators and Routes (enter at least 2 characters)..." style="padding-right: 5rem">
+                <input class="prompt" type="text" placeholder="Search Operators and Routes (enter at least 2 characters)..." style="padding-right: 5rem">
                 <i class="clear hidden times link icon"></i>
                 <i class="search icon"></i>
             </div>
@@ -97,12 +97,12 @@
         </div>
     </div>
 
-    <div class="bt-menu-btn shadow main">
+    <div class="bt-menu-btn main">
         <div class="ui borderless secondary compact fitted menu">
             <div class="link browse item">
                 <i class="hamburger icon"></i>
             </div>
-            <div class="ui flowing shadow popup transition hidden">
+            <div class="ui flowing popup transition hidden">
                 <div class="ui sub header">
                     Bus Tracker
                 </div>
@@ -118,16 +118,16 @@
 
     <div class="bt-menu">
 
-        <div class="bt-menu-btn shadow here" title="Show all buses">
+        <div class="bt-menu-btn here" title="Show all buses">
             <i class="crosshairs icon"></i>
         </div>
 
-        <div class="bt-menu-btn shadow history">
+        <div class="bt-menu-btn history">
             <div class="ui borderless secondary compact fitted menu">
                 <div id='viewSearches' class="browse toolbar link item">
                     <i class="history icon"></i>
                 </div>
-                <div class="ui flowing shadow popup transition hidden">
+                <div class="ui flowing popup transition hidden">
                     <div id="searchHistory" class="ui action link list">
                     </div>
                     <div id='clearSearchHistory' title="Clear search history" class="ui right floated mini icon button">
@@ -137,11 +137,11 @@
             </div>
         </div>
 
-        <div class="bt-menu-btn shadow me" title="Pan to me">
+        <div class="bt-menu-btn me" title="Pan to me">
             <i class="user icon"></i>
         </div>
 
-        <div class="bt-menu-btn shadow refresh" title="Refresh map">
+        <div class="bt-menu-btn refresh" title="Refresh map">
 
             <div id="refreshCounter" class="counter container">
                 <div class="counter"></div>
@@ -150,7 +150,7 @@
 
         </div>
 
-        <div class="bt-menu-btn shadow share">
+        <div class="bt-menu-btn share">
             <div class="ui borderless secondary compact fitted menu">
                 <div id="viewData" class="dataDependent toolbar link item" title="View data">
                     <i class="share alternate icon"></i>
@@ -205,11 +205,6 @@
             <div id="optTrackerRefreshPeriod" class="ui labeled ticked slider" style="padding: 1rem;">
             </div>
 
-            <div id="optHideSystemMessage" class="ui right aligned toggle checkbox">
-                <input type="checkbox" tabindex="0" class="hidden">
-                <label class="prompt">Hide system message when first opening app</label>
-            </div>
-
         </div>
         <div class="actions">
             <div id="closeOptionsForm" class="ui button">Close</div>
@@ -223,6 +218,16 @@
         <div class="scrollable content">
             <div class="ui compact grid">
             </div>
+        </div>
+    </div>
+
+    <!-- Message-->
+    <div class="system screen-message hidden">
+        <div class="message-content">
+        </div>
+    </div>
+    <div class="app screen-message hidden">
+        <div class="message-content">
         </div>
     </div>
 

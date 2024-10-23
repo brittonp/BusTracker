@@ -1,5 +1,4 @@
-﻿import { appConstant } from "./globals.js";
-import { appUtils } from "./utils.js";
+﻿import { log, appConstant } from "./globals.js";
 
 export const searchHistory = {
     eventTargetClass: '#searchHistory', // '.anpr.plate.history.panel',

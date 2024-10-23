@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Get Routes</title>
+
+    <!-- INCLUDING JQUERY-->
+    <script src='./scripts/jquery-3.7.0.min.js'></script>
+    <script src='./scripts/jquery.number.min.js'></script>
+    <script src='./semantic/semantic.min.js'></script>
+
+
+    <!-- CSS FOR STYLING THE PAGE -->
+    <link rel='stylesheet' type='text/css' class='ui' href='./semantic/semantic.min.css' />
+
+    <script>
+
+        $(function () {
+
+            // this document combines the list of operators (sourced from https://www.travelinedata.org.uk/traveline-open-data/transport-operations/browse/# and converted to json)
+            // with the distinct list of current bus services. 
+            // Perhaps this proces should be managed through a web service which can cache the data ona perioidc basis, rather than as a client process.
+            // The resulting data could be used to provide data for user selection on index1.html
+
+            // Semantic intialisation...
+            $('.ui.accordion').accordion();
+
+            getRoutes();
+
+        });
+
+        getRoutes = function () {
+
+            var operatorRoutes;
+            var operators;
+            var routes;
+
+            // get all vehicles...
+            const busDataUrl = 'BusData.aspx';
+            //const operatorRef = 'SCMN';
+            const operatorRef = 'NATX';
+            const lineRef = '203';
+
+            //var busDataUri = `${busDataUrl}?operatorRef=${operatorRef}&lineRef=${lineRef}`;
+            //var busDataUri = `${busDataUrl}?operatorRef=${operatorRef}`;
+            var busDataUri = `${busDataUrl}`;
+            $.get(busDataUri, function (resp) {
+
+                const vehicles = resp.Siri.ServiceDelivery.VehicleMonitoringDelivery.VehicleActivity;
+
+                // Get distinct routes...
+                routes = vehicles
+                    .map((v) => {
+                        return {
+                            operatorRef: v.MonitoredVehicleJourney.OperatorRef,
+                            lineRef: v.MonitoredVehicleJourney.LineRef,
+                            route: v.MonitoredVehicleJourney.PublishedLineName
+                        }
+                    })
+                    .filter((r, index, self) => {
+                        return index === self.findIndex(r1 => r1.operatorRef === r.operatorRef && r1.lineRef === r.lineRef && r1.route === r.route);
+                    });
+
+                // get operators...
+                const operatorsUrl = "data/noc.json";
+                $.get(operatorsUrl, (resp) => {
+
+                    operators = resp.travelinedata.nocrecord
+                        // get ref and name of Operator...
+                        .map(o => {
+                            return {
+                                operatorRef: o.NOCCODE,
+                                operatorPublicName: o.OperatorPublicName,
+                            }
+                        })
+                        //.filter(o => o.operatorRef == 'NATX')
+                        // remove duplicates...
+                        .filter((o, index, self) => {
+                            return index === self.findIndex(o1 => o1.operatorRef === o.operatorRef);
+                        })
+                        // enrich with Operator's routes...
+                        .map(o => {
+
+                            const operatorsRoutes = routes
+                                .filter(r => o.operatorRef === r.operatorRef)
+                                .map(r => {
+                                    return {
+                                        lineRef: r.lineRef,
+                                        route: r.route
+                                    }
+                                });
+
+                            return {
+                                ...o,
+                                routes: operatorsRoutes
+                            }
+                        })
+                        // remove Opertors with no routes...
+                        .filter(o => o.routes.length > 0)
+                        ;
+
+                    $('#operatorJson').text(JSON.stringify(operators, null, 2));
+                })
+                .fail((e) => {
+                        alert("error");
+                });
+
+            });
+
+        };
+
+    </script>
+
+</head>
+
+<body>
+
+            <pre id='operatorJson'></pre>
+
+</body>
+
+</html>
