@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no'>
+    <title>Bus Location Admin</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
+
+    <!-- Javascript...-->
+    <!-- combine libraries from here: https://datatables.net/download/-->
+    <script src='./scripts/jquery-3.7.0.min.js'></script>
+    <script src='./scripts/jquery.number.min.js'></script>
+    <script src='./scripts/js-cookie-3.0.5.min.js'></script>
+    <script src='./fomantic/semantic.min.js'></script>
+    <script src="datatables/datatables.min.js"></script>
+
+    <script src='./busAdmin.js?1'></script>
+
+    <!-- CSS...-->
+    <link rel='stylesheet' type='text/css' class='ui' href='./fomantic/semantic.min.css' />
+    <link href="datatables/datatables.min.css" rel="stylesheet">
+    <link rel='stylesheet' type='text/css' href='./busAdmin.css' />
+</head>
+
+<body>
+    <div class="page box column">
+        <div class="row header">
+
+            <div class="ui grid">
+                <div class="three column row">
+                    <div class="eight wide column">
+
+                        <div class="ui borderless secondary compact fitted menu">
+                            <div class="link browse item">
+                                <i class="hamburger icon"></i>
+                            </div>
+                            <div class="ui popup transition hidden">
+                                <div class="ui action link list">
+                                    <a id="viewOptions" class="item" action="viewOptions">Options</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <h3>Bus Tracker Admin</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="center aligned four wide column">
+
+                    </div>
+
+                    <div class="right aligned four wide column">
+                        <div class="ui borderless secondary compact fitted menu">
+                            <div class="link browse user item">
+                                <div class="user-glyph"></div>
+                            </div>
+                            <div class="ui popup transition hidden">
+                                <div class="ui action link list">
+                                    <a id="actionLogout" class="item">Log out</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row box">
+            <div class="navigator collapsible column box">
+                <div class="right toggle" title="Toggle display of navigator panel">
+                    <i class="angle double left large grey icon"></i>
+                </div>
+
+                <div class="navigator box">
+                    <div class="ui vertical menu">
+                        <a class="link item" data-tab="system-parameters">
+                            <i class="cogs icon"></i>
+                            System Parameters
+                        </a>
+                        <a class="link item" data-tab="recent-sessions">
+                            <i class="calendar icon"></i>
+                            Recent Sessions
+                        </a>
+                        <div class="link item" data-tab="user-info">
+                            <i class="user alternate icon"></i>
+                            User info
+                        </div>
+                        <div class="link item" data-tab="session">
+                            <i class="linkify icon"></i>
+                            Session
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row box">
+
+                <div class="ui tab" data-tab="system-parameters">
+                    <div class="tab-header">
+                        <h2 class="ui header">
+                            <i class="cogs icon"></i>
+                            <div class="content">
+                                System Parameters
+                                <div class="sub header">Maintain System Parameters</div>
+                            </div>
+                        </h2>
+                    </div>
+                    <div class="tab-content">
+
+                        <div class="row box">
+                            <div class="data-table">
+                                <table id="systemParameters"></table>
+                            </div>
+                        </div>
+
+                        <div class="detail collapsible column box">
+                            <div class="toggle" title="Toggle display of detail panel">
+                                <i class="angle double right large grey icon"></i>
+                            </div>
+                            <div class="detail column box">
+
+                                <form id="detailForm" class="ui form">
+
+                                    <div class="header">
+
+                                        <div>
+                                            <h2></h2>
+                                        </div>
+
+                                        <div class="inline-warning form-mode">Unsaved Changes</div>
+
+                                    </div>
+
+                                    <div class="fields">
+
+                                    </div>
+
+                                    <div class="footer">
+                                        <button class="ui button form-mode" type="submit">Save</button>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="ui tab" data-tab="user-info">
+                    <h2 class="ui tab-header header">
+                        <i class="user alternate icon"></i>
+                        <div class="content">
+                            User Info
+                            <div class="sub header">View user info response</div>
+                        </div>
+                    </h2>
+                    <div class="tab-content">
+                        <pre id="userInfo"></pre>
+                    </div>
+                </div>
+                <div class="ui tab" data-tab="session">
+                    <h2 class="ui tab-header header">
+                        <i class="linkify icon"></i>
+                        <div class="content">
+                            Session
+                            <div class="sub header">View session response</div>
+                        </div>
+                    </h2>
+                    <div class="tab-content">
+                        <pre id="session"></pre>
+                    </div>
+                </div>
+                <div class="ui tab" data-tab="recent-sessions">
+                    <div class="tab-header">
+                        <h2 class="ui header">
+                            <i class="calendar icon"></i>
+                            <div class="content">
+                                Recent Sessions
+                                <div class="sub header">View recent sessions</div>
+                            </div>
+                        </h2>
+                    </div>
+                    <div class="tab-content">
+                        <div class="data-table">
+                            <table id="recent-sessions"></table>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="footer row">
+            This is the footer....
+        </div>
+    </div>
+
+    <!--Box to display Data-->
+    <div id="data" class="ui fullscreen modal">
+        <div class="header">Session History</div>
+        <div class="scrolling content">
+            <table id='sessionHistory'></table>
+        </div>
+        <div class="actions">
+            <div class="ui cancel button">Close</div>
+        </div>
+    </div>
+
+    <!--Env Glyph-->
+    <div class="env-glyph"></div>
+
+</body>
+
+</html>

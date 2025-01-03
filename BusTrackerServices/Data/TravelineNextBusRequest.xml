@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Siri version="1.0" xmlns="http://www.siri.org.uk/">
+  <ServiceRequest>
+    <RequestTimestamp></RequestTimestamp>
+    <RequestorRef></RequestorRef>
+    <StopMonitoringRequest version="1.0">
+      <RequestTimestamp></RequestTimestamp>
+      <MessageIdentifier></MessageIdentifier>
+      <MonitoringRef></MonitoringRef>
+    </StopMonitoringRequest>
+  </ServiceRequest>
+</Siri>
