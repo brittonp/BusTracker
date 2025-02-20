@@ -93,6 +93,6 @@ app.MapGet("/SessionMinimalApi/Create", async (IConfiguration configuration, ISq
 })
 .WithTags("SessionMinimalApi");
 
-//test1
+//test2
 
 app.Run();
