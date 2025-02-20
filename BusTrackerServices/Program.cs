@@ -63,7 +63,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging()  || app.Envir
     app.MapScalarApiReference(options =>
         options
             .WithTheme(ScalarTheme.None)
-            .WithLayout(ScalarLayout.Classic)
+            //.WithLayout(ScalarLayout.Classic)
             .WithDarkMode(false)
             .WithSidebar(true)
             .WithDotNetFlag(true)
@@ -89,10 +89,31 @@ app.MapGet("/SessionMinimalApi/Create", async (IConfiguration configuration, ISq
 
     var result = await session.Create();
 
-    return Results.Json(result.Value);
+    return Results.Ok(result.Value);
 })
 .WithTags("SessionMinimalApi");
 
-//test2
+app.MapGet("/SessionMinimalApi/GetRecent", async (IConfiguration configuration, ISqlData sqlData, ILogger<Session> logger) =>
+{
+    Session session = new Session(configuration, logger, sqlData);
+
+    var result = await session.GetRecent();
+
+    return Results.Ok(result.Value);
+})
+.WithTags("SessionMinimalApi");
+
+app.MapGet("/SessionMinimalApi/GetSessionHistory", async (IConfiguration configuration, ISqlData sqlData, ILogger<Session> logger, int id) =>
+{
+    Session session = new Session(configuration, logger, sqlData);
+
+    var result = await session.GetSessionHistory(id);
+
+    return Results.Ok(result.Value);
+    
+})
+.WithTags("SessionMinimalApi");
+
+
 
 app.Run();

@@ -55,20 +55,20 @@ namespace BusTrackerServices.Controllers
         }
 
         [HttpGet("GetRecent")]
-        public JsonResult? GetRecent()
+        public async Task<JsonResult?> GetRecent()
         {
             // Query all session records...
-            string? strJson = _sqlData.GetRecentSessions();
+            string? strJson = await _sqlData.GetRecentSessions();
 
             return new JsonResult(strJson);
         }
 
         [HttpGet("GetSessionHistory")]
-        public JsonResult? GetSessionHistory(
+        public async Task<JsonResult?> GetSessionHistory(
             int sessionId)
         {
             // Query all session records...
-            string? strJson = _sqlData.GetSessionHistory(sessionId);
+            string? strJson = await _sqlData.GetSessionHistory(sessionId);
 
             return new JsonResult(strJson);
         }

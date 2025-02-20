@@ -20,9 +20,9 @@ namespace BusTrackerServices.Data
         Task<int> CreateSession();
         Task<int> UpdateSession(int? sessionId, SqlData.Event _event);
 
-        string? GetRecentSessions();
+        Task<string?> GetRecentSessions();
 
-        string? GetSessionHistory(int sessionId);
+        Task<string?> GetSessionHistory(int sessionId);
 
         string? GetAllSystemParameters();
 
@@ -170,7 +170,7 @@ namespace BusTrackerServices.Data
 
         }
 
-        public string? GetRecentSessions()
+        public async Task<string?> GetRecentSessions()
         {
             var strBuilder = new StringBuilder();
             int i = 0;
@@ -187,7 +187,7 @@ namespace BusTrackerServices.Data
                     using SqlCommand sqlCmd = new SqlCommand(sql, conn);
                     try
                     {
-                        var reader = sqlCmd.ExecuteReader();
+                        var reader = await sqlCmd.ExecuteReaderAsync();
                         if (!reader.HasRows)
                         {
                             strBuilder.Append("[]");
@@ -224,7 +224,7 @@ namespace BusTrackerServices.Data
             return strBuilder.ToString();
         }
 
-        public string? GetSessionHistory(int sessionId)
+        public async Task<string?> GetSessionHistory(int sessionId)
         {
             var strBuilder = new StringBuilder();
             int i = 0;
@@ -242,7 +242,7 @@ namespace BusTrackerServices.Data
                     sqlCmd.Parameters.AddWithValue("@sessionId", sessionId);
                     try
                     {
-                        var reader = sqlCmd.ExecuteReader();
+                        var reader = await sqlCmd.ExecuteReaderAsync();
                         if (!reader.HasRows)
                         {
                             strBuilder.Append("[]");
