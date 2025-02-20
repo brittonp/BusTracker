@@ -427,3 +427,6 @@ FodyWeavers.xsd
 /BusTrackerDb/bus_stop_loader_azure.sql
 /BusTrackerDb/BusTrackerDb.sqlproj
 /BusTrackerWJKeepAlive/BusTrackerWJKeepAlive.csproj
+/BusTrackerUI/DataAnnotationValidation.html
+/BusTrackerUI/test2.html
+/BusTrackerUI/test2.js
