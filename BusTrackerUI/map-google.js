@@ -99,7 +99,7 @@ export let mapObj = {
 
         return this.map;
     },
-    showCurrentLocation: async function (currentLocation) {
+    addCurrentLocation: async function (currentLocation) {
 
         const toolTip = (currentLocation.position.accuracy > 10 ? `This is an estimate of your location within ${Math.floor(currentLocation.position.accuracy)} metres.` : "Your location.");
 

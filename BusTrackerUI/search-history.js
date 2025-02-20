@@ -1,21 +1,33 @@
 ﻿import { appConstant } from "./globals.js";
-import { appUtils } from "./utils.js";
+class SearchHistoryManager {
+    // Define default options as a static property
+    static DEFAULT_OPTIONS = Object.freeze({
+        localStorage: appConstant.userSearchesLocalStorage,
+        maxSearchHistory: appConstant.maxSearchHistory
+    });
+    constructor() {
+        // Initialize instance properties with default values
+        Object.assign(this, SearchHistoryManager.DEFAULT_OPTIONS);
+    }
 
-export const searchHistory = {
-    eventTargetClass: '#searchHistory', // '.anpr.plate.history.panel',
-    cookieName: appConstant.userSearchesCookieName,
-    cookieExpiry: appConstant.cookieExpiry,
-    get: function get() {
-        let history = [];
-
-        var cookie = Cookies.get(this.cookieName);
-        if (cookie) {
-            history = JSON.parse(cookie);
+    // Get array of search history...
+    get() {
+        try {
+            if ('localStorage' in window) {
+                const saved = localStorage.getItem(this.localStorage);
+                if (saved) {
+                    return JSON.parse(saved);
+                }
+            }
+            return [];
+        } catch (error) {
+            console.warn('Failed to load from localStorage:', error);
+            return [];
         }
+    }
 
-        return history;
-    },
-    add: async function add(search, operatorRoutes) {
+    // Set a specific option
+    async add(search, operatorRoutes) {
 
         let history = this.get();
 
@@ -67,17 +79,23 @@ export const searchHistory = {
                 return a1 < b1 ? 1 : -1;
             })
             .filter((item, index, self) => {
-                return index < appConstant.maxSearchHistory;
+                return index < this.maxSearchHistory;
             });
 
-        Cookies.set(this.cookieName, JSON.stringify(history), { expires: this.cookieExpiry });
-
-        $(this.eventTargetClass).trigger('load');
+        if ('localStorage' in window) {
+            localStorage.setItem(this.localStorage, JSON.stringify(history));
+        }
 
         return history;
-    },
-    removeAll: async function removeAll() {
-        Cookies.remove(this.cookieName);
-        $(this.eventTargetClass).trigger('load');
+    }
+
+    async removeAll() {
+        if ('localStorage' in window) {
+            localStorage.removeItem(this.localStorage);
+        }
     }
 }
+
+// Export singleton instance
+export const searchHistory = new SearchHistoryManager();
+

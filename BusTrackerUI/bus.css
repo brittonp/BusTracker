@@ -15,9 +15,15 @@
     --tracker-speed-font-colour: #ffffff;
     --tracker-time-background-colour: #8160d4;
     --tracker-time-font-colour: #ffffff;
+
+    --app_font-height:14px;
 }
 html {
-    font-size: 14px;
+    font-size: var(--app_font-height);
+}
+
+body{
+    font-size: inherit;
 }
 
 .appView {
@@ -32,6 +38,7 @@ html {
     display: flex !important;
     flex-flow: column;
     height: 100%;
+    width: 100%;
 }
 
     .box .row {
@@ -192,21 +199,21 @@ html {
         cursor: auto;
     }
 
-    .bt .menu-btn.here {
+    .bt .menu-btn.refresh {
         top: 20vh;
     }
 
-    .bt .menu-btn.me {
+    .bt .menu-btn.here {
         top: 30vh;
     }
 
-    .bt .menu-btn.history {
+    .bt .menu-btn.me {
         top: 40vh;
-        cursor: auto;
     }
 
-    .bt .menu-btn.refresh {
+    .bt .menu-btn.history {
         top: 50vh;
+        cursor: auto;
     }
 
     .bt .menu-btn.share {
@@ -540,7 +547,7 @@ table#vehicles tr.aged {
     -o-transform: rotate(45deg);
     transform: rotate(45deg);
     box-shadow: 0 2px 50px rgba(0, 0, 0, 0.3);
-    z-index: 1;
+    z-index: 90;
 }
 
 .dev.env-glyph {
@@ -614,16 +621,18 @@ label.prompt {
 
 
 .screen-message {
+    display: flex;
     position: absolute;
-    left: 15%;
-    z-index: 1002;
+    top: 10vh;
+    left: 1vw;
+    z-index: 10;
     background: white;
     border-radius: 3rem;
     width: 60%;
     display: flex;
     text-align: center;
     justify-content: center;
-    flex-direction: column-reverse;
+    flex-direction: column;
     max-height: 35%;
     padding: 1rem;
     box-shadow: 0 2px 50px rgba(0, 0, 0, 0.3);
@@ -633,10 +642,10 @@ label.prompt {
 }
 
     .screen-message.app {
-        bottom: 15%;
+/*        bottom: 15%;*/
     }
     .screen-message.system {
-        top: 40%;
+/*        top: 40%;*/
         border: 1px solid var(--app-color);
     }
 
@@ -649,7 +658,6 @@ label.prompt {
     .screen-message .message-content {
         display: flex;
         margin: auto;
-        min-height: 3rem;
         font-size: 1.0rem;
         overflow-y: auto;
         align-content: center;
@@ -687,4 +695,120 @@ label.prompt {
     display: flex;
     align-items: center;
     font-weight: bold;
+}
+
+/*V2 CSS...*/
+
+
+.pane {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+}
+
+    .pane.row {
+        flex-direction: row;
+        flex-shrink: 0;
+        padding: 0.25rem;
+    }
+
+.app.pane {
+    flex: 1 1 auto;
+    height: 100%;
+}
+
+    .app.pane > .main.pane {
+        position: relative;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    .app.pane > .footer.pane {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 4rem;
+        border-top: 3px solid red;
+    }
+
+.container.pane {
+    height: 100%;
+}
+
+.master.pane {
+    flex: 1;
+    height: 100%;
+}
+
+.detail.pane {
+    /*this ensures the detail pane slides over the master pane */
+    position: absolute;
+    bottom: 0px;
+    z-index: 20;
+    /* --- */
+    height: 0;
+    background-color: #ffff;
+    touch-action: none;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    transition: height 0.5s ease-out;
+}
+
+    .detail.pane .control-bar {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .detail.pane .control-bar .handle {
+            flex: 0 0 0.25rem !important;
+            align-self: center;
+            margin: 1rem;
+            width: 3rem;
+            background-color: lightgray;
+            border-radius: 0.15rem;
+            cursor: ns-resize;
+            touch-action: none;
+        }
+
+    .detail.pane .content {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+.indicator {
+    background-color: red;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    font-weight: bold;
+    width: calc(3.7 * var(--app_font-height));
+    height: calc(3.7 * var(--app_font-height));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-right: 0.5rem;
+    padding: 0.1rem;
+}
+
+.pane.row .destination {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.test.show-detail {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.menu.pane {
+    flex-direction: row;
+    display: flex;
+    justify-content: space-evenly;
 }

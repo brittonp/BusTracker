@@ -6,6 +6,8 @@ import { userOptions } from "./user-options.js";
 import { session } from "./session.js";
 import { Ident } from "./ident.js";
 import { currentLocation } from "./current-location.js";
+import { MasterDetailPanel } from "./master-detail.js";
+import { BusStop } from "./busStop.js";
 
 let mapObj;
 let vehicles = [];
@@ -22,6 +24,7 @@ let searchCriteria;
 let extendedAttributes;
 let busTracker;
 let refreshTimer;
+let busStopArrivalTimer;
 
 const appMessage = new appUtils.BTMessage();
 const systemMessage = new appUtils.BTMessage({
@@ -47,6 +50,13 @@ $(() => {
 
 
 async function initiate() {
+
+    //initViewPort();
+    const mapPane = document.getElementById('map-pane');
+    mapPane.container = new MasterDetailPanel({
+        content: mapPane,
+        detailClass: 'content pane',
+    });
 
     const ident = new Ident();
 
@@ -122,7 +132,7 @@ async function initView() {
 
     $(document)
         .on('show-location', (e, cl) => {
-            mapObj.showCurrentLocation(currentLocation);
+            mapObj.addCurrentLocation(currentLocation);
         })
         .on('ready', async (e) => {
             // initialise the searchCriteria (base from defaults, plus query string, if provided)...
@@ -179,7 +189,16 @@ async function initView() {
 
             }
             e.preventDefault();
-        });
+        })
+        .on('show-bus-stop-arrivals', async (e, stop) => {
+            displayStopArrivals(stop);
+        })
+        .on('detail-hidden', (e) => {
+            if (busStopArrivalTimer) {
+                clearTimeout(busStopArrivalTimer);
+            }
+        })
+        ;
 
     // Set environment glyph..
     $('.env-glyph').addClass(appConstant.envMap[session.environment] || appConstant.envMap.Other);
@@ -323,6 +342,32 @@ async function initView() {
                 .modal('show');
         });
 
+    //$('.bt .menu-btn.main')
+    //    .on('click', (e) => {
+
+    //        $('#optionsMenu').popup('hide');
+
+    //        $('#optFavouriteBus > input')
+    //            .val(userOptions.favouriteBus);
+
+    //        $('#optHideInactiveVehicles')
+    //            .checkbox(`set ${userOptions.hideAged ? 'checked' : 'unchecked'}`);
+
+    //        $('#optMaxMarkersToDisplay')
+    //            .slider('set value', userOptions.maxMarkers, false);
+
+    //        $('#optTrackerRefreshPeriod')
+    //            .slider('set value', userOptions.refreshPeriod, false);
+
+    //        $('#optHideSystemMessage')
+    //            .checkbox(`set ${userOptions.hideSystemMessage ? 'checked' : 'unchecked'}`);
+
+    //        $('#options')
+    //            .modal({
+    //                closable: false,
+    //            })
+    //            .modal('show');
+    //    })
 
     // Share...
     $('.bt .menu-btn.share')
@@ -577,6 +622,7 @@ async function initView() {
             // not ideal...
             let title = operatorRoutes.list.find(e => (e.operatorRef == searchCriteria.operatorRef && e.lineRef == searchCriteria.lineRef)).title;
             $('#search').search('set value', title);
+            $('#search input').trigger('keyup'); // force display of clear button...
 
             // force hide of popup (some times hangs around)...
             $('#searchHistory').popup('hide');
@@ -880,26 +926,86 @@ async function addStops() {
     appMessage.display(`Failed to load bus stops.`);
     return false;
 
-    //try {
-    //    const response = await fetch(`/services/BusStop/Bounding-Box?north=${bounds.north}&east=${bounds.east}&south=${bounds.south}&west=${bounds.west}`, {
-    //        timeout: 30 * 1000,
-    //        method: "GET"
-    //    });
-    //    if (!response.ok) {
-    //        throw new Error(`Failed to get Bus Stops. Error: ${response.status}-${response.statusText}.`);
-    //    }
-    //    const data = await response.json();
-
-    //    if (data.length > 0) {
-    //        const busStops = JSON.parse(data);
-    //        mapObj.addStops(busStops);
-    //    }
-    //}
-    //catch (e) {
-    //    appMessage.display(e.message);
-    //    return false;
-    //}
 }
+
+async function displayStopArrivals(stop) {
+
+    const busStop = new BusStop(stop);
+
+    await reloadContent(true);
+
+    async function reloadContent(firstTime = false) {
+
+        // cancel any exisiting arrival refreshes (for a previously selected bus stop)...
+        if (busStopArrivalTimer) {
+            clearTimeout(busStopArrivalTimer);
+        }
+
+        let arrivals = [];
+
+        try {
+            arrivals = await busStop.arrivals();
+        }
+        catch {
+            null;
+        }
+
+        let content = `
+        <div class="pane row">
+            ${busStop.stop.standardIndicator ? `<div class="indicator" title='${busStop.stop.naptanId}'>${busStop.stop.standardIndicator}</div>` : ''}
+            <div class="destination">${busStop.stop.commonName}${!busStop.stop.standardIndicator ? ', ' + busStop.stop.indicator : ''}<br> </div>
+        </div>`;
+        if (arrivals.length > 0) {
+            content += `
+            <div class="pane row">
+                <table class="ui very basic unstackable striped very compact table">
+                    <thead>
+                        <tr>
+                            <th class="center aligned one wide">Live</th>
+                            <th class="center aligned three wide">Mins</th>
+                            <th class="center aligned three wide">Route</th>
+                            <th class="four wide">Destination</th>
+                            <th class="one wide">Source</th>
+                        </tr>
+                    </thead>
+                <tbody>
+            </div>`;
+            arrivals.forEach((b, index) => {
+                content += `<tr>
+                    <td class="center aligned one wide">${(b.liveData == true ? 'Live' : 'Schd.')}</td>
+                    <td class="center aligned three wide">${(b.minutes < 1 ? 'Due' : b.minutes)}</td>
+                    <td class="center aligned  three wide">${b.lineName}</td>
+                    <td class="four wide">${b.destinationName}</td>
+                    <td class="one wide">${b.src}</td>
+                </tr>`;
+            });
+            content += '</tbody></table>';
+        }
+        else {
+            content += `
+            <div class="pane row" >
+                <div> Sorry, there is no arrival data available for this stop.</div>
+            </div>`;
+        }
+
+        content += `
+        </div>`;
+
+        if (busStop.stop.atcoAreaCode == '490') {
+            content += `
+            <div class="pane row">
+                <div><a href="https://tfl.gov.uk/corporate/terms-and-conditions/transport-data-service" target="_blank">Powered by TfL Open Data</a></div>
+            </div>`;
+        }
+
+        // refresh detail pane...
+        document.getElementById('map-pane').container.detail.setContent(content);
+
+        // automated refresh....
+        busStopArrivalTimer = setTimeout(reloadContent, appConstant.refreshStopArrivalsSecs * 1000);
+    }
+}
+
 function enrichVehicleAttributes(v) {
 
     var vehicleDirection;
@@ -1021,6 +1127,3 @@ $.fn.search.settings.templates = {
         });
     }
 };
-
-
-

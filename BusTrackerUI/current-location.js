@@ -10,6 +10,7 @@ export let currentLocation = {
             currentLocation = {
                 ...currentLocation,
                 position: position,
+                //center: { lat: 51.418251, lng: -0.30153999 },
                 center: {
                     lat: position.latitude,
                     lng: position.longitude,

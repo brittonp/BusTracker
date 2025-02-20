@@ -29,20 +29,14 @@ namespace BusTrackerServices.Controllers
         }
 
         [HttpGet("Create")]
-        public JsonResult? Create()
+        public async Task<JsonResult?> Create()
         {
             int sessionId = 0;
             // Insert record into session db table...
             if (_configuration["USE_DATABASE"] == "true")
             {
-                sessionId = _sqlData.CreateSession();
+                sessionId = await _sqlData.CreateSession();
             }
-
-            //JObject result1 = new JObject(
-            //    new JProperty("sessionId", sessionId),
-            //    new JProperty("environment", _configuration["ASPNETCORE_ENVIRONMENT"]),
-            //    new JProperty("googleMapKey", _configuration["GoogleMapKey"])
-            //    );
 
             var result = new 
             {

@@ -7,12 +7,13 @@
     #dy;
     #ht;
     #resizeHandle;
-    #collapseButton;
+    #collapserButton;
+    #hiderButton;
 
-    constructor({ parent, content }) {
+    constructor({ parent, content, autoExpand = false }) {
 
         let panel = document.createElement('div');
-        panel.className = 'info-panel';
+        panel.className = 'slider-panel';
 
         this.#controlBar = document.createElement('div');
         this.#controlBar.className = 'control-bar';
@@ -21,10 +22,15 @@
         this.#resizeHandle.className = 'handle';
         this.#controlBar.appendChild(this.#resizeHandle);
 
-        this.#collapseButton = document.createElement('div');
-        this.#collapseButton.className = 'collapse';
-        this.#collapseButton.innerHTML = '&#8964;';
-        this.#controlBar.appendChild(this.#collapseButton);
+        this.#hiderButton = document.createElement('div');
+        this.#hiderButton.className = 'hider';
+        this.#hiderButton.innerHTML = 'X';
+        this.#controlBar.appendChild(this.#hiderButton);
+
+        this.#collapserButton = document.createElement('div');
+        this.#collapserButton.className = 'collapser';
+        this.#collapserButton.innerHTML = '&#8964;';
+        this.#controlBar.appendChild(this.#collapserButton);
 
         panel.appendChild(this.#controlBar);
 
@@ -35,6 +41,10 @@
 
         this.panel = panel;
         parent.appendChild(this.panel);
+
+        if (autoExpand == true) {
+            this.panel.classList.add('auto');
+        }
 
         this.#addListeners();
 
@@ -59,16 +69,19 @@
 
         function resize(e) {
             //console.log(e.screenY);
-            thisPanel.#dy = e.screenY - thisPanel.#y;
-            thisPanel.#y = e.screenY;
-            thisPanel.#ht -= thisPanel.#dy;
+            if (!thisPanel.panel.classList.contains('auto')) {
 
-            if (thisPanel.#ht >= thisPanel.panel.parentElement.clientHeight) {
-                thisPanel.panel.classList.add('full');
-            } else {
-                thisPanel.panel.style.height = thisPanel.#ht + "px";
+                thisPanel.#dy = e.screenY - thisPanel.#y;
+                thisPanel.#y = e.screenY;
+                thisPanel.#ht -= thisPanel.#dy;
+
+                if (thisPanel.#ht >= thisPanel.panel.parentElement.clientHeight) {
+                    thisPanel.panel.classList.add('full');
+                } else {
+                    thisPanel.panel.style.height = thisPanel.#ht + "px";
+                }
+
             }
-
         }
 
         function removePointListeners(e) {
@@ -84,11 +97,18 @@
             this.panel.classList.add('full');
         });
 
-        // Click event on collapse...
-        this.#collapseButton.addEventListener('click', (e) => {
+        // Click event on collapser...
+        this.#collapserButton.addEventListener('click', (e) => {
             this.panel.classList.remove('full');
             this.panel.style.height = '';
         });
+
+        // Click event on hider...
+        this.#hiderButton.addEventListener('click', (e) => {
+            this.panel.classList.remove('show');
+        });
+
+
     }
 
     show() {

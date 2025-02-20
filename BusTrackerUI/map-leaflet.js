@@ -140,7 +140,7 @@ export let mapObj = {
 
         return this.map;
     },
-    showCurrentLocation: function (currentLocation) {
+    addCurrentLocation: function (currentLocation) {
 
         const toolTip = (currentLocation.position.accuracy > 10 ? `This is an estimate of your location within ${Math.floor(currentLocation.position.accuracy)} metres.` : "Your location.");
         const icon = new L.DivIcon({
@@ -151,11 +151,15 @@ export let mapObj = {
         });
 
         if (!this.markerMe) {
-            this.markerMe = L.marker(currentLocation.center)
+            this.markerMe = L.marker(currentLocation.center,
+                {
+                    interactive: false,
+                })
                 .setIcon(icon)
                 .bindTooltip(toolTip)
                 .addTo(this.map);
         } else {
+
             this.markerMe.setLatLng(currentLocation.center);
             this.markerMe.setTooltipContent(toolTip);
         }
@@ -333,108 +337,115 @@ export let mapObj = {
                 .bindTooltip(`${stop.commonName}, ${stop.indicator}`)
                 .addTo(thisObj.stopLayerGroup);
 
-            // create event listeners...
             stopMarker.on('click', async (e) => {
+                // centre on clicked stop...
+                thisObj.flyTo(this.position, thisObj.props.zoom);
 
-                const popup = L.popup({
-                    interactive: true,
-                    closeOnClick: false,
-                    closeButton: false,
-                    className: 'bt arrival popup',
-                    minWidth: 200,
-                })
-                    .setLatLng(stop.position);
-
-                const busStop = new BusStop(stop);
-
-                reloadContent(true);
-
-                L.DomEvent.stopPropagation(e);
-
-                async function reloadContent(firstTime = false) {
-
-                    if (firstTime || popup.isOpen()) {
-
-                        let arrivals = [];
-
-                        try {
-                            arrivals = await busStop.arrivals();
-                        }
-                        catch {
-                            null;
-                        }
-
-                        let content = `
-                        <div class="box">
-                            <div class="row">
-                                ${busStop.stop.standardIndicator ? `<div class="indicator" title='${busStop.stop.naptanId}'>${busStop.stop.standardIndicator}</div>` : ''}
-                                <div class="destination">${busStop.stop.commonName}${!busStop.stop.standardIndicator ? ', ' + busStop.stop.indicator: ''}<br> </div>
-                            </div>
-                        </div>`;
-                        if (arrivals.length > 0) {
-                            content += `
-                            <div class="row content">
-                                <table class="ui very basic unstackable striped very compact table">
-                                    <thead>
-                                        <tr>
-                                            <th class="center aligned one wide">Live</th>
-                                            <th class="center aligned three wide">Mins</th>
-                                            <th class="center aligned three wide">Route</th>
-                                            <th class="four wide">Destination</th>
-                                            <th class="one wide">Source</th>
-                                        </tr>
-                                    </thead>
-                                <tbody>
-                            </div>`;
-                            arrivals.forEach((b, index) => {
-                                content += `<tr>
-                                    <td class="center aligned one wide">${(b.liveData == true ? 'Live' : 'Schd.')}</td>
-                                    <td class="center aligned three wide">${(b.minutes < 1 ? 'Due' : b.minutes)}</td>
-                                    <td class="center aligned  three wide">${b.lineName}</td>
-                                    <td class="four wide">${b.destinationName}</td>
-                                    <td class="one wide">${b.src}</td>
-                                </tr>`;
-                            });
-                            content += '</tbody></table>';
-                        }
-                        else {
-                            content += `
-                            <div class="row content" >
-                                <div> Sorry, there is no arrival data available for this stop.</div>
-                            </div>`;
-                        }
-
-                        content += `
-                        </div>`;
-
-                        if (busStop.stop.atcoAreaCode == '490') {
-                            content += `
-                            <div class="row right">
-                                <div><a href="https://tfl.gov.uk/corporate/terms-and-conditions/transport-data-service" target="_blank">Powered by TfL Open Data</a></div>
-                            </div>`;
-                        }
-
-                        popup.setContent(content);
-
-                        if (firstTime) {
-                            popup
-                                .openOn(thisObj.map);
-                            // need to use this to create a click listener on the popup...
-                            L.DomEvent.addListener(popup.getElement(), 'click', (e) => {
-                                if (e.target.tagName != 'A') {
-                                    popup.close();
-                                }
-                            });
-
-                            thisObj.arrrivalPopups.push(popup);
-                        }
-
-                        // automated refresh....
-                        setTimeout(reloadContent, appConstant.refreshStopArrivalsSecs * 1000);
-                    }
-                }
-
+                $(document).trigger('show-bus-stop-arrivals', stop);
             });
+
+            // create event listeners...
+        //    stopMarker.on('click', async (e) => {
+
+        //        const popup = L.popup({
+        //            interactive: true,
+        //            closeOnClick: false,
+        //            closeButton: false,
+        //            className: 'bt arrival popup',
+        //            minWidth: 200,
+        //        })
+        //            .setLatLng(stop.position);
+
+        //        const busStop = new BusStop(stop);
+
+        //        reloadContent(true);
+
+        //        L.DomEvent.stopPropagation(e);
+
+        //        async function reloadContent(firstTime = false) {
+
+        //            if (firstTime || popup.isOpen()) {
+
+        //                let arrivals = [];
+
+        //                try {
+        //                    arrivals = await busStop.arrivals();
+        //                }
+        //                catch {
+        //                    null;
+        //                }
+
+        //                let content = `
+        //                <div class="box">
+        //                    <div class="row">
+        //                        ${busStop.stop.standardIndicator ? `<div class="indicator" title='${busStop.stop.naptanId}'>${busStop.stop.standardIndicator}</div>` : ''}
+        //                        <div class="destination">${busStop.stop.commonName}${!busStop.stop.standardIndicator ? ', ' + busStop.stop.indicator: ''}<br> </div>
+        //                    </div>
+        //                </div>`;
+        //                if (arrivals.length > 0) {
+        //                    content += `
+        //                    <div class="row content">
+        //                        <table class="ui very basic unstackable striped very compact table">
+        //                            <thead>
+        //                                <tr>
+        //                                    <th class="center aligned one wide">Live</th>
+        //                                    <th class="center aligned three wide">Mins</th>
+        //                                    <th class="center aligned three wide">Route</th>
+        //                                    <th class="four wide">Destination</th>
+        //                                    <th class="one wide">Source</th>
+        //                                </tr>
+        //                            </thead>
+        //                        <tbody>
+        //                    </div>`;
+        //                    arrivals.forEach((b, index) => {
+        //                        content += `<tr>
+        //                            <td class="center aligned one wide">${(b.liveData == true ? 'Live' : 'Schd.')}</td>
+        //                            <td class="center aligned three wide">${(b.minutes < 1 ? 'Due' : b.minutes)}</td>
+        //                            <td class="center aligned  three wide">${b.lineName}</td>
+        //                            <td class="four wide">${b.destinationName}</td>
+        //                            <td class="one wide">${b.src}</td>
+        //                        </tr>`;
+        //                    });
+        //                    content += '</tbody></table>';
+        //                }
+        //                else {
+        //                    content += `
+        //                    <div class="row content" >
+        //                        <div> Sorry, there is no arrival data available for this stop.</div>
+        //                    </div>`;
+        //                }
+
+        //                content += `
+        //                </div>`;
+
+        //                if (busStop.stop.atcoAreaCode == '490') {
+        //                    content += `
+        //                    <div class="row right">
+        //                        <div><a href="https://tfl.gov.uk/corporate/terms-and-conditions/transport-data-service" target="_blank">Powered by TfL Open Data</a></div>
+        //                    </div>`;
+        //                }
+
+        //                popup.setContent(content);
+
+        //                if (firstTime) {
+        //                    popup
+        //                        .openOn(thisObj.map);
+        //                    // need to use this to create a click listener on the popup...
+        //                    L.DomEvent.addListener(popup.getElement(), 'click', (e) => {
+        //                        if (e.target.tagName != 'A') {
+        //                            popup.close();
+        //                        }
+        //                    });
+
+        //                    thisObj.arrrivalPopups.push(popup);
+        //                }
+
+        //                // automated refresh....
+        //                setTimeout(reloadContent, appConstant.refreshStopArrivalsSecs * 1000);
+        //            }
+        //        }
+
+        //    });
         });
     },
     addTrackedVehicle: async function (vehicle) {

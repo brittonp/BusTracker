@@ -36,25 +36,38 @@ export const operatorRoutes = {
             });
 
         // create operator/route entries...
-        const operatorsRoutes = data.flatMap(o => {
+        //const operatorsRoutes = data.flatMap(o => {
 
-            const operatorRoutes = [];
+        //    const operatorRoutes = [];
 
-            o.routes.forEach(r => {
-                operatorRoutes.push({
-                    operatorRef: o.operatorRef,
-                    operatorName: o.operatorName,
-                    lineRef: r.lineRef,
-                    route: r.route,
-                    title: `${o.operatorName} - ${r.route}`,
-                    all: false,
-                });
-            });
+        //    o.routes.forEach(r => {
+        //        operatorRoutes.push({
+        //            operatorRef: o.operatorRef,
+        //            operatorName: o.operatorName,
+        //            lineRef: r.lineRef,
+        //            route: r.route,
+        //            title: `${o.operatorName} - ${r.route}`,
+        //            all: false,
+        //        });
+        //    });
 
-            //operatorRoutes = operatorRoutes.filter((r) => (r.operatorName === 'Transport for London'));
+        //    //operatorRoutes = operatorRoutes.filter((r) => (r.operatorName === 'Transport for London'));
 
-            return operatorRoutes;
-        });
+        //    return operatorRoutes;
+        //});
+
+        const operatorsRoutes = data.flatMap(operator =>
+            operator.routes.map(route => ({
+                operatorRef: operator.operatorRef,
+                operatorName: operator.operatorName,
+                lineRef: route.lineRef,
+                route: route.route,
+                title: `${operator.operatorName} - ${route.route}`,
+                all: false,
+            }))
+        );
+
+
 
         // concat the arrays...
         this.list = operatorsAll.concat(operatorsRoutes);

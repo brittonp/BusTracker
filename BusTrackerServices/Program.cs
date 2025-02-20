@@ -1,5 +1,11 @@
+using BusTrackerServices.Data;
+using BusTrackerServices.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.OpenApi;
 using Microsoft.OpenApi.Models;
+using Scalar.AspNetCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +19,6 @@ builder.Services.AddTransient<BusTrackerServices.Data.ISqlData, BusTrackerServic
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 //logging - added by brittonp 26-Sep-2023
 builder.Logging
@@ -38,24 +43,14 @@ builder.Services.AddSession(options =>
 
 builder.Configuration.AddJsonFile("sqlCmds.json", optional: true, reloadOnChange: true);
 
-builder.Services.AddSwaggerGen(options =>
+
+builder.Services.AddOpenApi(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo
+// This line is required because in dev (on IIS) the server is presented as http://*:port#, but * is not recognised.
+    options.AddDocumentTransformer((document, context, cancellationToken) =>
     {
-        Version = "1.0.0",
-        Title = "BusTracker .Net Core API",
-        Description = "A .NET Core API for BusTracker, this API is built in C# .NET Core.",
-        //TermsOfService = new Uri("https://example.com/terms"),
-        Contact = new OpenApiContact
-        {
-            Name = "GitHub",
-            Url = new Uri("https://github.com/brittonp/BusTracker")
-        },
-        License = new OpenApiLicense
-        {
-            Name = "MIT Licence",
-            Url = new Uri("https://bustrackerservices.azurewebsites.net/public/licence.html") 
-        }
+        document.Servers.Clear();
+        return Task.CompletedTask;
     });
 });
 
@@ -64,8 +59,16 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsStaging()  || app.Environment.IsEnvironment("Test"))
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference(options =>
+        options
+            .WithTheme(ScalarTheme.None)
+            .WithLayout(ScalarLayout.Classic)
+            .WithDarkMode(false)
+            .WithSidebar(true)
+            .WithDotNetFlag(true)
+    ); 
+
     app.UseStaticFiles(new StaticFileOptions
     {
         FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "public")),
@@ -78,5 +81,16 @@ app.UseAuthorization();
 app.UseSession();
 
 app.MapControllers();
+
+//minimal apis...
+app.MapGet("/SessionMinimalApi/Create", async (IConfiguration configuration, ISqlData sqlData, ILogger<Session> logger) =>
+{
+    Session session = new Session(configuration, logger, sqlData);
+
+    var result = await session.Create();
+
+    return Results.Json(result.Value);
+})
+.WithTags("SessionMinimalApi");
 
 app.Run();

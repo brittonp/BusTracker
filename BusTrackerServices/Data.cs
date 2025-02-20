@@ -17,8 +17,8 @@ namespace BusTrackerServices.Data
 
     public interface ISqlData
     {
-        int CreateSession();
-        int UpdateSession(int? sessionId, SqlData.Event _event);
+        Task<int> CreateSession();
+        Task<int> UpdateSession(int? sessionId, SqlData.Event _event);
 
         string? GetRecentSessions();
 
@@ -53,6 +53,8 @@ namespace BusTrackerServices.Data
         private readonly ILogger<SessionController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
+        private string? _connectionString;
+
         public SqlData(
             IConfiguration configuration,
             ILogger<SessionController> logger,
@@ -62,17 +64,17 @@ namespace BusTrackerServices.Data
             _configuration = configuration;
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
+            _connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
         }
 
-        public int CreateSession()
+        public async Task<int> CreateSession()
         {
             int id = 0;
             HttpContext? context = _httpContextAccessor.HttpContext;
-            string? connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
 
@@ -87,7 +89,7 @@ namespace BusTrackerServices.Data
                     sqlCmd.Parameters.AddWithNullableValue("@headerSecChUa", context.Request.Headers["sec-ch-ua"].ToString().Truncate(250));
                     try
                     {
-                        id = (int)sqlCmd.ExecuteScalar();
+                        id = (int?) await sqlCmd.ExecuteScalarAsync() ?? 0;
                     }
                     catch (SqlException ex)
                     {
@@ -112,18 +114,17 @@ namespace BusTrackerServices.Data
             return id;
         }
 
-        public int UpdateSession(int? sessionId, SqlData.Event _event)
+        public async Task<int> UpdateSession(int? sessionId, SqlData.Event _event)
         {
             HttpContext? context = _httpContextAccessor.HttpContext;
-            string? connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
 
             //if session does not exist create one...
             if (!sessionId.HasValue)
-                sessionId = CreateSession();
+                sessionId = await CreateSession();
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
 
@@ -143,7 +144,7 @@ namespace BusTrackerServices.Data
                     sqlCmd.Parameters.AddWithNullableValue("@headerSecChUa", context.Request.Headers["sec-ch-ua"].ToString().Truncate(250));
                     try
                     {
-                        sqlCmd.ExecuteScalar();
+                        await sqlCmd.ExecuteScalarAsync();
                     }
                     catch (SqlException ex)
                     {

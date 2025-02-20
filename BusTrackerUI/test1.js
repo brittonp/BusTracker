@@ -19,18 +19,25 @@ function init() {
     });
 
     // Options panel ...
+    const optionsSlider = new Slider({
+        parent: document.body,
+        content: document.getElementById('options-content'),
+        autoExpand: true,
+    });
+
     let
         showOptionsBtn = document.getElementById('show-options'),
         hideOptionsBtn = document.getElementById('hide-options'),
         optionsPanel = document.getElementById('options-panel');
 
     showOptionsBtn.addEventListener('click', (e) => {
-        optionsPanel.classList.add('show');
+        //optionsPanel.classList.add('show');
+        optionsSlider.show();
     });
 
-    hideOptionsBtn.addEventListener('click', (e) => {
-        optionsPanel.classList.remove('show');
-    });
+//    hideOptionsBtn.addEventListener('click', (e) => {
+//        optionsPanel.classList.remove('show');
+//    });
 };
 
 document.addEventListener("DOMContentLoaded", init);
