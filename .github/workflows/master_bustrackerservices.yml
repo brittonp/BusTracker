@@ -25,7 +25,7 @@ jobs:
         run: dotnet build ./BusTrackerServices/BusTrackerServices.csproj --configuration Release
 
       - name: Publish API project
-        run: dotnet publish ./BusTrackerServices/BusTrackerServices.csproj -c Release -o publish -r win-x64 --self-contained false
+        run: dotnet publish ./BusTrackerServices/BusTrackerServices.csproj -c Release -r win-x86 --self-contained false -o publish
 
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
@@ -60,5 +60,6 @@ jobs:
           app-name: 'BusTrackerServices'
           slot-name: 'Production'
           package: myapp
+
 
 
