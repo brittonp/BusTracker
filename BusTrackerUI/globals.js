@@ -13,7 +13,7 @@
     maxSearchHistory: 20,
     searchBoxSize: 0.2,
     vehicleSmallThreshold: 300,
-    maxServiceRetry: 5,
+    maxServiceRetry: 20,
     delayServiceRetry: 5000,
     timeoutService: 3000,
     envMap: {

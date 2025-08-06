@@ -4,10 +4,11 @@
     #l = 87;
     content;
 
-    constructor(l) {
-        let box = this.#createAssembly();
+    constructor(title) {
+        const ident = document.createElement("div");
+        ident.className = "ident";
 
-        if (l) this.#l = l;
+        const box = this.#createAssembly();
 
         box.appendChild(this.#createFace(-1, -1, 1, 0, 0, 0, 1));
         box.appendChild(this.#createFace(-1, 1, -1, 2, 0, 0, 6));
@@ -18,10 +19,13 @@
         box.appendChild(this.#createFace(-1, -1, -1, 1, 0, 0, 3));
         box.appendChild(this.#createFace(-1, 1, 1, -1, 0, 0, 4));
 
-        this.content = box;
+        ident.appendChild(box);
+        ident.appendChild(this.#createTitle(title));
+
+        this.content = ident;
     }
 
-    // Assembiles are for grouping faces and other assembiles
+    // Assembiles are for grouping faces and other assemblies
     #createAssembly() {
         var assembly = document.createElement("div");
         assembly.className = "threedee assembly";
@@ -29,11 +33,11 @@
     }
 
     #createFace(px, py, pz, rx, ry, rz, index) {
-        let l = this.#l;
-        let r = l / 2;
-        let face = document.createElement("div");
+        const l = this.#l;
+        const r = l / 2;
+        const face = document.createElement("div");
 
-        face.className = 'face threedee';
+        face.className = 'face';
         face.style.cssText = `
             background: linear-gradient(to bottom right, ${this.#colors[index - 1]} 0%, #ffffff 100%);
             width: ${l}px;
@@ -44,9 +48,19 @@
             display: flex;
             align-items: center;
             justify-content: center;`;
-        //face.innerHTML = index;
 
         return face;
+    }
+
+    #createTitle(title) {
+        const l = this.#l;
+
+        var titleEl = document.createElement("div");
+        titleEl.className = "ident title";
+        titleEl.style.cssText = `
+            height: ${l * 2.5}px;`;
+        titleEl.innerHTML = title;
+        return titleEl;
     }
 
     setText(text) {

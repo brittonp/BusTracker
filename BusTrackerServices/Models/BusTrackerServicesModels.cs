@@ -33,4 +33,20 @@ namespace BusTrackerServices.Models
         }
     }
 
+    public class Line
+    {
+        public required string LineRef { get; set; }
+        public required string LineName { get; set; }
+        public required DateTime Added { get; set; }
+
+    }
+    public class Operator
+    {
+        public required string OperatorRef { get; set; }
+        public required string OperatorName { get; set; }
+
+        public List<Line> Lines { get; set;} = new List<Line>();
+    }
+
+
 }

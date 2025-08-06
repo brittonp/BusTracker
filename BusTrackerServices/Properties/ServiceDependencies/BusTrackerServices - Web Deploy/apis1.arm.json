@@ -4,7 +4,7 @@
   "parameters": {
     "resourceGroupName": {
       "type": "string",
-      "defaultValue": "rg-test-database",
+      "defaultValue": "rg-api-management",
       "metadata": {
         "_parameterType": "resourceGroup",
         "description": "Name of the resource group for the resource. It is recommended to put resources under same resource group for better tracking."
@@ -36,7 +36,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('BusTrackerServices', subscription().subscriptionId)))]",
+      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('bustrackerservices-v1', subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
       "apiVersion": "2019-10-01",
       "dependsOn": [
@@ -49,17 +49,17 @@
           "contentVersion": "1.0.0.0",
           "resources": [
             {
-              "name": "BusTrackerServicesapi",
+              "name": "bgi-api",
               "type": "Microsoft.ApiManagement/service",
               "location": "[parameters('resourceLocation')]",
               "properties": {
                 "publisherEmail": "paul.britton@brittonglobalinfo.co.uk",
-                "publisherName": "Paul Britton",
+                "publisherName": "Britton Global Information Ltd",
                 "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
                 "hostnameConfigurations": [
                   {
                     "type": "Proxy",
-                    "hostName": "bustrackerservicesapi.azure-api.net",
+                    "hostName": "bgi-api.azure-api.net",
                     "encodedCertificate": null,
                     "keyVaultId": null,
                     "certificatePassword": null,
@@ -95,14 +95,14 @@
             },
             {
               "type": "Microsoft.ApiManagement/service/apis",
-              "name": "BusTrackerServicesapi/BusTrackerServices",
+              "name": "bgi-api/bustrackerservices-v1",
               "properties": {
-                "displayName": "BusTrackerServices",
+                "displayName": "BusTrackerServices | v1",
                 "apiRevision": "1",
                 "description": null,
-                "subscriptionRequired": true,
-                "serviceUrl": null,
-                "path": "BusTrackerServices",
+                "subscriptionRequired": false,
+                "serviceUrl": "https://bustrackerapp.azurewebsites.net",
+                "path": "bustracker",
                 "protocols": [
                   "https"
                 ],
@@ -118,7 +118,7 @@
               },
               "apiVersion": "2019-12-01",
               "dependsOn": [
-                "BusTrackerServicesapi"
+                "bgi-api"
               ]
             }
           ]

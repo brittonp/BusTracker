@@ -16,12 +16,12 @@ namespace BusTrackerServices.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        private readonly ILogger<SessionController> _logger;
+        private readonly ILogger<AdminController> _logger;
         private readonly ISqlData _sqlData;
 
         public AdminController(
             IConfiguration configuration, 
-            ILogger<SessionController> logger,
+            ILogger<AdminController> logger,
             ISqlData sqlData)
         {
             _configuration = configuration;

@@ -177,7 +177,7 @@ export let mapObj = {
             // A request from H...
             const favourite = (vehicle.extendedAttributes.favourite == true) ? 'favourite' : '';
             // aged infers recorded at time > 1 hour....
-            const aged = (vehicle.extendedAttributes.aged == true) ? 'aged' : '';
+            const aged = (vehicle.aged == true) ? 'aged' : '';
 
             const searchCriteria = {
                 lineRef: vehicle.MonitoredVehicleJourney.LineRef,
@@ -193,7 +193,7 @@ export let mapObj = {
 
             const tag = document.createElement("div");
             tag.className = 'bt marker-anchor';
-            tag.innerHTML = `<div class="bt marker-vehicle ${(vehicles.length > appConstant.vehicleSmallThreshold) ? 'small' : ''} bus-direction-${vehicle.extendedAttributes.directionCode} ${favourite} ${aged}" 
+            tag.innerHTML = `<div class="bt marker-vehicle ${(vehicles.length > appConstant.vehicleSmallThreshold) ? 'small' : ''} bus-direction-${vehicle.directionCode} ${favourite} ${aged}" 
                 style="--dir: ${Number(vehicle.MonitoredVehicleJourney.Bearing)}"
                 title="${vehicle.MonitoredVehicleJourney.VehicleRef} (${vehicle.extendedAttributes.operatorName} - ${vehicle.MonitoredVehicleJourney.PublishedLineName})">
                     <div class="route">
@@ -218,7 +218,7 @@ export let mapObj = {
             const content = `
             <div class="bt info">
                 <div class="details">
-                    <div class="route bus-direction-${vehicle.extendedAttributes.directionCode} ${favourite} ${aged}">
+                    <div class="route bus-direction-${vehicle.directionCode} ${favourite} ${aged}">
                         ${appUtils.stringTrim(vehicle.MonitoredVehicleJourney.PublishedLineName, 3)}
                     </div>
                     <div class="properties">

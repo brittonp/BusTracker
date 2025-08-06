@@ -3,7 +3,7 @@ import { appUtils } from "./utils.js";
 import { operatorRoutes } from "./operator-routes.js";
 import { searchHistory } from "./search-history.js";
 import { userOptions } from "./user-options.js";
-import { session } from "./session.js";
+import { SessionManager } from "./session.js";
 import { Ident } from "./ident.js";
 import { currentLocation } from "./current-location.js";
 import { MasterDetailPanel } from "./master-detail.js";
@@ -25,6 +25,7 @@ let extendedAttributes;
 let busTracker;
 let refreshTimer;
 let busStopArrivalTimer;
+let session;
 
 const appMessage = new appUtils.BTMessage();
 const systemMessage = new appUtils.BTMessage({
@@ -58,7 +59,7 @@ async function initiate() {
         detailClass: 'content pane',
     });
 
-    const ident = new Ident();
+    const ident = new Ident('Bus Tracker loading...');
 
     $(document)
         .on('session', (e, counter) => {
@@ -69,7 +70,7 @@ async function initiate() {
     //    ident.setText(e.detail.counter);
     //});
 
-    $('.page.dimmer.ident .ident').append(ident.content);
+    $('.page.dimmer.ident').append(ident.content);
     $('.page.dimmer.ident')
         .dimmer({
             closable: false,
@@ -86,8 +87,27 @@ async function initiate() {
         });
     }
 
+    //if ("serviceWorker" in navigator) {
+    //    navigator.serviceWorker.register("/sw.js").then((registration) => {
+    //        registration.onupdatefound = () => {
+    //            const newWorker = registration.installing;
+    //            newWorker.onstatechange = () => {
+    //                if (newWorker.state === "installed") {
+    //                    if (navigator.serviceWorker.controller) {
+    //                        // Notify user or force reload
+    //                        window.location.reload();
+    //                    }
+    //                }
+    //            };
+    //        };
+    //    });
+    //}
+
+    const sessionManager = new SessionManager();
+
     try {
-        await session.init();
+        await sessionManager.init();
+        session = sessionManager.session;
 
         // Import appropriate map provider...
         //session.mapProvider = 'Google';
@@ -128,6 +148,7 @@ async function initiate() {
     appUtils.log(`initiate: complete after ${(endTime - startTime) / 1000}secs`);
 }
 
+// consider switching from JQuery to standard JavaScript and also removing dependency on Semantic/Fomantic
 async function initView() { 
 
     $(document)
@@ -145,11 +166,11 @@ async function initView() {
                 }
 
                 // initiate search on search criteria...
-                $('.bt .menu-btn.refresh').trigger('click');
+                $('.menu-btn.refresh').trigger('click');
 
             } else {
 
-                $('.bt .menu-btn.here').trigger('click');
+                $('.menu-btn.here').trigger('click');
 
             }
 
@@ -215,7 +236,7 @@ async function initView() {
             selectFirstResult: true,
             fullTextSearch: 'all',
             showNoResults: true,
-            onSelect: (result, response) => {
+            onSelect: function(result, response) {
                 searchCriteria = {
                     ...defaultSearchCriteria,
                     lineRef: result.lineRef,
@@ -223,20 +244,22 @@ async function initView() {
                     currentMapBounds: false,
                     resizeAfterSearch: true,
                 };
+
+                $(this.parentElement).removeClass('open');
                 mapObj.clearArrivalsPopup();
                 busController();
             },
         })
         .on('click', '.clear', function (e) {
-            let input = $(e.delegateTarget).find('input');
-            let clearIcon = $(e.delegateTarget).find('i.clear');
+            const input = $(e.delegateTarget).find('input');
+            const clearIcon = $(e.delegateTarget).find('i.clear');
             input.val('');
             input.focus();
             clearIcon.addClass('hidden');
             e.preventDefault();
         })
         .on('keyup', 'input', function (e) {
-            let clearIcon = $(e.delegateTarget).find('i.clear');
+            const clearIcon = $(e.delegateTarget).find('i.clear');
             if ($(e.target).val() == '') {
                 clearIcon.addClass('hidden');
             } else {
@@ -245,10 +268,18 @@ async function initView() {
             e.preventDefault();
         });
 
+
     $('.ui.checkbox')
         .checkbox();
 
-    $('.bt .menu-btn.here')
+    $('.menu-btn.operators')
+        .on('click', '#searchMenu', (e) => {
+            const panel = $(e.delegateTarget).find('.search.panel');
+            panel.toggleClass('open');
+            e.preventDefault();
+        });
+
+    $('.menu-btn.here')
         .on('click', (e) => {
 
             let mapCentre = mapObj.getCenter();
@@ -263,7 +294,7 @@ async function initView() {
             e.preventDefault();
         });
 
-    $('.bt .menu-btn.me')
+    $('.menu-btn.me')
         .on('click', async (e) => {
             await currentLocation.get();
             if (currentLocation.canTrack) {
@@ -280,13 +311,13 @@ async function initView() {
             e.preventDefault();
         });
 
-    $('.bt .menu-btn.refresh')
+    $('.menu-btn.refresh')
         .on('click', (e) => {
             busController();
             e.preventDefault();
         });
 
-    $('.bt .menu-btn.main')
+    $('.menu-btn.main')
         .on('click', '#viewOptions', (e) => {
 
             $('#optionsMenu').popup('hide');
@@ -342,7 +373,7 @@ async function initView() {
                 .modal('show');
         });
 
-    //$('.bt .menu-btn.main')
+    //$('.menu-btn.main')
     //    .on('click', (e) => {
 
     //        $('#optionsMenu').popup('hide');
@@ -370,7 +401,7 @@ async function initView() {
     //    })
 
     // Share...
-    $('.bt .menu-btn.share')
+    $('.menu-btn.share')
         .on('click', async (e) => {
 
             try {
@@ -391,30 +422,30 @@ async function initView() {
             [
                 {
                     title: "Operator",
-                    data: v.extendedAttributes.operatorName,
+                    data: v.operatorName,
                 },
                 {
                     title: "Route",
-                    data: v.MonitoredVehicleJourney.PublishedLineName,
+                    data: v.publishedLineName,
                 },
                 {
                     title: "Origin",
-                    data: v.MonitoredVehicleJourney.OriginName,
+                    data: v.originName,
                 },
                 {
                     title: "Aimed Origin Departure Time",
-                    data: v.MonitoredVehicleJourney.OriginAimedDepartureTime,
+                    data: v.originAimedDepartureTime,
                     formatter: (data) => {
                         return (data ? appConstant.shortEnGBFormatter.format(new Date(data)) : null);
                     },
                 },
                 {
                     title: "Destination",
-                    data: v.MonitoredVehicleJourney.DestinationName,
+                    data: v.destinationName,
                 },
                 {
                     title: "Aimed Destination Arrival Time",
-                    data: v.MonitoredVehicleJourney.DestinationAimedArrivalTime,
+                    data: v.destinationAimedArrivalTime,
                     formatter: (data) => {
                         return (data ? appConstant.shortEnGBFormatter.format(new Date(data)) : null);
                     },
@@ -446,12 +477,12 @@ async function initView() {
     $('#stopTracking')
         .on('click', (e) => {
             clearTimeout(busTracker);
-            $('.bt .search.panel').show();
-            $('.bt .menu-btn.search').show();
-            $('.bt .track.panel').hide();
+            $('.search.panel').show();
+            $('.menu-btn.search').show();
+            $('.track.panel').hide();
             // enable data dependent buttons...
-            $('.bt .menu-btn').removeClass('disabled');
-            $('.bt .menu-btn.refresh').trigger('click');
+            $('.menu-btn').removeClass('disabled');
+            $('.menu-btn.refresh').trigger('click');
             e.preventDefault();
         });
 
@@ -463,87 +494,87 @@ async function initView() {
             scrollY: true,
             autowidth: false,
             createdRow: (row, data, dataIndex) => {
-                $(row).addClass(`bus-direction-${data.extendedAttributes.directionCode}`);
+                $(row).addClass(`bus-direction-${data.directionCode}`);
 
                 if (data.extendedAttributes.favourite)
                     $(row).addClass(`favourite`);
-                if (data.extendedAttributes.aged)
+                if (data.aged)
                     $(row).addClass(`aged`);
             },
             columns: [
                 {
                     title: 'Operator',
-                    data: 'extendedAttributes.operatorName'
+                    data: 'operatorName'
                 },
                 {
                     title: 'Operator Ref',
-                    data: 'MonitoredVehicleJourney.OperatorRef'
+                    data: 'operatorRef'
                 },
                 {
                     title: 'Vehicle Reference',
-                    data: 'MonitoredVehicleJourney.VehicleRef'
+                    data: 'vehicleRef'
                 },
                 {
                     title: 'Route',
-                    data: 'MonitoredVehicleJourney.PublishedLineName'
+                    data: 'publishedLineName'
                 },
                 {
                     title: 'Destination',
-                    data: 'MonitoredVehicleJourney.DestinationName',
+                    data: 'destinationName',
                     render: function (data, type, row, meta) {
                         return (data ? data : 'Not available');
                     }
                 },
                 {
                     title: 'Origin',
-                    data: 'MonitoredVehicleJourney.OriginName',
+                    data: 'originName',
                     render: function (data, type, row, meta) {
                         return (data ? data : 'Not available');
                     }
                 },
                 {
                     title: 'Direction',
-                    data: 'MonitoredVehicleJourney.DirectionRef',
+                    data: 'directionRef',
                     render: function (data, type, row, meta) {
                         return (data ? data : 'Not available');
                     }
                 },
                 {
                     title: 'Bearing',
-                    data: 'MonitoredVehicleJourney.Bearing',
+                    data: 'bearing',
                     render: function (data, type, row, meta) {
                         return (data ? data : 'Not available');
                     }
                 },
                 {
                     title: 'Longitude',
-                    data: 'MonitoredVehicleJourney.VehicleLocation.Longitude',
+                    data: 'longitude',
                     render: function (data, type, row, meta) {
                         return (data ? data : 'Not available');
                     }
                 },
                 {
                     title: 'Latitude',
-                    data: 'MonitoredVehicleJourney.VehicleLocation.Latitude',
+                    data: 'latitude',
                     render: function (data, type, row, meta) {
                         return (data ? data : 'Not available');
                     }
                 },
                 {
                     title: 'Recorded',
-                    data: 'RecordedAtTime',
+                    data: 'timestamp',
                     render: function (data, type, row, meta) {
                         return appConstant.shortEnGBFormatter.format(new Date(data));
                     }
                 },
-                {
-                    title: 'Valid Until',
-                    data: 'ValidUntilTime',
-                    visible: false,
-                    render: function (data, type, row, meta) {
-                        return appConstant.shortEnGBFormatter.format(new Date(data));
-                    }
-                },
+                //{
+                //    title: 'Valid Until',
+                //    data: 'ValidUntilTime',
+                //    visible: false,
+                //    render: function (data, type, row, meta) {
+                //        return appConstant.shortEnGBFormatter.format(new Date(data));
+                //    }
+                //},
             ]
         });
 
@@ -600,7 +631,7 @@ async function initView() {
             $('#options').modal('hide');
         });
 
-    $('.bt .search-history')
+    $('.search-history')
         .on('load', (e) => {
             const list = $(e.currentTarget).find('.list');
             list.empty();
@@ -655,7 +686,7 @@ async function initView() {
             onShow: (e) => {
                 // reload the search history of this is being called from searchHistory...
                 if (e.id == 'searchHistory') {
-                    $('.bt .search-history').trigger('load');
+                    $('.search-history').trigger('load');
                 }
                 return true;
             }
@@ -666,7 +697,7 @@ async function initView() {
 
 };
 
-function trackBus(vehicleRef, firstTime, counter) {
+async function trackBus(vehicleRef, firstTime, counter) {
 
     counter = (counter == parseInt(userOptions.refreshPeriod/appConstant.refreshCounter) ? 1 : counter + 1);
     $('#trackerCounter .counter').html((userOptions.refreshPeriod - ((counter - 1) * appConstant.refreshCounter)));
@@ -691,48 +722,63 @@ function trackBus(vehicleRef, firstTime, counter) {
     if (firstTime) {
         mapObj.clear(true);
 
-        $('.bt .search.panel').hide();
-        $('.bt .menu-btn.search').hide();
-        $('.bt .track').show();
+        $('.search.panel').hide();
+        $('.menu-btn.search').hide();
+        $('.track').show();
         // clear any existing timer...
         if (refreshTimer) {
             clearTimeout(refreshTimer);
         }
     }
 
-    const busDataUrl = '/services/BusLocationData';
+    const busDataUrl = '/services/BusLocation/Get';
     var busDataUri = `${busDataUrl}?`
     busDataUri = `${busDataUri}&vehicleRef=${vehicleRef}`;
 
-    $.get(busDataUri, (resp) => {
+    try {
 
-        //convert the returned JSON string to a JSON object...
-        resp = JSON.parse(resp);
+        const response = await fetch(busDataUri, {
+            timeout: 30 * 1000,
+            method: "GET"
+        });
+        if (!response.ok) {
+            throw new Error(`Error encountered when requesting bus data: ${response.status}-${response.statusText}.`)
+        }
 
-        $('#jsonText').text(JSON.stringify(resp, null, 2));
+        var trackedVehicles = await response.json();
 
-        var vehicleActivity = resp.Siri.ServiceDelivery.VehicleMonitoringDelivery.VehicleActivity;
+        $('#jsonText').text(JSON.stringify(vehicles, null, 2));
 
-        // enrich data...
-        vehicleActivity.extendedAttributes = enrichVehicleAttributes(vehicleActivity);
+        if (trackedVehicles.length > 0) {
 
-        $('#infoTracking').data("vehicleActivity", vehicleActivity);
+            var vehicle = trackedVehicles[0];
 
-        let title = `${vehicleActivity.MonitoredVehicleJourney.VehicleRef} (${vehicleActivity.extendedAttributes.operatorName} - ${vehicleActivity.MonitoredVehicleJourney.PublishedLineName})`;
-        $('#trackedVehicle').html(title);
+            // enrich data...
+            vehicle.extendedAttributes = enrichVehicleAttributes(vehicle);
 
-        mapObj.addTrackedVehicle(vehicleActivity);
-    })
-    .fail((rq, ts, e) => {
-        displayError(`Error encountered when requesting bus data: ${ts}.`);
-    })
-    .done(() => {
-        // schedule next callback...
-        busTracker = setTimeout(trackBus, appConstant.refreshCounter * 1000, vehicleRef, false, counter);
-    })
-    .always(() => {
+            $('#infoTracking').data("vehicleActivity", vehicle);
+
+            let title = `${vehicle.vehicleRef} (${vehicle.operatorName} - ${vehicle.publishedLineName})`;
+            $('#trackedVehicle').html(title);
+
+            mapObj.addTrackedVehicle(vehicle);
+
+            // schedule next callback...
+            busTracker = setTimeout(trackBus, appConstant.refreshCounter * 1000, vehicleRef, false, counter);
+
+        } else {
+            appMessage.display('Tracked vehicle cannot be located.');
+            //$('.dataDependent').addClass('disabled');
+        }
+
+    }
+    catch (e) {
+        appMessage.display(e.message);
+        return false;
+    }
+    finally {
         $('#map').dimmer('hide');
-    });
+    }
 };
 
 async function busController(counter = 0) {
@@ -771,7 +817,7 @@ async function getBuses()
 
     mapObj.currentViewMode = appConstant.viewMode.search;
 
-    const busDataUrl = '/services/BusLocationData';
+    const busDataUrl = '/services/BusLocation/Get';
     var operatorRef = searchCriteria.operatorRef;
     var lineRef = searchCriteria.lineRef;
     var busDataUri = `${busDataUrl}?`
@@ -810,34 +856,23 @@ async function getBuses()
             throw new Error(`Error encountered when requesting bus data: ${response.status}-${response.statusText}.`)
         }
 
-        const respData = await response.json();
-        const buses = JSON.parse(respData);
+        vehicles = await response.json();
 
-        $('#jsonText').text(JSON.stringify(buses, null, 2));
+        $('#jsonText').text(JSON.stringify(vehicles, null, 2));
 
-        var vehicleActivity = buses.Siri.ServiceDelivery.VehicleMonitoringDelivery.VehicleActivity;
+        if (vehicles.length > 0) {
 
-        if (vehicleActivity) {
-
-            // this is required if there is only one vehicle and the JSON is not structured as an array...
-            if (Array.isArray(vehicleActivity) == false) {
-                vehicleActivity = [vehicleActivity];
-            };
-
-            vehicles = vehicleActivity
+            vehicles = vehicles
                 .map(v => {
-                    extendedAttributes = enrichVehicleAttributes(v);
+                    const extendedAttributes = enrichVehicleAttributes(v);
                     return {
                         ...v,
                         extendedAttributes
                     };
                 });
 
-            // do not plot vehicles with lat and lng of 0 and 0...
-            vehicles = vehicles.filter(v => v.MonitoredVehicleJourney.VehicleLocation.Latitidue != 0 && v.MonitoredVehicleJourney.VehicleLocation.Longitude != 0);
-
             if (userOptions.hideAged) {
-                vehicles = vehicles.filter(v => v.extendedAttributes.aged == false);
+                vehicles = vehicles.filter(v => v.aged == false);
             }
 
             // Display a message when no vehicles to be displayed...
@@ -852,7 +887,6 @@ async function getBuses()
                 }
 
                 // add vehicles to the map, then resizeAfterSearch/reposition the map as appropriate...
-                //appUtils.log(`addVehicles: ${vehicles.length}`);
                 mapObj.addVehicles(vehicles)
                     .then(() => {
 
@@ -868,7 +902,7 @@ async function getBuses()
                     });
 
 
-                $('.bt .menu-btn.refresh i').addClass('loading');
+                $('.menu-btn.refresh i').addClass('loading');
                 // enable data dependent buttons...
                 $('.dataDependent').removeClass('disabled');
             }
@@ -900,17 +934,16 @@ async function addStops() {
 
     while (counter < appConstant.maxServiceRetry) {
         try {
-            const response = await fetch(`/services/BusStop/Bounding-Box?north=${bounds.north}&east=${bounds.east}&south=${bounds.south}&west=${bounds.west}`,
+            const response = await fetch(`/services/BusStop/GetByBoundingBox?north=${bounds.north}&east=${bounds.east}&south=${bounds.south}&west=${bounds.west}`,
                 {
                 timeout: appConstant.timeoutService,
                 method: "GET"
                 }
             );
 
-            const data = await response.json();
+            const busStops = await response.json();
 
-            if (data.length > 0) {
-                const busStops = JSON.parse(data);
+            if (busStops.length > 0) {
                 mapObj.addStops(busStops);
             }
             return true;
@@ -1007,35 +1040,10 @@ async function displayStopArrivals(stop) {
 }
 
 function enrichVehicleAttributes(v) {
-
-    var vehicleDirection;
-    switch (v.MonitoredVehicleJourney.DirectionRef.toLowerCase()) {
-        case '2':
-        case 'in':
-        case 'inbound':
-            vehicleDirection = 2;
-            break;
-        case 'outbound':
-        case 'out':
-        case '1':
-        default:
-            vehicleDirection = 1;
-            break;
-    };
-
     // A request from H...
-    const favourite = (v.MonitoredVehicleJourney.VehicleRef == userOptions.favouriteBus) ? true : false;
-    // aged infers recorded at time > 1 hour....
-    const aged = (((new Date() - new Date(v.RecordedAtTime)) / 3600000) > 1) ? true : false;
-
-    const operator = operatorRoutes.list.find((operator) => operator.operatorRef == v.MonitoredVehicleJourney.OperatorRef);
-    const operatorName = (operator) ? operator.operatorName : `Operator Name not found: ${v.MonitoredVehicleJourney.OperatorRef}`;
-
+    const favourite = (v.vehicleRef == userOptions.favouriteBus) ? true : false;
     const extendedAttributes = {
-        operatorName: operatorName,
-        directionCode: vehicleDirection,
         favourite: favourite,
-        aged: aged
     };
 
     return extendedAttributes;
@@ -1045,7 +1053,7 @@ async function initMap() {
 
     await currentLocation.get();
     if (!currentLocation.canTrack) {
-        $('.bt .menu-btn.me').addClass('disabled');
+        $('.menu-btn.me').addClass('disabled');
     } 
 
     await mapObj.create('map', currentLocation.center);
@@ -1098,21 +1106,21 @@ $.fn.search.settings.templates = {
         var sortedResults = response.results
             .sort((a, b) => {
                 if (a.operatorName == b.operatorName) {
-                    a.routePrefix = a.route.match(/^[A-Z]+/);
-                    a.routeNumber = parseInt(a.route.replace(/^[A-Z]+/, '').replace(/[A-Z]+$/, ''));
-                    if (isNaN(a.routeNumber)) a.routeNumber = 0;
-                    a.routeSuffix = a.route.match(/[A-Z]+$/);
+                    a.linePrefix = a.lineName.match(/^[A-Z]+/);
+                    a.lineNumber = parseInt(a.lineName.replace(/^[A-Z]+/, '').replace(/[A-Z]+$/, ''));
+                    if (isNaN(a.lineNumber)) a.lineNumber = 0;
+                    a.lineSuffix = a.lineName.match(/[A-Z]+$/);
 
-                    b.routePrefix = b.route.match(/^[A-Z]+/);
-                    b.routeNumber = parseInt(b.route.replace(/^[A-Z]+/, '').replace(/[A-Z]+$/, ''));
-                    if (isNaN(b.routeNumber)) b.routeNumber = 0;
-                    b.routeSuffix = b.route.match(/[A-Z]+$/);
+                    b.linePrefix = b.lineName.match(/^[A-Z]+/);
+                    b.lineNumber = parseInt(b.lineName.replace(/^[A-Z]+/, '').replace(/[A-Z]+$/, ''));
+                    if (isNaN(b.lineNumber)) b.lineNumber = 0;
+                    b.lineSuffix = b.lineName.match(/[A-Z]+$/);
 
-                    if (a.routeNumber == b.routeNumber) {
-                        return a.routePrefix < b.routePrefix ? -1 : 1;
+                    if (a.lineNumber == b.lineNumber) {
+                        return a.linePrefix < b.linePrefix ? -1 : 1;
                     }
 
-                    return a.routeNumber < b.routeNumber ? -1 : 1;
+                    return a.lineNumber < b.lineNumber ? -1 : 1;
                 }
                 return a.operatorName < b.operatorName ? -1 : 1;
             });

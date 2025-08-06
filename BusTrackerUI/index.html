@@ -68,25 +68,9 @@
     <div class="env-glyph"></div>
 
     <div class="app pane">
-
         <div class="main pane">
             <div id="map-pane" class="master pane">
-                <div class="box">
-                    <div class="row content">
-                        <div id='map'></div>
-                    </div>
-                </div>
-
-                <div class="search panel">
-                    <div id="search" class="ui search">
-                        <div class="ui fluid left icon input">
-                            <input class="prompt shadow" type="text" placeholder="Search Operators and Routes (enter at least 2 characters)...">
-                            <i class="clear hidden times link icon"></i>
-                            <i class="search icon"></i>
-                        </div>
-                        <div class="results"></div>
-                    </div>
-                </div>
+                <div id="map"></div>
 
                 <div class="track panel shadow">
                     <div class="ui four column middle aligned grid">
@@ -117,79 +101,12 @@
                 </div>
 
                 <!-- Menu buttons -->
-                <div class="menu-btn shadow main">
-                <div class="ui borderless secondary compact fitted menu">
-                    <div id="optionsMenu" class="link browse item">
-                        <i class="hamburger icon"></i>
-                    </div>
-                    <div class="ui flowing shadow popup transition hidden">
-                        <div class="ui sub header">
-                            Bus Tracker
-                        </div>
-                        <div class="ui action link list">
-                            <div id="viewOptions" class="link item" action="viewOptions">Options</div>
-                            <div id="open_preferences_center" class="link item">Cookie Preferences</div>
-                            <div id="viewJson" class="link item" action="viewJSON">View JSON</div>
-                            <div id="viewData" class="link item dataDependent" action="viewData">View Data</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="menu-btn search shadow here" title="Show all buses">
-                <i class="crosshairs icon"></i>
-            </div>
-
-            <div class="menu-btn search shadow history">
-                <div class="ui borderless secondary compact fitted menu">
-                    <div id="searchHistory" class="browse toolbar link item">
-                        <i class="history icon"></i>
-                    </div>
-                    <div class="bt search-history ui flowing shadow popup transition hidden">
-                        <div class="ui sub header">
-                            Search History
-                        </div>
-                        <div class="ui action link list">
-                        </div>
-                        <div title="Clear search history" class="clear ui right floated mini icon button">
-                            <i class="trash icon"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="menu-btn search shadow me" title="Pan to me">
-                <i class="user icon"></i>
-            </div>
-
-            <div class="menu-btn search shadow refresh" title="Refresh map">
-
-                <div id="refreshCounter" class="counter container">
-                    <div class="counter"></div>
-                    <i class="overlay redo icon"></i>
-                </div>
-
-            </div>
-
-            <div class="bt menu-btn search shadow share">
-                <div class="ui borderless secondary compact fitted menu">
-                    <div id="viewData" class="toolbar link item" title="View data">
-                        <i class="share alternate icon"></i>
-                    </div>
-                </div>
-            </div>
-
-            </div>
-        </div>
-
-<!--         <div class="footer pane">
-            <div class="menu pane">
-                <div class="menu-btn shadow main">
+                <div class="menu-btn main shadow">
                     <div class="ui borderless secondary compact fitted menu">
                         <div id="optionsMenu" class="link browse item">
                             <i class="hamburger icon"></i>
                         </div>
-                        <div class="ui flowing shadow popup transition hidden">
+                        <div class="ui flowing popup hidden shadow transition">
                             <div class="ui sub header">
                                 Bus Tracker
                             </div>
@@ -203,16 +120,34 @@
                     </div>
                 </div>
 
-                <div class="menu-btn search shadow here" title="Show all buses">
+                <div class="menu-btn search operators shadow" title="Search operators/routes">
+
+                    <div id="searchMenu" class="link browse item">
+                        <i class="search icon"></i>
+                    </div>
+
+                    <div class="search panel">
+                        <div id="search" class="ui search">
+                            <div class="ui fluid right icon input">
+                                <input class="prompt shadow" type="text" placeholder="Search Operators and Routes (enter at least 2 characters)...">
+                                <i class="clear times link icon hidden"></i>
+                            </div>
+                            <div class="results"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="menu-btn search here shadow" title="Show all buses">
                     <i class="crosshairs icon"></i>
                 </div>
 
-                <div class="menu-btn search shadow history">
+                <div class="menu-btn search history shadow">
                     <div class="ui borderless secondary compact fitted menu">
                         <div id="searchHistory" class="browse toolbar link item">
                             <i class="history icon"></i>
                         </div>
-                        <div class="bt search-history ui flowing shadow popup transition hidden">
+                        <div class="search-history ui flowing popup hidden shadow transition">
                             <div class="ui sub header">
                                 Search History
                             </div>
@@ -225,11 +160,11 @@
                     </div>
                 </div>
 
-                <div class="menu-btn search shadow me" title="Pan to me">
+                <div class="menu-btn search me shadow" title="Pan to me">
                     <i class="user icon"></i>
                 </div>
 
-                <div class="menu-btn search shadow refresh" title="Refresh map">
+                <div class="menu-btn search refresh shadow" title="Refresh map">
 
                     <div id="refreshCounter" class="counter container">
                         <div class="counter"></div>
@@ -238,96 +173,89 @@
 
                 </div>
 
-                <div class="bt menu-btn search shadow share">
+                <div class="menu-btn search share shadow">
                     <div class="ui borderless secondary compact fitted menu">
                         <div id="viewData" class="toolbar link item" title="View data">
                             <i class="share alternate icon"></i>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div> -->
 
-
-        <!--Box to display Data-->
-        <div id="data" class="bt ui fullscreen modal">
-            <div class="header">Data</div>
-            <div class="scrolling content">
-                <table id='vehicles' class='bus'></table>
-            </div>
-            <div class="actions">
-                <div class="ui cancel button">Close</div>
-            </div>
-        </div>
-
-        <!--Box to display JSON-->
-        <div id="json" class="bt ui fullscreen modal">
-            <div class="header">JSON</div>
-            <div class="scrolling content">
-                <pre id='jsonText'></pre>
-            </div>
-            <div class="actions">
-                <div class="ui cancel button">Close</div>
-            </div>
-        </div>
-
-        <!--Box to display Options-->
-        <div id="options" class="bt ui fullscreen modal">
-            <div class="header">Options</div>
-            <div class="options scrolling content">
-
-                <div id="optHideInactiveVehicles" class="ui right aligned toggle checkbox">
-                    <input type="checkbox" tabindex="0" class="hidden">
-                    <label class="prompt">Hide inactive buses</label>
-                </div>
-
-                <div id="optFavouriteBus" class="ui labled input">
-                    <label class="prompt">Favourite Bus</label>
-                    <input type="text" maxlength="8" placeholder="Number Plate..." style="text-transform: uppercase;padding: 1em">
-                </div>
-
-                <div class="prompt">Maximum buses to display</div>
-                <div id="optMaxMarkersToDisplay" class="ui labeled ticked slider" style="padding: 1rem;">
-                </div>
-
-                <div class="prompt">Tracker refresh period (seconds)</div>
-                <div id="optTrackerRefreshPeriod" class="ui labeled ticked slider" style="padding: 1rem;">
-                </div>
-
-                <div id="optHideSystemMessage" class="ui right aligned toggle checkbox">
-                    <input type="checkbox" tabindex="0" class="hidden">
-                    <label class="prompt">Hide system message when first opening app</label>
-                </div>
-
-            </div>
-            <div class="actions">
-                <div id="closeOptionsForm" class="ui button">Close</div>
-            </div>
-        </div>
-
-        <!--Box to display Tracked Bus Details-->
-        <div id="trackedBusInfo" class="bt ui close modal">
-            <i class="close icon"></i>
-            <div class="header">Header</div>
-            <div class="scrollable content">
-                <div class="ui compact grid">
-                </div>
-            </div>
-        </div>
-
-        <div class="ui page dimmer modals">
-        </div>
-
-        <div class="ui page dimmer ident">
-            <div class="content">
-                <div class="ident"></div>
-                <div style="position: relative;">
-                    BusTracker loading
-                </div>
             </div>
         </div>
     </div>
 
+    <!--Box to display Data-->
+    <div id="data" class="ui fullscreen modal">
+        <div class="header">Data</div>
+        <div class="scrolling content">
+            <table id='vehicles' class='bus'></table>
+        </div>
+        <div class="actions">
+            <div class="ui cancel button">Close</div>
+        </div>
+    </div>
+
+    <!--Box to display JSON-->
+    <div id="json" class="ui fullscreen modal">
+        <div class="header">JSON</div>
+        <div class="scrolling content">
+            <pre id='jsonText'></pre>
+        </div>
+        <div class="actions">
+            <div class="ui cancel button">Close</div>
+        </div>
+    </div>
+
+    <!--Box to display Options-->
+    <div id="options" class="ui fullscreen modal">
+        <div class="header">Options</div>
+        <div class="options scrolling content">
+
+            <div id="optHideInactiveVehicles" class="ui right aligned toggle checkbox">
+                <input type="checkbox" tabindex="0" class="hidden">
+                <label class="prompt">Hide inactive buses</label>
+            </div>
+
+            <div id="optFavouriteBus" class="ui labled input">
+                <label class="prompt">Favourite Bus</label>
+                <input type="text" maxlength="8" placeholder="Number Plate..." style="text-transform: uppercase;padding: 1em">
+            </div>
+
+            <div class="prompt">Maximum buses to display</div>
+            <div id="optMaxMarkersToDisplay" class="ui labeled ticked slider" style="padding: 1rem;">
+            </div>
+
+            <div class="prompt">Tracker refresh period (seconds)</div>
+            <div id="optTrackerRefreshPeriod" class="ui labeled ticked slider" style="padding: 1rem;">
+            </div>
+
+            <div id="optHideSystemMessage" class="ui right aligned toggle checkbox">
+                <input type="checkbox" tabindex="0" class="hidden">
+                <label class="prompt">Hide system message when first opening app</label>
+            </div>
+
+        </div>
+        <div class="actions">
+            <div id="closeOptionsForm" class="ui button">Close</div>
+        </div>
+    </div>
+
+    <!--Box to display Tracked Bus Details-->
+    <div id="trackedBusInfo" class="ui close modal">
+        <i class="close icon"></i>
+        <div class="header">Header</div>
+        <div class="scrollable content">
+            <div class="ui compact grid">
+            </div>
+        </div>
+    </div>
+
+    <div class="ui page dimmer modals">
+    </div>
+
+    <div class="ui page dimmer ident">
+    </div>
 
 </body>
 

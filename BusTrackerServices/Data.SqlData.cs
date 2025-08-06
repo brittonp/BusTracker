@@ -1,28 +1,21 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.AspNetCore.Http;
-using BusTrackerServices;
-using BusTrackerServices.Controllers;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
+﻿using BusTrackerServices.Models;
 using Microsoft.AspNetCore.Mvc;
-using BusTrackerServices.Models;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.Data.SqlClient;
 using System.Data;
-
+using System.Text;
+using System.Text.Json;
 
 namespace BusTrackerServices.Data
 {
 
     public interface ISqlData
     {
+
+        Task<object> PingDatabase();
         Task<int> CreateSession();
         Task<int> UpdateSession(int? sessionId, SqlData.Event _event);
-
-        Task<string?> GetRecentSessions();
-
-        Task<string?> GetSessionHistory(int sessionId);
+        Task<object> GetRecentSessions();
+        Task<object> GetSessionHistory(int sessionId);
 
         string? GetAllSystemParameters();
 
@@ -30,9 +23,9 @@ namespace BusTrackerServices.Data
 
         string? UpdateSystemParameter(SystemParameter systemParameter);
 
-        JsonResult? GetBusStopsByAtcoCode(string atcoCode);
+        Task<object> GetBusStopsByAtcoCode(string atcoCode);
 
-        JsonResult? GetBusStopsByBoundingBox(double north, double east, double south, double west);
+        Task<object> GetBusStopsByBoundingBox(double north, double east, double south, double west);
 
         int LoadBusStopXML();
 
@@ -50,14 +43,14 @@ namespace BusTrackerServices.Data
         }
 
         private readonly IConfiguration _configuration;
-        private readonly ILogger<SessionController> _logger;
+        private readonly ILogger<SqlData> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         private string? _connectionString;
 
         public SqlData(
             IConfiguration configuration,
-            ILogger<SessionController> logger,
+            ILogger<SqlData> logger,
             IHttpContextAccessor httpContextAccessor
             ) 
         {
@@ -65,6 +58,78 @@ namespace BusTrackerServices.Data
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
             _connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
+        }
+
+        public async Task<object> PingDatabase()
+        {
+            var strBuilder = new StringBuilder();
+            int i = 0;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    string? sql = _configuration["Sql:PingDatabase"];
+                    using SqlCommand sqlCmd = new SqlCommand(sql, conn);
+                    try
+                    {
+                        var reader = await sqlCmd.ExecuteReaderAsync();
+                        if (!reader.HasRows)
+                        {
+                            strBuilder.Append("[]");
+                        }
+                        else
+                        {
+                            while (reader.Read())
+                            {
+                                strBuilder.Append(reader.GetValue(0).ToString());
+                                i++;
+                            }
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        _logger.LogError(999, ex, "SqlException on pinging database.");
+
+                        return new
+                        {
+                            connectionString = _connectionString,
+                            message = ex.Message,
+                            errorCode = ex.ErrorCode,
+                            errorSource = ex.Source
+                        };
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(999, ex, "Exception on pinging database.");
+                        return new
+                        {
+                            connectionString = _connectionString,
+                            message = ex.Message,
+                            errorSource = ex.Source
+                        };
+                    }
+                    finally
+                    {
+                        _logger.LogInformation(999, "Retrieved recent session records: {0}.", i);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(999, ex, "Exception on connecting to database.");
+                return new
+                {
+                    connectionString = _connectionString,
+                    message = ex.Message,
+                    errorSource = ex.Source
+                };
+            }
+
+            var json = JsonSerializer.Deserialize<object>(strBuilder.ToString());
+            return json ?? new object();
         }
 
         public async Task<int> CreateSession()
@@ -77,11 +142,7 @@ namespace BusTrackerServices.Data
                 using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-
-                    // Insert trace data record...
-                    string sql = "INSERT INTO dbo.bt_session (event, header_query_string, header_user_agent, header_sec_ch_ua ) ";
-                    sql += "VALUES (@event, @headerQueryString, @headerUserAgent, @headerSecChUa); ";
-                    sql += "SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                    string? sql = _configuration["Sql:CreateSession"];
                     using SqlCommand sqlCmd = new SqlCommand(sql, conn);
                     sqlCmd.Parameters.AddWithNullableValue("@event", Event.CreateSession.ToString());
                     sqlCmd.Parameters.AddWithNullableValue("@headerQueryString", context.Request.QueryString.ToString().Truncate(250));
@@ -101,7 +162,7 @@ namespace BusTrackerServices.Data
                     }
                     finally
                     {
-                        _logger.LogWarning(999, "Inserted session record: id = {0}.", id);
+                        _logger.LogInformation(999, "Inserted session record: id = {0}.", id);
                     }
                 }
 
@@ -120,7 +181,9 @@ namespace BusTrackerServices.Data
 
             //if session does not exist create one...
             if (!sessionId.HasValue)
+            {
                 sessionId = await CreateSession();
+            }
 
             try
             {
@@ -170,21 +233,22 @@ namespace BusTrackerServices.Data
 
         }
 
-        public async Task<string?> GetRecentSessions()
+        public async Task<object> GetRecentSessions()
         {
+
+
             var strBuilder = new StringBuilder();
             int i = 0;
-            string? connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
-            string? sql = _configuration["Sql:GetRecentSessions"];
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-
-                    // Insert trace data record...
+                    string? sql = _configuration["Sql:GetRecentSessions"];
+                    int _recentSessionLimit = int.TryParse(_configuration["BT_RecentSessionLimit"], out int value) ? value : 10;
                     using SqlCommand sqlCmd = new SqlCommand(sql, conn);
+                    sqlCmd.Parameters.AddWithValue("@number", _recentSessionLimit);
                     try
                     {
                         var reader = await sqlCmd.ExecuteReaderAsync();
@@ -204,14 +268,25 @@ namespace BusTrackerServices.Data
                     catch (SqlException ex)
                     {
                         _logger.LogError(999, ex, "SqlException on getting recent session records.");
+
+                        return new
+                        {
+                            connectionString = _connectionString,
+                            message = ex.Message
+                        };
                     }
                     catch (Exception ex)
                     {
                         _logger.LogError(999, ex, "Exception on getting session records.");
+                        return new
+                        {
+                            connectionString = _connectionString,
+                            message = ex.Message
+                        };
                     }
                     finally
                     {
-                        _logger.LogWarning(999, "Retrieved recent session records: {0}.", i);
+                        _logger.LogInformation(999, "Retrieved recent session records: {0}.", i);
                     }
                 }
 
@@ -219,25 +294,28 @@ namespace BusTrackerServices.Data
             catch (Exception ex)
             {
                 _logger.LogError(999, ex, "Exception on connecting to database.");
+                return new
+                {
+                    connectionString = _connectionString,
+                    message = ex.Message
+                };
             }
 
-            return strBuilder.ToString();
+            var json = JsonSerializer.Deserialize<object>(strBuilder.ToString());
+            return json ?? new object();
         }
 
-        public async Task<string?> GetSessionHistory(int sessionId)
+        public async Task<object> GetSessionHistory(int sessionId)
         {
             var strBuilder = new StringBuilder();
             int i = 0;
-            string? connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
-            string? sql = _configuration["Sql:GetSessionHistory"];
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-
-                    // Insert trace data record...
+                    string? sql = _configuration["Sql:GetSessionHistory"];
                     using SqlCommand sqlCmd = new SqlCommand(sql, conn);
                     sqlCmd.Parameters.AddWithValue("@sessionId", sessionId);
                     try
@@ -266,7 +344,7 @@ namespace BusTrackerServices.Data
                     }
                     finally
                     {
-                        _logger.LogWarning(999, "Retrieved session history records: {0}.", i);
+                        _logger.LogInformation(999, "Retrieved session history records: {0}.", i);
                     }
                 }
 
@@ -276,7 +354,8 @@ namespace BusTrackerServices.Data
                 _logger.LogError(999, ex, "Exception on connecting to database.");
             }
 
-            return strBuilder.ToString();
+            var json = JsonSerializer.Deserialize<object>(strBuilder.ToString());
+            return json ?? new object();
         }
 
         public string? GetAllSystemParameters()
@@ -378,7 +457,7 @@ namespace BusTrackerServices.Data
         public string? UpdateSystemParameter(SystemParameter systemParameter)
         {
             HttpContext? context = _httpContextAccessor.HttpContext;
-            string? jsonString = "";
+            //string? jsonString = "";
             int rowsAffected = 0;
             string? connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
             string? sql = _configuration["Sql:UpdateSystemParameter"];
@@ -433,25 +512,36 @@ namespace BusTrackerServices.Data
 
         }
 
-        public JsonResult? GetBusStopsByAtcoCode(
-            string atcoCode = "490"
+        public async Task<object> GetBusStopsByAtcoCode(
+            string atcoCode
         )
         {
-            string? connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
-            string? sql = _configuration["Sql:GetBusStopsByAtcoCode"];
-            string stringResult = string.Empty;
+            var strBuilder = new StringBuilder();
+            int i = 0;
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-
+                    string? sql = _configuration["Sql:GetBusStopsByAtcoCode"];
                     using SqlCommand sqlCmd = new SqlCommand(sql, conn);
                     sqlCmd.Parameters.AddWithValue("@atcoAreaCode", atcoCode);
                     try
                     {
-                        stringResult = (string)sqlCmd.ExecuteScalar();
+                        var reader = await sqlCmd.ExecuteReaderAsync();
+                        if (!reader.HasRows)
+                        {
+                            strBuilder.Append("[]");
+                        }
+                        else
+                        {
+                            while (reader.Read())
+                            {
+                                strBuilder.Append(reader.GetValue(0).ToString());
+                                i++;
+                            }
+                        }
                     }
                     catch (SqlException ex)
                     {
@@ -473,56 +563,36 @@ namespace BusTrackerServices.Data
                 _logger.LogError(999, ex, "Exception on connecting to database.");
             }
 
-            JsonResult jsonResult = new JsonResult(stringResult);
-
-            _logger.LogInformation(4103, "Get GetBusStopsByAtcoCode completed");
-
-            return jsonResult;
+            var json = JsonSerializer.Deserialize<object>(strBuilder.ToString());
+            return json ?? new object();
         }
 
-        public JsonResult? GetBusStopsByBoundingBox(
-            double north = 51.432822,
-            double east = -0.250454,
-            double south = 51.406247,
-            double west = -0.332851
+        public async Task<object> GetBusStopsByBoundingBox(
+            double north,
+            double east,
+            double south,
+            double west
         )
         {
 
-            //string? filePath = _configuration["BT_Stops_Json_File_Path"];
-            //_logger.LogInformation(4102, $"Bus Stops date source: {filePath}");
-
-            //string jsonString = System.IO.File.ReadAllText(filePath);
-            //JArray jsonArr = JArray.Parse(jsonString);
-            //var result = jsonArr
-            //    .Where(bs => (double?)bs["position"]["lat"] < north && (double?)bs["position"]["lat"] > south
-            //        && (double?)bs["position"]["lng"] < east && (double?)bs["position"]["lng"] > west);
-
-            //string stringResult = JsonConvert.SerializeObject(result);
-            //JsonResult jsonResult = new JsonResult(stringResult);
-
-            //_logger.LogInformation(4103, "Get Bus Stops completed");
-
-            //return jsonResult;
-
-
-            string? connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
-            string? sql = _configuration["Sql:GetBusStopsByBoundingBox"];
             string stringResult = string.Empty;
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-
+                    string? sql = _configuration["Sql:GetBusStopsByBoundingBox"];
                     using SqlCommand sqlCmd = new SqlCommand(sql, conn);
                     sqlCmd.Parameters.AddWithValue("@north", north);
                     sqlCmd.Parameters.AddWithValue("@east", east);
                     sqlCmd.Parameters.AddWithValue("@south", south);
                     sqlCmd.Parameters.AddWithValue("@west", west);
                     try
+
                     {
-                        stringResult = (string)sqlCmd.ExecuteScalar();
+                        var result = await sqlCmd.ExecuteScalarAsync();
+                        stringResult = (result == null) ? string.Empty : (result as string) ?? string.Empty;
                     }
                     catch (SqlException ex)
                     {
@@ -544,11 +614,14 @@ namespace BusTrackerServices.Data
                 _logger.LogError(999, ex, "Exception on connecting to database.");
             }
 
-            JsonResult jsonResult = new JsonResult(stringResult);
-
-            _logger.LogInformation(4103, "Get GetBusStopsByBoundingBox completed");
-
-            return jsonResult;
+            if (stringResult == string.Empty)
+            {
+                return new object();
+            } else
+            {
+                var json = JsonSerializer.Deserialize<object>(stringResult);
+                return json ?? new object();
+            }
         }
 
         public int LoadBusStopXML()

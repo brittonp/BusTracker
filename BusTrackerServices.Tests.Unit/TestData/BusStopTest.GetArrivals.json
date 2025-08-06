@@ -1,0 +1,72 @@
+[
+  {
+    "lineName": "293",
+    "destinationName": "Morden",
+    "timeToStation": 623,
+    "stationName": "Epsom Clock Tower",
+    "naptanId": "40004406038A",
+    "timestamp": "2025-04-23T15:44:58.4678226Z",
+    "liveData": true,
+    "src": "TFL"
+  },
+  {
+    "lineName": "406",
+    "destinationName": "Kingston",
+    "timeToStation": 650,
+    "stationName": "Epsom Clock Tower",
+    "naptanId": "40004406038A",
+    "timestamp": "2025-04-23T15:44:58.4678226Z",
+    "liveData": true,
+    "src": "TFL"
+  },
+  {
+    "lineName": "418",
+    "destinationName": "Kingston",
+    "timeToStation": 1262,
+    "stationName": "Epsom Clock Tower",
+    "naptanId": "40004406038A",
+    "timestamp": "2025-04-23T15:44:58.4678226Z",
+    "liveData": true,
+    "src": "TFL"
+  },
+  {
+    "lineName": "418",
+    "destinationName": "Kingston",
+    "timeToStation": 62,
+    "stationName": "Epsom Clock Tower",
+    "naptanId": "40004406038A",
+    "timestamp": "2025-04-23T15:44:58.4678226Z",
+    "liveData": true,
+    "src": "TFL"
+  },
+  {
+    "lineName": "S2",
+    "destinationName": "St Helier Station",
+    "timeToStation": 1322,
+    "stationName": "Epsom Clock Tower",
+    "naptanId": "40004406038A",
+    "timestamp": "2025-04-23T15:44:58.4678226Z",
+    "liveData": true,
+    "src": "TFL"
+  },
+  {
+    "lineName": "E5",
+    "destinationName": "West Ewell, Hogsmill Way",
+    "timeToStation": 1467,
+    "stationName": "",
+    "naptanId": "40004406038A",
+    "timestamp": "2025-04-23T15:45:32Z",
+    "liveData": false,
+    "src": "Traveline"
+  },
+  {
+    "lineName": "E16",
+    "destinationName": "Worcester Park (Stop A)",
+    "timeToStation": 3567,
+    "stationName": "",
+    "naptanId": "40004406038A",
+    "timestamp": "2025-04-23T15:45:32Z",
+    "liveData": false,
+    "src": "Traveline"
+  }
+]

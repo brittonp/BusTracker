@@ -1,8 +1,5 @@
 {
   "dependencies": {
-    "apis1": {
-      "type": "apis"
-    },
     "mssql2": {
       "ignored": "true",
       "type": "mssql",
@@ -23,6 +20,9 @@
     "mssql4": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:DatabaseConnection"
+    },
+    "apis1": {
+      "type": "apis"
     }
   }
 }

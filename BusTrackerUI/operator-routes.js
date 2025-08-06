@@ -6,14 +6,13 @@ export const operatorRoutes = {
     list: null,
     get: async function get() {
 
-        appUtils.log(`getOperatorRoutes: start`);
-        //const response = await fetch(`./data/operatorRoutes.json`, {
-        const response = await fetch(`/services/OperatorRoute/Get`, {
+        appUtils.log(`getOperatorLines: start`);
+        const response = await fetch(`/services/OperatorLines/Get`, {
             timeout: 30 * 1000,
             method: "GET"
         });
         if (!response.ok) {
-            throw new Error(`Failed to getOperatorRoutes. Error: ${response.status}`);
+            throw new Error(`Failed to getOperatorLines. Error: ${response.status}`);
         }
         const data = await response.json();
 
@@ -29,50 +28,27 @@ export const operatorRoutes = {
                         .join(),
                     operatorName: operatorName,
                     lineRef: '',
-                    route: '',
+                    lineName: '',
                     title: `${operatorName} - All Routes`,
                     all: true,
                 }
             });
 
-        // create operator/route entries...
-        //const operatorsRoutes = data.flatMap(o => {
-
-        //    const operatorRoutes = [];
-
-        //    o.routes.forEach(r => {
-        //        operatorRoutes.push({
-        //            operatorRef: o.operatorRef,
-        //            operatorName: o.operatorName,
-        //            lineRef: r.lineRef,
-        //            route: r.route,
-        //            title: `${o.operatorName} - ${r.route}`,
-        //            all: false,
-        //        });
-        //    });
-
-        //    //operatorRoutes = operatorRoutes.filter((r) => (r.operatorName === 'Transport for London'));
-
-        //    return operatorRoutes;
-        //});
-
         const operatorsRoutes = data.flatMap(operator =>
-            operator.routes.map(route => ({
+            operator.lines.map(line => ({
                 operatorRef: operator.operatorRef,
                 operatorName: operator.operatorName,
-                lineRef: route.lineRef,
-                route: route.route,
-                title: `${operator.operatorName} - ${route.route}`,
+                lineRef: line.lineRef,
+                lineName: line.lineName,
+                title: `${operator.operatorName} - ${line.lineName}`,
                 all: false,
             }))
         );
 
-
-
         // concat the arrays...
         this.list = operatorsAll.concat(operatorsRoutes);
 
-        appUtils.log(`getOperatorRoutes: complete`);
+        appUtils.log(`getOperatorLines: complete`);
         return true;
     },
 };

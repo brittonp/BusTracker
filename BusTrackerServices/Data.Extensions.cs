@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 
-namespace BusTrackerServices
+namespace BusTrackerServices.Data
 {
     public static class Extensions
     {

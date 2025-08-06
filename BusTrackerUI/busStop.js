@@ -62,7 +62,7 @@ export class BusStop {
 
         const data = await response.json();
 
-        let arrivals = JSON.parse(data)
+        let arrivals = data
             .map((b) => {
                 return {
                     ...b,

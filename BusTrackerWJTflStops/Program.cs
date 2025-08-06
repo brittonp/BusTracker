@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.AzureAppServices;
 using System.Runtime.CompilerServices;
 using System.IO;
-using BusTrackerServices.Data;
 
 namespace BusTrackerWebJob.Stops
 {
@@ -19,8 +18,8 @@ namespace BusTrackerWebJob.Stops
 
             Stops stops = services.GetRequiredService<Stops>();
 
-            //await stops.RefreshCacheAsync();
-            await stops.RefreshAsync();
+            await stops.RefreshCacheAsync();
+            //await stops.RefreshAsync();
 
         }
 
@@ -39,8 +38,8 @@ namespace BusTrackerWebJob.Stops
                     });
                 })
                 .AddSingleton(configuration)
-                .AddHttpContextAccessor()
-                .AddTransient<BusTrackerServices.Data.ISqlData, BusTrackerServices.Data.SqlData>()
+                //.AddHttpContextAccessor()
+                //.AddTransient<ISqlData, SqlData>()
                 .AddSingleton<Stops>()
                 .BuildServiceProvider();
 

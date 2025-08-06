@@ -234,15 +234,5 @@ namespace BusTrackerServices.Controllers
 
     }
 
-    class BusStopArrival
-    {
-        public string? lineName { get; set; }
-        public string? destinationName { get; set; }
-        public int? timeToStation { get; set; }
-        public string? stationName { get; set; }
-        public string? naptanId { get; set; }
-        public string? timestamp { get; set; }
-        public bool? liveData { get; set; }
-        public string? src { get; set; }
-    }
+
 }

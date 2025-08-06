@@ -18,6 +18,8 @@
 
     --app_font-height:14px;
 }
+
+
 html {
     font-size: var(--app_font-height);
 }
@@ -26,51 +28,212 @@ body{
     font-size: inherit;
 }
 
-.appView {
-    visibility: visible;
-}
-
-.appView.hidden {
-    visibility: hidden;
-}
-
-.box {
-    display: flex !important;
-    flex-flow: column;
-    height: 100%;
+.pane {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
     width: 100%;
+    overflow: hidden;
 }
 
-    .box .row {
-/*        border: 1px dotted #0313fc;*/
-        display: flex;
+    .pane.row {
+        flex-direction: row;
+        flex-shrink: 0;
+        padding: 0.25rem;
     }
 
-        .box .row.center {
-            justify-content: center;
+        .pane.row .destination {
+            font-size: 1.5rem;
+            font-weight: bold;
         }
 
-        .box .row.right {
-            justify-content: end;
+.pane.app {
+    flex: 1 1 auto;
+    height: 100%;
+}
+
+    .app.pane > .main.pane {
+        position: relative;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    .app.pane > .footer.pane {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 4rem;
+        border-top: 3px solid red;
+    }
+
+/* Master detail pane classes */
+.container.pane {
+    height: 100%;
+}
+
+.master.pane {
+    flex: 1;
+    height: 100%;
+}
+
+.detail.pane {
+    /*this ensures the detail pane slides over the master pane */
+    position: absolute;
+    bottom: 0px;
+    z-index: 20;
+    /* --- */
+    height: 0;
+    background-color: #ffff;
+    touch-action: none;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    transition: height 0.5s ease-out;
+}
+
+    .detail.pane .control-bar {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .detail.pane .control-bar .handle {
+            flex: 0 0 0.25rem !important;
+            align-self: center;
+            margin: 1rem;
+            width: 3rem;
+            background-color: lightgray;
+            border-radius: 0.15rem;
+            cursor: ns-resize;
+            touch-action: none;
         }
 
-        .box .row.header {
-            flex: 0 1 40px;
-        }
+    .detail.pane .content {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
 
-        .box .row.content {
-            flex: 1 1 auto;
-        }
+.menu.pane {
+    flex-direction: row;
+    display: flex;
+    justify-content: space-evenly;
+}
 
-        .box .row.footer {
-            flex: 0 1 40px;
-        }
+.indicator {
+    background-color: red;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    font-weight: bold;
+    width: calc(3.7 * var(--app_font-height));
+    height: calc(3.7 * var(--app_font-height));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-right: 0.5rem;
+    padding: 0.1rem;
+}
+/*.arrival .indicator {
+    background-color: red;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: bold;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin: 0.5rem;
+    padding: 0.1rem;
+}
 
-/*        .box .row.header > .grid {
-            border-bottom: lightgrey 1px solid;
-        }*/
+.arrival .destination {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}*/
 
-.bt.accuracy-circle {
+
+/* Environment glyph classes */
+.env-glyph {
+    position: absolute;
+    display: block;
+    top: calc(var(--env-glph-dim) * -1);
+    left: calc(var(--env-glph-dim) * -1);
+    width: 0;
+    height: 0;
+    margin: 0;
+    border-bottom: var(--env-glph-dim) solid transparent;
+    border-top: var(--env-glph-dim) solid transparent;
+    border-right: var(--env-glph-dim) solid transparent;
+    border-left: var(--env-glph-dim) solid transparent;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    box-shadow: 0 2px 50px rgba(0, 0, 0, 0.3);
+    z-index: 90;
+}
+
+    .env-glyph.dev {
+        border-right-color: greenyellow;
+    }
+
+    .env-glyph.test {
+        border-right-color: yellow;
+    }
+
+    .env-glyph.stg {
+        border-right-color: orangered;
+    }
+
+    .env-glyph.oth {
+        border-right-color: darkorchid;
+    }
+
+    .env-glyph::after {
+        display: block;
+        -webkit-transform: rotate(270deg);
+        -moz-transform: rotate(270deg);
+        -o-transform: rotate(270deg);
+        transform: rotate(270deg);
+        font-size: calc(var(--env-glph-dim) /2);
+        margin-left: calc(var(--env-glph-dim) * 2/3);
+        margin-top: calc(var(--env-glph-dim) / 10);
+        color: black;
+    }
+
+    .env-glyph.dev::after {
+        content: "Dev";
+    }
+
+    .env-glyph.test::after {
+        content: "Test";
+    }
+
+    .env-glyph.st::after {
+        content: "Stg";
+    }
+
+    .env-glyph.oth::after {
+        content: "Oth";
+    }
+
+    .env-glyph.prod::after {
+        content: "";
+    }
+
+.test.show-detail {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.accuracy-circle {
     stroke: var( --app-color);
     fill: var( --app-color-2);
     stroke-opacity: 0.5;
@@ -78,43 +241,49 @@ body{
     fill-opacity: 0.1;
 }
 
-.bt .search.panel {
-    position: absolute;
-    top: 3vh;
-    left: 1vw;
-    width: 98vw;
-    max-width: 500px;
+.search.panel.open {
+    width: 75vw;
 }
-    .bt .search.panel .results {
+
+.search.panel {
+    position: absolute;
+    width: 0px;
+    top: 0px;
+    max-width: 500px;
+    overflow-x: clip;
+    transition: width 0.3s ease-in-out;
+    right: 10vw;
+}
+
+    .search.panel #search {
+        height: 5vh !important;
+    }
+
+    .search.panel .results {
         width: max-content !important;
         overflow-y: auto !important;
         max-height: 300px !important;
     }
 
-    .bt .search.panel input {
-        padding-right: 5rem !important;
-        padding-left: 3rem !important;
+    .search.panel input {
+        padding-right: 3vw !important;
+        padding-left: 3vw !important;
         border: none;
+        height: 5vh;
     }
 
-    .bt .search.panel i.search {
+    .search.panel i.search {
         border-top-left-radius: 50% !important;
         border-bottom-left-radius: 50% !important;
         color: var( --app-color);
         background-color: var( --app-color-2);
     }
 
-    .bt .search.panel i.clear {
-        display: block;
-        right: 0 !important;
-        left: unset !important;
-    }
-
-    .bt .search.panel i.clear.hidden {
+    .search.panel i.clear.hidden {
         display: none;
     }
 
-.bt .track.panel {
+.track.panel {
     position: absolute;
     display: flex;
     top: 3vh;
@@ -132,24 +301,25 @@ body{
     font-size: 1em;
 }
 
-.bt i {
+i {
     background-color: transparent;
 }
 
-.bt .button {
+.button {
     color: var( --app-color);
     background-color: var( --app-color-2);
 }
 
-    .bt .button:hover {
+    .button:hover {
         color: var( --app-color-2);
         background-color: var( --app-color);
     }
 
-.bt .menu-btn {
+/* Menu classes */
+.menu-btn {
     position: absolute;
-    height: 5vmin !important;
-    width: 5vmin !important;
+    height: 10vw !important;
+    width: 10vw !important;
     max-height: 3rem;
     max-width: 3rem;
     min-height: 2.5rem;
@@ -160,64 +330,69 @@ body{
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    right: 1vw;
+    right: 3vw;
     color: var( --app-color);
     background-color: var( --app-color-2);
 }
-    .bt .menu-btn.disabled {
+    .menu-btn.disabled {
         cursor: none;
         pointer-events: none;
     }
 
-    .bt .menu-btn .link.item {
+    .menu-btn .link.item {
         color:inherit;
         background-color: inherit;
     }
-    .bt .menu-btn .link.item:hover {
+    .menu-btn .link.item:hover {
         color: inherit !important;
         background-color: inherit !important;
     }
 
-    .bt .menu-btn i {
+    .menu-btn i {
         margin: auto !important;
         font-size: 1.8rem;
     }
 
-    .bt .menu-btn:hover {
+    .menu-btn:hover {
         color: var( --app-color-2);
         background-color: var( --app-color);
     }
 
-    .bt .menu-btn .popup {
+    .menu-btn .popup {
         width: 250px !important;
         overflow-y: auto;
         max-height: 300px;
     }
 
-    .bt .menu-btn.main {
-        top: 10vh;
+
+    .menu-btn.main {
+        top: 5vh;
         cursor: auto;
     }
 
-    .bt .menu-btn.refresh {
-        top: 20vh;
+    .menu-btn.operators {
+        top: 15vh;
     }
 
-    .bt .menu-btn.here {
-        top: 30vh;
+    .menu-btn.refresh {
+        top: 25vh;
     }
 
-    .bt .menu-btn.me {
-        top: 40vh;
+    .menu-btn.here {
+        top: 35vh;
     }
 
-    .bt .menu-btn.history {
-        top: 50vh;
+    .menu-btn.me {
+        top: 45vh;
+    }
+
+    .menu-btn.history {
+        top: 55vh;
         cursor: auto;
     }
 
-    .bt .menu-btn.share {
-        top: 60vh;
+    .menu-btn.share {
+        top: 65vh;
     }
 
 .counter.container {
@@ -301,7 +476,7 @@ table#vehicles tr.aged {
     color: black;
 }
 
-.bt.marker-vehicle {
+.marker-vehicle {
     --dir: null;
     border-radius: 50%;
     color: #ffffff;
@@ -313,7 +488,7 @@ table#vehicles tr.aged {
     justify-content: center !important;
 }
 
-.bt.marker-vehicle.small {
+.marker-vehicle.small {
     --dir: null;
     border-radius: 50%;
     color: #ffffff;
@@ -325,7 +500,7 @@ table#vehicles tr.aged {
     justify-content: center !important;
 }
 
-    .bt.marker-vehicle::after {
+    .marker-vehicle::after {
         border-left: calc(var(--marker-radius) *2/3) solid transparent;
         border-right: calc(var(--marker-radius) *2/3) solid transparent;
         border-bottom: calc(var(--marker-radius) *2/3) solid red;
@@ -337,38 +512,38 @@ table#vehicles tr.aged {
         z-index: -1;
     }
 
-    .bt.marker-vehicle.small::after {
+    .marker-vehicle.small::after {
         display:none;
     }
 
     /*
     * Bus icon colors.
     */
-    .bt.marker-vehicle.bus-direction-1 {
+    .marker-vehicle.bus-direction-1 {
         background-color: var(--bus-color-outbound);
     }
 
-        .bt.marker-vehicle.bus-direction-1::after {
+        .marker-vehicle.bus-direction-1::after {
             border-bottom-color: var(--bus-color-outbound);
         }
 
-    .bt.marker-vehicle.bus-direction-2 {
+    .marker-vehicle.bus-direction-2 {
         background-color: var(--bus-color-inbound);
     }
 
-        .bt.marker-vehicle.bus-direction-2::after {
+        .marker-vehicle.bus-direction-2::after {
             border-bottom-color: var(--bus-color-inbound);
         }
 
-    .bt.marker-vehicle.aged {
+    .marker-vehicle.aged {
         background-color: var(--bus-color-aged);
     }
 
-    .bt.marker-vehicle.favourite {
+    .marker-vehicle.favourite {
         background-color: var(--bus-color-favourite);
     }
 
-.bt.marker-anchor {
+.marker-anchor {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -376,7 +551,7 @@ table#vehicles tr.aged {
     height: 0rem !important;
 }
 
-.bt.info-anchor, .bt.time-anchor {
+.info-anchor, .time-anchor {
     display: flex !important;
     align-items: flex-end !important;
     justify-content: center !important;
@@ -384,7 +559,7 @@ table#vehicles tr.aged {
     height: 0rem !important;
 }
 
-.bt.marker-me-anchor, .bt.speed-anchor {
+.marker-me-anchor, .speed-anchor {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -392,7 +567,7 @@ table#vehicles tr.aged {
     height: 0rem !important;
 }
 
-.bt.info {
+.info {
     background-color: #ffffff;
     border-radius: 0.5rem;
     font-size: 1rem;
@@ -403,7 +578,7 @@ table#vehicles tr.aged {
     min-width: max-content;
 }
 
-    .bt.info::after {
+    .info::after {
         content: "";
         position: absolute;
         left: 50%;
@@ -416,13 +591,13 @@ table#vehicles tr.aged {
         border-top: 8px solid #ffffff;
     }
 
-    .bt.info .details {
+    .info .details {
         display: flex;
         flex-direction: row;
         align-items: center;
     }
 
-        .bt.info .details .properties {
+        .info .details .properties {
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -431,28 +606,28 @@ table#vehicles tr.aged {
         }
 
 
-        .bt.info .details .route {
+        .info .details .route {
             font-size: 1.5rem;
             padding: 0.4rem;
         }
 
-            .bt.info .details .route.bus-direction-1 {
+            .info .details .route.bus-direction-1 {
                 color: var(--bus-color-outbound);
             }
 
-            .bt.info .details .route.bus-direction-2 {
+            .info .details .route.bus-direction-2 {
                 color: var(--bus-color-inbound);
             }
 
-            .bt.info .details .route.aged {
+            .info .details .route.aged {
                 background-color: var(--bus-color-aged);
             }
 
-            .bt.info .details .route.favourite {
+            .info .details .route.favourite {
                 background-color: var(--bus-color-favourite);
             }
 
-.bt.time {
+.time {
     background-color: var(--tracker-time-background-colour);
     border-radius: 8px;
     color: var(--tracker-time-font-colour);
@@ -462,7 +637,7 @@ table#vehicles tr.aged {
     min-width: max-content;
 }
 
-    .bt.time::after {
+    .time::after {
         content: '';
         position: absolute;
         left: 50%;
@@ -475,7 +650,7 @@ table#vehicles tr.aged {
         border-top: 8px solid #8160d4;
     }
 
-.bt.speed {
+.speed {
     background-color: var(--tracker-speed-background-colour);
     border: 1px solid var(--tracker-line-colour);
     border-radius: 4px;
@@ -486,14 +661,14 @@ table#vehicles tr.aged {
     min-width: max-content;
 }
 
-.bt.line {
+.line {
     stroke: var(--tracker-line-colour);
     stroke-width: var(--tracker-line-weight);
     fill: var(--tracker-line-colour);
     fill-opacity: var(--tracker-line-opacity);
 }
 
-.bt.marker-me {
+.marker-me {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -518,7 +693,7 @@ table#vehicles tr.aged {
     }
 }
 
-.bt.marker-me > i {
+.marker-me > i {
         margin: auto;
     }
 
@@ -530,92 +705,18 @@ table#vehicles tr.aged {
     background-color: #dcdcdc;
 }
 
-.env-glyph {
-    position: absolute;
-    display: block;
-    top: calc(var(--env-glph-dim) * -1);
-    left: calc(var(--env-glph-dim) * -1);
-    width: 0;
-    height: 0;
-    margin: 0;
-    border-bottom: var(--env-glph-dim) solid transparent;
-    border-top: var(--env-glph-dim) solid transparent;
-    border-right: var(--env-glph-dim) solid transparent;
-    border-left: var(--env-glph-dim) solid transparent;
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    transform: rotate(45deg);
-    box-shadow: 0 2px 50px rgba(0, 0, 0, 0.3);
-    z-index: 90;
-}
 
-.dev.env-glyph {
-    border-right-color: greenyellow;
-}
-
-.test {
-    border-right-color: yellow;
-}
-
-.stg {
-    border-right-color: orangered;
-}
-
-.oth {
-    border-right-color: darkorchid;
-}
-
-.env-glyph::after {
-    display: block;
-    -webkit-transform: rotate(270deg);
-    -moz-transform: rotate(270deg);
-    -o-transform: rotate(270deg);
-    transform: rotate(270deg);
-    font-size: calc(var(--env-glph-dim) /2);
-    margin-left: calc(var(--env-glph-dim) * 2/3);
-    margin-top: calc(var(--env-glph-dim) / 10);
-    color: black;
-}
-
-.dev.env-glyph::after {
-    content: "Dev";
-}
-
-.test.env-glyph::after {
-    content: "Test";
-}
-
-.stg.env-glyph::after {
-    content: "Stg";
-}
-
-.oth.env-glyph::after {
-    content: "Oth";
-}
-
-.prod.env-glyph::after {
-    content: "";
-}
-
-.user-glyph {
-    height: 25px;
-    width: 25px;
-    background-color: #8160d4;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.options > * {
+/* #options dialog classes */
+#options .options > * {
     margin: 0 0 1rem 0;
 }
 
-.prompt {
+#options .prompt {
     color: rgba(0, 0, 0, .87);
     font-weight: 700;
 }
 
-label.prompt {
+#options label.prompt {
     margin: auto 1rem auto 0;
 }
 
@@ -623,7 +724,7 @@ label.prompt {
 .screen-message {
     display: flex;
     position: absolute;
-    top: 10vh;
+    top: 5vh;
     left: 1vw;
     z-index: 10;
     background: white;
@@ -675,140 +776,7 @@ label.prompt {
     cursor: pointer;
 }
 
-.bt.arrival .indicator {
-    background-color: red;
-    border-radius: 50%;
-    font-size: 1rem;
-    font-weight: bold;
-    width: 3rem;
-    height: 3rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    margin: 0.5rem;
-    padding: 0.1rem;
-}
-
-.bt.arrival .destination {
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-}
-
-/*V2 CSS...*/
 
 
-.pane {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: column;
-    width: 100%;
-    overflow: hidden;
-}
 
-    .pane.row {
-        flex-direction: row;
-        flex-shrink: 0;
-        padding: 0.25rem;
-    }
 
-.app.pane {
-    flex: 1 1 auto;
-    height: 100%;
-}
-
-    .app.pane > .main.pane {
-        position: relative;
-        flex: 1 1 auto;
-        overflow-y: auto;
-        overflow-x: auto;
-    }
-
-    .app.pane > .footer.pane {
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        flex: 0 0 4rem;
-        border-top: 3px solid red;
-    }
-
-.container.pane {
-    height: 100%;
-}
-
-.master.pane {
-    flex: 1;
-    height: 100%;
-}
-
-.detail.pane {
-    /*this ensures the detail pane slides over the master pane */
-    position: absolute;
-    bottom: 0px;
-    z-index: 20;
-    /* --- */
-    height: 0;
-    background-color: #ffff;
-    touch-action: none;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    transition: height 0.5s ease-out;
-}
-
-    .detail.pane .control-bar {
-        display: flex;
-        flex-direction: column;
-    }
-
-        .detail.pane .control-bar .handle {
-            flex: 0 0 0.25rem !important;
-            align-self: center;
-            margin: 1rem;
-            width: 3rem;
-            background-color: lightgray;
-            border-radius: 0.15rem;
-            cursor: ns-resize;
-            touch-action: none;
-        }
-
-    .detail.pane .content {
-        font-size: 1rem;
-        line-height: 1.5rem;
-    }
-
-.indicator {
-    background-color: red;
-    border-radius: 50%;
-    font-size: 1.3rem;
-    font-weight: bold;
-    width: calc(3.7 * var(--app_font-height));
-    height: calc(3.7 * var(--app_font-height));
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    margin-right: 0.5rem;
-    padding: 0.1rem;
-}
-
-.pane.row .destination {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.test.show-detail {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.menu.pane {
-    flex-direction: row;
-    display: flex;
-    justify-content: space-evenly;
-}

@@ -1,6 +1,8 @@
 {
   "Sql": {
-    "GetRecentSessions": "SELECT TOP (100) sess.* FROM dbo.bt_session sess ORDER BY sess.created DESC FOR JSON AUTO;",
+    "PingDatabase": "SELECT db.* FROM sys.databases db WHERE db.name = DB_NAME() FOR JSON AUTO, WITHOUT_ARRAY_WRAPPER;",
+    "CreateSession": "INSERT INTO dbo.bt_session (event, header_query_string, header_user_agent, header_sec_ch_ua ) VALUES (@event, @headerQueryString, @headerUserAgent, @headerSecChUa); SELECT CAST(SCOPE_IDENTITY() AS INT);",
+    "GetRecentSessions": "SELECT TOP (@number) sess.* FROM dbo.bt_session sess ORDER BY sess.created DESC FOR JSON AUTO;",
     "GetSessionHistory": "SELECT sesa.* FROM dbo.bt_session_audit sesa WHERE sesa.session_id = @sessionId ORDER BY sesa.updated DESC FOR JSON AUTO;",
     "GetAllSystemParameters": "SELECT * FROM dbo.bt_system_parameter ORDER BY name FOR JSON AUTO;",
     "GetSystemParameter": "SELECT * FROM dbo.bt_system_parameter WHERE name = @parameterName FOR JSON AUTO, WITHOUT_ARRAY_WRAPPER;",

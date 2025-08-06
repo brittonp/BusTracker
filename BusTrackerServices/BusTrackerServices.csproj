@@ -10,6 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\AdminController.cs" />
+    <Compile Remove="Controllers\BusLocationDataController.cs" />
+    <Compile Remove="Controllers\BusStopController.cs" />
+    <Compile Remove="Controllers\OperatorRouteController.cs" />
+    <Compile Remove="Controllers\SessionController.cs" />
+    <Compile Remove="SessionController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Data\stops.json" />
     <Content Remove="web - Copy.config" />
   </ItemGroup>
@@ -41,6 +50,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotSpatial.Projections" Version="4.0.656" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.2">
@@ -51,6 +61,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="9.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.0.14" />
+    <PackageReference Include="System.Runtime.Caching" Version="9.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -86,6 +97,11 @@
     <None Update="Data\TravelineNextBusRequest.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
 </Project>

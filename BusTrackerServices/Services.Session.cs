@@ -1,10 +1,18 @@
-﻿using BusTrackerServices.Controllers;
-using BusTrackerServices.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using BusTrackerServices.Data;
+using Microsoft.AspNetCore.Routing;
 
 namespace BusTrackerServices.Services
 {
-    public class Session
+
+    public interface ISession
+    {
+        Task<object> PingDatabase();
+        Task<object> CreateSession();
+        Task<object> GetRecentSessions();
+        Task<object> GetSessionHistory(int sessionId);
+    }
+
+        public class Session: ISession
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<Session> _logger;
@@ -20,7 +28,14 @@ namespace BusTrackerServices.Services
             _sqlData = sqlData;
         }
 
-        public async Task<JsonResult> Create()
+        public async Task<object> PingDatabase()
+        {
+            // Ping database...
+            var json = await _sqlData.PingDatabase();
+            return json;
+        }
+
+        public async Task<object> CreateSession()
         {
             int sessionId = 0;
             // Insert record into session db table...
@@ -29,7 +44,9 @@ namespace BusTrackerServices.Services
                 sessionId = await _sqlData.CreateSession();
             }
 
-            var result = new
+            _logger.LogInformation(4001, "Session initiated");
+
+            return new
             {
                 sessionId = sessionId,
                 environment = _configuration["ASPNETCORE_ENVIRONMENT"],
@@ -38,28 +55,23 @@ namespace BusTrackerServices.Services
                 mapProvider = _configuration["MapProvider"],
                 thunderforestMapKey = _configuration["ThunderforestMapKey"],
                 busTrackerMapKey = _configuration["BusTrackerMapKey"],
-            };
-
-            _logger.LogWarning(4001, "Session initiated");
-
-            return new JsonResult(result);
+            }; ;
         }
 
-        public async Task<JsonResult> GetRecent()
+        public async Task<object> GetRecentSessions()
         {
             // Query all session records...
-            string? strJson = await _sqlData.GetRecentSessions();
+            var json = await _sqlData.GetRecentSessions();
 
-            return new JsonResult(strJson);
+            return json;
         }
 
-        public async Task<JsonResult> GetSessionHistory(
-            int sessionId)
+        public async Task<object> GetSessionHistory(int sessionId)
         {
             // Query all session records...
-            string? strJson = await _sqlData.GetSessionHistory(sessionId);
+            var json = await _sqlData.GetSessionHistory(sessionId);
 
-            return new JsonResult(strJson);
+            return json;
         }
     }
 }

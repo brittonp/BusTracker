@@ -144,10 +144,10 @@ export let mapObj = {
 
         const toolTip = (currentLocation.position.accuracy > 10 ? `This is an estimate of your location within ${Math.floor(currentLocation.position.accuracy)} metres.` : "Your location.");
         const icon = new L.DivIcon({
-            className: 'bt marker-me-anchor',
+            className: 'marker-me-anchor',
             iconSize: null,
-            html: '<div class="bt marker-me"></div>',
-        //    html: '<div class="bt marker-me"><i class="white crosshairs icon"></i></div>',
+            html: '<div class="marker-me"></div>',
+        //    html: '<div class="marker-me"><i class="white crosshairs icon"></i></div>',
         });
 
         if (!this.markerMe) {
@@ -169,7 +169,7 @@ export let mapObj = {
             this.accuracyCircle = L.circle(currentLocation.center,
                 {
                     radius: currentLocation.position.accuracy,
-                    className: 'bt accuracy-circle',
+                    className: 'accuracy-circle',
                     interactive: false,
                 })
                 .addTo(this.map);
@@ -214,28 +214,28 @@ export let mapObj = {
             // A request from H...
             const favourite = (vehicle.extendedAttributes.favourite == true) ? 'favourite' : '';
             // aged infers recorded at time > 1 hour....
-            const aged = (vehicle.extendedAttributes.aged == true) ? 'aged' : '';
+            const aged = (vehicle.aged == true) ? 'aged' : '';
 
             const searchCriteria = {
-                lineRef: vehicle.MonitoredVehicleJourney.LineRef,
-                operatorRef: vehicle.MonitoredVehicleJourney.OperatorRef,
+                lineRef: vehicle.lineRef, // vehicle.MonitoredVehicleJourney.LineRef,
+                operatorRef: vehicle.operatorRef, // vehicle.MonitoredVehicleJourney.OperatorRef,
                 currentMapBounds: false,
                 resizeAfterSearch: true,
             };
 
             const position = {
-                lat: Number(vehicle.MonitoredVehicleJourney.VehicleLocation.Latitude),
-                lng: Number(vehicle.MonitoredVehicleJourney.VehicleLocation.Longitude),
+                lat: Number(vehicle.latitude),
+                lng: Number(vehicle.longitude),
             }
 
             const icon = new L.DivIcon({
-                className: 'bt marker-anchor',
+                className: 'marker-anchor',
                 iconSize: null,
-                html: `<div class="bt marker-vehicle ${(vehicles.length > appConstant.vehicleSmallThreshold) ? 'small' : ''} bus-direction-${vehicle.extendedAttributes.directionCode} ${ favourite} ${aged}" 
-                style="--dir: ${Number(vehicle.MonitoredVehicleJourney.Bearing)}"
-                title="${vehicle.MonitoredVehicleJourney.VehicleRef} (${vehicle.extendedAttributes.operatorName} - ${vehicle.MonitoredVehicleJourney.PublishedLineName})">
+                html: `<div class="marker-vehicle ${(vehicles.length > appConstant.vehicleSmallThreshold) ? 'small' : ''} bus-direction-${vehicle.directionCode} ${ favourite} ${aged}" 
+                style="--dir: ${Number(vehicle.bearing)}"
+                title="${vehicle.vehicleRef} (${vehicle.extendedAttributes.operatorName} - ${vehicle.publishedLineName})">
                     <div class="route">
-                        ${appUtils.stringTrim(vehicle.MonitoredVehicleJourney.PublishedLineName, 3)}
+                        ${appUtils.stringTrim(vehicle.publishedLineName, 3)}
                     </div>
                 </div>`,
             });
@@ -248,23 +248,23 @@ export let mapObj = {
             marker.position = position;
 
             const content = `
-            <div class="bt info">
+            <div class="info">
                 <div class="details">
-                    <div class="route bus-direction-${vehicle.extendedAttributes.directionCode} ${favourite} ${aged}">
-                        ${appUtils.stringTrim(vehicle.MonitoredVehicleJourney.PublishedLineName, 3)}
+                    <div class="route bus-direction-${vehicle.directionCode} ${favourite} ${aged}">
+                        ${appUtils.stringTrim(vehicle.publishedLineName, 3)}
                     </div>
                     <div class="properties">
-                        <div class="vehicleRef">Operator: ${vehicle.extendedAttributes.operatorName}</div>
-                        <div class="vehicleRef">Vehicle Reference: ${vehicle.MonitoredVehicleJourney.VehicleRef}</div>
-                        <div class="vehicleRef">Destination: ${vehicle.MonitoredVehicleJourney.DestinationName}</div>
-                        <div class="vehicleRef">Origin: ${vehicle.MonitoredVehicleJourney.OriginName}</div>
-                        <div class="vehicleRef">Direction: ${vehicle.MonitoredVehicleJourney.DirectionRef}</div>
-                        <div class="vehicleRef">Bearing: ${vehicle.MonitoredVehicleJourney.Bearing}</div>
-                        <div class="vehicleRef">Recorded: ${appConstant.shortEnGBFormatter.format(new Date(vehicle.RecordedAtTime))}</div>
+                        <div class="vehicleRef">Operator: ${vehicle.operatorName}</div>
+                        <div class="vehicleRef">Vehicle Reference: ${vehicle.vehicleRef}</div>
+                        <div class="vehicleRef">Destination: ${vehicle.destinationName}</div>
+                        <div class="vehicleRef">Origin: ${vehicle.originName}</div>
+                        <div class="vehicleRef">Direction: ${vehicle.directionRef}</div>
+                        <div class="vehicleRef">Bearing: ${vehicle.bearing}</div>
+                        <div class="vehicleRef">Recorded: ${appConstant.shortEnGBFormatter.format(new Date(vehicle.timestamp))}</div>
                                     <div class="ui icon buttons" style="display: unset">
                     <div class="ui route-link mini button" data='${JSON.stringify(searchCriteria)}'><i class="bus icon"></i></div>
-                    <div class="ui favourite-link mini button" data='${vehicle.MonitoredVehicleJourney.VehicleRef}'><i class="heart outline icon"></i></div>
-                    <div class="ui track-link mini button" data='${vehicle.MonitoredVehicleJourney.VehicleRef}'><i class="eye icon"></i></div>
+                    <div class="ui favourite-link mini button" data='${vehicle.vehicleRef}'><i class="heart outline icon"></i></div>
+                    <div class="ui track-link mini button" data='${vehicle.vehicleRef}'><i class="eye icon"></i></div>
                 </div>
                     </div>            
                 </div>
@@ -280,7 +280,7 @@ export let mapObj = {
                 }
 
                 const infoDetail = new L.DivIcon({
-                    className: 'bt info-anchor',
+                    className: 'info-anchor',
                     iconSize: null,
                     html: content,
                 });
@@ -351,7 +351,7 @@ export let mapObj = {
         //            interactive: true,
         //            closeOnClick: false,
         //            closeButton: false,
-        //            className: 'bt arrival popup',
+        //            className: 'arrival popup',
         //            minWidth: 200,
         //        })
         //            .setLatLng(stop.position);
@@ -450,27 +450,27 @@ export let mapObj = {
     },
     addTrackedVehicle: async function (vehicle) {
 
+        const position = {
+            lat: Number(vehicle.latitude),
+            lng: Number(vehicle.longitude)
+        };
+
         // do not add a marker if has not moved...
         const trackerMarkers = this.trackerLayerGroup.getLayers();
         if (trackerMarkers.length > 0) {
-            if (JSON.stringify(trackerMarkers[trackerMarkers.length - 1].vehicle.MonitoredVehicleJourney.VehicleLocation) === JSON.stringify(vehicle.MonitoredVehicleJourney.VehicleLocation)) {
+            if (JSON.stringify(trackerMarkers[trackerMarkers.length - 1].position) === JSON.stringify(position)) {
                 return;
             }
         }
 
-        const position = {
-            lat: Number(vehicle.MonitoredVehicleJourney.VehicleLocation.Latitude),
-            lng: Number(vehicle.MonitoredVehicleJourney.VehicleLocation.Longitude)
-        };
-
         const timeTag = new L.DivIcon({
-            className: 'bt time-anchor',
+            className: 'time-anchor',
             iconSize: null,
-            html: `<div class="bt time">${appConstant.timeENGFormatter.format(new Date(vehicle.RecordedAtTime))}</div>`,
+            html: `<div class="time">${appConstant.timeENGFormatter.format(new Date(vehicle.timestamp))}</div>`,
         });
 
         const marker = L.marker(position, {
-            title: vehicle.MonitoredVehicleJourney.VehicleRef + '-' + vehicle.MonitoredVehicleJourney.DestinationName,
+            title: vehicle.vehicleRef + '-' + vehicle.destinationName,
         })
             .setIcon(timeTag)
             .addTo(this.trackerLayerGroup);
@@ -483,15 +483,15 @@ export let mapObj = {
 
             let prevPoint =
             {
-                timestamp: trackerMarkers[trackerMarkers.length - 1].vehicle.RecordedAtTime,
-                lat: Number(trackerMarkers[trackerMarkers.length - 1].vehicle.MonitoredVehicleJourney.VehicleLocation.Latitude),
-                lng: Number(trackerMarkers[trackerMarkers.length - 1].vehicle.MonitoredVehicleJourney.VehicleLocation.Longitude)
+                timestamp: trackerMarkers[trackerMarkers.length - 1].vehicle.timestamp,
+                lat: Number(trackerMarkers[trackerMarkers.length - 1].vehicle.latitude),
+                lng: Number(trackerMarkers[trackerMarkers.length - 1].vehicle.longitude)
             };
 
             let currentPoint = {
-                timestamp: vehicle.RecordedAtTime,
-                lat: Number(vehicle.MonitoredVehicleJourney.VehicleLocation.Latitude),
-                lng: Number(vehicle.MonitoredVehicleJourney.VehicleLocation.Longitude)
+                timestamp: vehicle.timestamp,
+                lat: Number(vehicle.latitude),
+                lng: Number(vehicle.longitude)
             };
 
             // Connecting line and arrow...
@@ -500,7 +500,7 @@ export let mapObj = {
                 currentPoint
             ],
                 {
-                    className: 'bt line',
+                    className: 'line',
                 })
                 .addTo(this.annotationLayerGroup);
 
@@ -511,7 +511,7 @@ export let mapObj = {
                     symbol: L.Symbol.arrowHead({
                         pixelSize: 10,
                         pathOptions: {
-                            className: 'bt line',
+                            className: 'line',
                         }
                     })
                 }]
@@ -526,9 +526,9 @@ export let mapObj = {
             };
 
             const speedTag = new L.DivIcon({
-                className: 'bt speed-anchor',
+                className: 'speed-anchor',
                 iconSize: null,
-                html: `<div class="bt speed">${Math.floor(velocity.speedMph).toString()} mph</div>`,
+                html: `<div class="speed">${Math.floor(velocity.speedMph).toString()} mph</div>`,
             });
 
             const speedMarker = L.marker(speedMarkerPos, {

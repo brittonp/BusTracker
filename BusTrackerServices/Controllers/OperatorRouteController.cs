@@ -17,13 +17,13 @@ namespace BusTrackerServices.Controllers
     public class OperatorRouteController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        private readonly ILogger<SessionController> _logger;
+        private readonly ILogger<OperatorRouteController> _logger;
         private readonly ISqlData _sqlData;
         private readonly IWebHostEnvironment _env;
 
         public OperatorRouteController(
             IConfiguration configuration,
-            ILogger<SessionController> logger,
+            ILogger<OperatorRouteController> logger,
             ISqlData sqlData,
             IWebHostEnvironment env
             )

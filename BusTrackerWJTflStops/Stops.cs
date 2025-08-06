@@ -1,59 +1,53 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.IO.Compression;
-using System.Xml;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using System;
-using System.Data.SqlTypes;
-using System.IO;
-using Azure.Identity;
+﻿using Azure.Identity;
 using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
-using Azure.Storage.Blobs.Specialized;
-using Azure.Storage;
-using BusTrackerServices.Data;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Data;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
+using Microsoft.Data.SqlClient;
+using DotSpatial.Projections;
 
 
 namespace BusTrackerWebJob.Stops
 {
 
-    public interface IStops
-    {   Task RefreshCacheAsync();
-    }
+    //public interface IStops
+    //{
+    //    Task RefreshCacheAsync();
+    //}
 
-    public class Stops : IStops
+    public class Stops 
     {
         private static ILogger<Stops>? _logger;
         private static IConfiguration? _configuration;
-        private readonly ISqlData _sqlData;
-
+        //private readonly ISqlData _sqlData;
 
         private static string? naptanUrl;
         private static string? stopsJsonFilePath;
         private static string? stopsPath;
 
         private static readonly HttpClient httpClient = new HttpClient();
-
+        private string? _connectionString;
 
         public Stops(
             IConfiguration configuration,
-            ILogger<Stops> logger,
-            ISqlData sqlData
+            ILogger<Stops> logger
+            //ISqlData sqlData
         )
         {
             _configuration = configuration;
             _logger = logger;
-            _sqlData = sqlData;
+            //_sqlData = sqlData;
 
             // perhaps have checks to ensure these are not null...
             naptanUrl = _configuration["BT_NaPTAN_URL"];
             stopsJsonFilePath = _configuration["BT_Stops_Json_File_Path"];
             stopsPath = Path.GetDirectoryName(stopsJsonFilePath);
+            _connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
         }
 
         public async Task RefreshAsync()
@@ -62,14 +56,17 @@ namespace BusTrackerWebJob.Stops
             DateTime start = DateTime.Now;
             Console.WriteLine($"Start time {start}");
 
-            Stream fileStream = await GetFileStreamAsynch(naptanUrl);
+            //Stream fileStream = await GetFileStreamAsynch(naptanUrl);
 
-            if (fileStream != Stream.Null)
-            {
-                await SaveStreamToBlobAsynch(fileStream, "bustrackerblobstorage", "json-data", "xxx.xml");
+            //if (fileStream != Stream.Null)
+            //{
+            //    await SaveStreamToBlobAsynch(fileStream, "bustrackerblobstorage", "json-data", "xxx.xml");
 
-                await LoadXMLBlobIntoDbAsynch("bustrackerblobstorage", "json-data", "xxx.xml");
-            }
+            //    //await LoadXMLBlobIntoDbAsynch("bustrackerblobstorage", "json-data", "xxx.xml");
+            //}
+
+            // Post Processing...
+            //await ConvertEastingNorthingToLatLng();
 
             DateTime end = DateTime.Now;
             Console.WriteLine($"End time {end}");
@@ -138,7 +135,7 @@ namespace BusTrackerWebJob.Stops
         private async Task LoadXMLBlobIntoDbAsynch(string storageAccount, string storageContainer, string storageFileName)
         {
 
-            int sessionId = _sqlData.LoadBusStopXML();
+            //int sessionId = _sqlData.LoadBusStopXML();
             Console.WriteLine("LoadXMLBlobIntoDbAsynch - done");
         }
 
@@ -183,7 +180,6 @@ namespace BusTrackerWebJob.Stops
             Console.WriteLine("Completed.");
 
         }
-
 
         private static async Task<JArray> GetStopsAsynch()
         {
@@ -306,5 +302,92 @@ namespace BusTrackerWebJob.Stops
             public string ReplaceWith { get; set; }
         }
 
+        private async Task ConvertEastingNorthingToLatLng()
+        {
+            var strBuilder = new StringBuilder();
+            int i = 0;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_connectionString))
+                {
+                    await conn.OpenAsync();
+                    //string? sql = _configuration["Sql:UpdateBusStopStopsWithEastingNorthing"];
+
+                    string sql = "SELECT bs.naptan_id, bs.easting, bs.northing, bs.lat, bs.lng FROM [dbo].[bt_bus_stop] bs WHERE bs.easting IS NOT NULL AND bs.northing IS NOT NULL";
+
+                    try
+                    {
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(sql, conn))
+                        using (SqlCommandBuilder builder = new SqlCommandBuilder(adapter))
+                        {
+                            DataTable table = new DataTable();
+                            adapter.Fill(table);
+
+                            int kount = 1;
+
+                            // Modify data in the table
+                            foreach (DataRow row in table.Rows)
+                            {
+                                var convertedData = ConvertUKOSToWGS84((double)(float)row["easting"], (double)(float)row["northing"]);
+
+                                row["lat"] = convertedData[1];
+                                row["lng"] = convertedData[0];
+
+                                if (kount % 100 == 0)
+                                {
+                                    _logger.LogInformation(999, "Translated {0} easting/northings.", kount);
+                                }
+                                kount++;
+                            }
+                            _logger.LogInformation(999, "Translated {0} easting/northings.", kount);
+
+                            // Apply updates back to the database
+                            adapter.Update(table);
+
+                            i = table.Rows.Count;
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        _logger.LogError(999, ex, "SqlException on translating easting/northing.");
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(999, ex, "Exception on translating easting/northing.");
+                    }
+                    finally
+                    {
+                        _logger.LogInformation(999, "Translated {0} easting/northings.", i);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(999, ex, "Exception on connecting to database.");
+            }
+        }
+
+        private double[] ConvertUKOSToWGS84 (double easting, double northing)
+        {
+
+            // Define source projection (OSGB36 - British National Grid)
+            ProjectionInfo osgb36 = KnownCoordinateSystems.Projected.NationalGrids.BritishNationalGridOSGB36;
+
+            // Define target projection (WGS84)
+            ProjectionInfo wgs84 = KnownCoordinateSystems.Geographic.World.WGS1984;
+
+            // Example British National Grid Coordinates (Easting/Northing for London)
+            double[] xy = { easting, northing };
+            double[] z = { 0 };
+
+            // Transform to Lat/Lng
+            Reproject.ReprojectPoints(xy, z, osgb36, wgs84, 0, 1);
+
+            return xy;
+
+        }
     }
+
+
 }

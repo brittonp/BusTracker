@@ -50,17 +50,17 @@ namespace BusTrackerWebJob.OperatorRoutes
             // Call get data methods asynchronously...
             Task<JArray> operators = Task.Run(() => GetOperatorsAsynch());
 
-            Task<JArray> routes = Task.Run(() => GetLatestRoutesAsynch());
+            Task<JArray> lines = Task.Run(() => GetLatestRoutesAsynch());
 
             Task<JArray> current = Task.Run(() => GetCurrentCachedOperatorsAndRoutesAsynch());
 
             // Wait for all the tasks to finish.
-            await Task.WhenAll(routes, operators, current);
+            await Task.WhenAll(lines, operators, current);
 
-            // Join the Operators onto the latest set of Routes, then Union with the existing Operator-Routes,
-            // implicitly de-duplicating, then reformat as Operators with nested Routes...
+            // Join the Operators onto the latest set of lines, then Union with the existing Operator-lines,
+            // implicitly de-duplicating, then reformat as Operators with nested lines...
 
-            var newOperatorRoutes = routes.Result
+            var newOperatorRoutes = lines.Result
                 .Join(operators.Result,
                     r => r["operatorRef"],
                     o => o["operatorRef"],
@@ -69,7 +69,7 @@ namespace BusTrackerWebJob.OperatorRoutes
                         operatorRef = o["operatorRef"],
                         operatorName = o["operatorName"],
                         lineRef = r["lineRef"],
-                        route = r["route"],
+                        lineName = r["lineName"],
                         added = r["added"]
                     }
                 )
@@ -80,27 +80,27 @@ namespace BusTrackerWebJob.OperatorRoutes
                         operatorRef = r["operatorRef"],
                         operatorName = r["operatorName"],
                         lineRef = r["lineRef"],
-                        route = r["route"],
+                        lineName = r["lineName"],
                         added = r["added"]
                     }))
                 //.Where(o => o.operatorRef.Equals("TFLO") )
-                .GroupBy(o => new { o.operatorRef, o.operatorName, o.lineRef, o.route })
+                .GroupBy(o => new { o.operatorRef, o.operatorName, o.lineRef, o.lineName })
                 .Select(group => group.OrderBy(o => o.added).First()) 
                 .GroupBy(o => new { o.operatorRef, o.operatorName })
                 .Select(o => new
                 {
                     operatorRef = o.Key.operatorRef,
                     operatorName = o.Key.operatorName,
-                    routes = o
+                    lines = o
                         .Select(r => new
                         {
                             lineRef = r.lineRef,
-                            route = r.route,
+                            lineName = r.lineName,
                             added = r.added
                         }
                         )
                         .ToList()
-                        .OrderBy(r => r.route)
+                        .OrderBy(r => r.lineName)
                 })
                 .OrderBy(o => o.operatorName);
 
@@ -117,11 +117,11 @@ namespace BusTrackerWebJob.OperatorRoutes
             finally
             {
                 // return a summary of the data changes...
-                string summary = String.Format("\nBusTracker - Routes: Summary:\n-------------------------------------\nPrevious number of Operators: {0}\nPrevious number of Routes: {1}\nNew number of Operators: {2}\nNew number of Routes: {3}\nWritten to: {4}\n-------------------------------------\n",
+                string summary = String.Format("\nBusTracker - lines: Summary:\n-------------------------------------\nPrevious number of Operators: {0}\nPrevious number of lines: {1}\nNew number of Operators: {2}\nNew number of lines: {3}\nWritten to: {4}\n-------------------------------------\n",
                     current.Result.GroupBy(o => o["operatorRef"]).Count(),
                     current.Result.Count(),
                     newOperatorRoutes.Select(o => o.operatorRef).Distinct().Count(),
-                    newOperatorRoutes.SelectMany(o => o.routes).Select(r => r.route).Count(),
+                    newOperatorRoutes.SelectMany(o => o.lines).Select(r => r.lineName).Count(),
                     operatorRoutesJsonFilePath
                     );
                 Console.WriteLine(summary);
@@ -162,14 +162,14 @@ namespace BusTrackerWebJob.OperatorRoutes
                 JArray jsonArr = JArray.Parse(jsonString);
 
                 var operatorRoutes = jsonArr
-                    .SelectMany(o => o["routes"]
+                    .SelectMany(o => o["lines"]
                         .Where(r => (string?)r["lineRef"] != null)
                         .Select(r => new
                         {
                             operatorRef = o["operatorRef"],
                             operatorName = o["operatorName"],
                             lineRef = r["lineRef"],
-                            route = r["route"],
+                            lineName = r["lineName"],
                             added = r["added"]
                         })
                     );
@@ -305,19 +305,19 @@ namespace BusTrackerWebJob.OperatorRoutes
             string jsonString = JsonConvert.SerializeXmlNode(xmlDoc);
             JObject json = JObject.Parse(jsonString);
 
-            var routes = json["Siri"]["ServiceDelivery"]["VehicleMonitoringDelivery"]["VehicleActivity"]
+            var lines = json["Siri"]["ServiceDelivery"]["VehicleMonitoringDelivery"]["VehicleActivity"]
                 .Select(va => va["MonitoredVehicleJourney"])
                 .Where(mvj => (string?)mvj["LineRef"] != null)
                 .Select(mvj => new
                 {
                     lineRef = mvj["LineRef"],
-                    route = mvj["PublishedLineName"],
-                    added = DateTime.Now.ToString("dd-MMM-yyyy hh:mm tt"),
+                    lineName = mvj["PublishedLineName"],
+                    added = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"),
                     operatorRef = mvj["OperatorRef"]
                 })
                 .Distinct();
 
-            jsonString = JsonConvert.SerializeObject(routes);
+            jsonString = JsonConvert.SerializeObject(lines);
             JArray jsonArray = JArray.Parse(jsonString);
 
             Console.WriteLine("Completed Task: GetLatestRoutesAsynch.");

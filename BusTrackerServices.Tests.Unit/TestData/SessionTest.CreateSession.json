@@ -1,0 +1,9 @@
+{
+  "sessionId": 3470,
+  "environment": "Development",
+  "googleMapKey": "googleMapKeyTest",
+  "startMessage": "startMessageTest",
+  "mapProvider": "Leaflet",
+  "thunderforestMapKey": "thunderforestMapKeyTest",
+  "busTrackerMapKey": "busTrackerMapKeyTest"
+}

@@ -13,19 +13,25 @@
     backface-visibility: hidden;
 }
 
-    .threedee.face {
+    .threedee .face {
         position: absolute;
         left: unset;
         top: unset;
         transform-style: preserve-3d;
         transform-origin: 0px 0px;
         backface-visibility: hidden;
+        color: var(--app-color);
     }
 
 .assembly {
     animation: spin 4s linear infinite;
 }
 
+.ident .title {
+    color: var(--app-color);
+    font-size: calc(var(--app_font-height) * 1.5);
+    align-content: end;
+}
 
 @keyframes spin {
     from {

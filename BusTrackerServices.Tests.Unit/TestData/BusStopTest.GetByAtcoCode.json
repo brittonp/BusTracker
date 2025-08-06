@@ -1,0 +1,26 @@
+[
+  {
+    "naptanId": "490014442S",
+    "atcoAreaCode": "490",
+    "commonName": "Westerham Heights",
+    "indicator": "->S",
+    "status": "active",
+    "type": "BCT",
+    "position": {
+      "lat": 51.292912,
+      "lng": 0.05559
+    }
+  },
+  {
+    "naptanId": "490014442N",
+    "atcoAreaCode": "490",
+    "commonName": "Westerham Heights",
+    "indicator": "->N",
+    "status": "active",
+    "type": "BCT",
+    "position": {
+      "lat": 51.29324,
+      "lng": 0.055199999
+    }
+  }
+]
