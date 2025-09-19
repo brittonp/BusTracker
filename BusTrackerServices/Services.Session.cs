@@ -50,6 +50,7 @@ namespace BusTrackerServices.Services
             {
                 sessionId = sessionId,
                 environment = _configuration["ASPNETCORE_ENVIRONMENT"],
+                useDatabase = _configuration["USE_DATABASE"],
                 googleMapKey = _configuration["GoogleMapKey"],
                 startMessage = _configuration["SessionStartMessage"],
                 mapProvider = _configuration["MapProvider"],
