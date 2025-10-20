@@ -21,7 +21,7 @@ export default defineConfig(({ command }) => {
     server: isDev
       ? {
           https: false, // run on http in dev for simplicity
-          port: 3000,
+          port: 3001,
           // proxy API requests to backend to avoid CORS issues
           proxy: {
             "/api": {

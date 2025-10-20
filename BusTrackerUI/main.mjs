@@ -83,22 +83,6 @@ async function initiate() {
     });
   }
 
-  //if ("serviceWorker" in navigator) {
-  //    navigator.serviceWorker.register("/sw.js").then((registration) => {
-  //        registration.onupdatefound = () => {
-  //            const newWorker = registration.installing;
-  //            newWorker.onstatechange = () => {
-  //                if (newWorker.state === "installed") {
-  //                    if (navigator.serviceWorker.controller) {
-  //                        // Notify user or force reload
-  //                        window.location.reload();
-  //                    }
-  //                }
-  //            };
-  //        };
-  //    });
-  //}
-
   const sessionManager = new SessionManager();
 
   try {
@@ -321,24 +305,6 @@ async function initView() {
         })
         .modal("show");
     })
-    // .on("click", "#viewData", (e) => {
-    //   $("#optionsMenu").popup("hide");
-
-    //   // need to show modal (and the table) before loading the table else columns are all over the place...
-    //   $("#data")
-    //     .modal({
-    //       closable: false,
-    //     })
-    //     .modal("show");
-
-    //   $("#vehicles")
-    //     .DataTable()
-    //     .clear()
-    //     .rows.add(vehicles)
-    //     .columns.adjust()
-    //     .responsive.recalc()
-    //     .draw();
-    // })
     .on("click", "#viewJson", (e) => {
       $("#optionsMenu").popup("hide");
 
@@ -440,95 +406,6 @@ async function initView() {
     $(".menu-btn.refresh").trigger("click");
     e.preventDefault();
   });
-
-  // Create data table (will load later)...
-  // $("#vehicles").DataTable({
-  //   pageLength: 10,
-  //   scrollX: true,
-  //   scrollY: true,
-  //   autowidth: false,
-  //   createdRow: (row, data, dataIndex) => {
-  //     $(row).addClass(`bus-direction-${data.directionCode}`);
-
-  //     if (data.extendedAttributes.favourite) $(row).addClass(`favourite`);
-  //     if (data.aged) $(row).addClass(`aged`);
-  //   },
-  //   columns: [
-  //     {
-  //       title: "Operator",
-  //       data: "operatorName",
-  //     },
-  //     {
-  //       title: "Operator Ref",
-  //       data: "operatorRef",
-  //     },
-  //     {
-  //       title: "Vehicle Reference",
-  //       data: "vehicleRef",
-  //     },
-  //     {
-  //       title: "Route",
-  //       data: "publishedLineName",
-  //     },
-  //     {
-  //       title: "Destination",
-  //       data: "destinationName",
-  //       render: function (data, type, row, meta) {
-  //         return data ? data : "Not available";
-  //       },
-  //     },
-  //     {
-  //       title: "Origin",
-  //       data: "originName",
-  //       render: function (data, type, row, meta) {
-  //         return data ? data : "Not available";
-  //       },
-  //     },
-  //     {
-  //       title: "Direction",
-  //       data: "directionRef",
-  //       render: function (data, type, row, meta) {
-  //         return data ? data : "Not available";
-  //       },
-  //     },
-  //     {
-  //       title: "Bearing",
-  //       data: "bearing",
-  //       render: function (data, type, row, meta) {
-  //         return data ? data : "Not available";
-  //       },
-  //     },
-  //     {
-  //       title: "Longitude",
-  //       data: "longitude",
-  //       render: function (data, type, row, meta) {
-  //         return data ? data : "Not available";
-  //       },
-  //     },
-  //     {
-  //       title: "Latitude",
-  //       data: "latitude",
-  //       render: function (data, type, row, meta) {
-  //         return data ? data : "Not available";
-  //       },
-  //     },
-  //     {
-  //       title: "Recorded",
-  //       data: "timestamp",
-  //       render: function (data, type, row, meta) {
-  //         return appConstant.shortEnGBFormatter.format(new Date(data));
-  //       },
-  //     },
-  //     //{
-  //     //    title: 'Valid Until',
-  //     //    data: 'ValidUntilTime',
-  //     //    visible: false,
-  //     //    render: function (data, type, row, meta) {
-  //     //        return appConstant.shortEnGBFormatter.format(new Date(data));
-  //     //    }
-  //     //},
-  //   ],
-  // });
 
   // this is for the appMessage with link to open Options dialog...
   $("body").on("click", ".link.options", (e) => {
