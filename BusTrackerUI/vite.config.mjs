@@ -15,7 +15,7 @@ export default defineConfig(({ command }) => {
       apiBase: JSON.stringify(
         isDev
           ? ""
-          : "bustracker-api-eaanbag9bxbbgueh.uksouth-01.azurewebsites.net"
+          : "https://bustracker-api-eaanbag9bxbbgueh.uksouth-01.azurewebsites.net"
       ),
       isDev: JSON.stringify(isDev),
     },
