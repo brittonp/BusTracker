@@ -1,4 +1,4 @@
-name: Build and deploy ASP.Net Core app to Azure Web App - BusTrackerServices
+name: Build and deploy api
 
 on:
   push:

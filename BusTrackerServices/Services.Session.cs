@@ -51,11 +51,11 @@ namespace BusTrackerServices.Services
                 sessionId = sessionId,
                 environment = _configuration["ASPNETCORE_ENVIRONMENT"],
                 useDatabase = _configuration["USE_DATABASE"],
-                googleMapKey = _configuration["GoogleMapKey"],
+                //googleMapKey = _configuration["GoogleMapKey"],
                 startMessage = _configuration["SessionStartMessage"],
-                mapProvider = _configuration["MapProvider"],
+                //mapProvider = _configuration["MapProvider"],
                 thunderforestMapKey = _configuration["ThunderforestMapKey"],
-                busTrackerMapKey = _configuration["BusTrackerMapKey"],
+                //busTrackerMapKey = _configuration["BusTrackerMapKey"],
             }; ;
         }
 
