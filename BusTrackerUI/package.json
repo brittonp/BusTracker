@@ -1,0 +1,18 @@
+{
+  "name": "bustrackerui",
+  "version": "1.0.0",
+  "main": "bus.js",
+  "scripts": {
+    "dev": "vite",
+    "unit-tests": "vitest",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "vite": "^6.4.1"
+  }
+}

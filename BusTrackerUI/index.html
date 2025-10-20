@@ -9,14 +9,6 @@
     <link rel="manifest" href="./manifest.json" />
 
     <!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
-    <!--     <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.1.0/cookie-consent.js" charset="UTF-8"></script>
-        <script type="text/javascript" charset="UTF-8">
-            document.addEventListener('DOMContentLoaded', function () {
-                cookieconsent.run({ "notice_banner_type": "simple", "consent_type": "express", "palette": "light", "language": "en", "page_load_consent_levels": ["strictly-necessary"], "notice_banner_reject_button_hide": false, "preferences_center_close_button_hide": false, "page_refresh_confirmation_buttons": false, "website_name": "BusTracker" });
-            });
-        </script>
-     -->
-    <!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
     <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.2.0/cookie-consent.js" charset="UTF-8"></script>
     <script type="text/javascript" charset="UTF-8">
         document.addEventListener('DOMContentLoaded', function () {
@@ -25,8 +17,6 @@
     </script>
     <noscript>Cookie Consent by <a href="https://www.freeprivacypolicy.com/">Free Privacy Policy Generator</a></noscript>
     <!-- End Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
-
-
 
     <!-- Google Analytics -->
     <script type="text/plain" data-cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=G-8GVXG3TB86"></script>
@@ -46,20 +36,12 @@
     <script src='./scripts/jquery.number.min.js'></script>
     <script src='./scripts/js-cookie-3.0.5.min.js'></script>
     <script src='./fomantic/semantic.min.js'></script>
-    <script src='./datatables/jquery.dataTables.min.js'></script>
-    <script src='./datatables/responsive.dataTables.min.js'></script>
-    <script src='./datatables/responsive.dataTables.min.js'></script>
 
-    <!--     <script src="https://unpkg.com/browse/worker-timers@8.0.9/build/es5/bundle.js"></script> -->
-
-    <script src='./bus.js?v=1.00.00' type="module" data-cookie-consent="strictly-necessary"></script>
+    <script type="module" src="./main.mjs" data-cookie-consent="strictly-necessary"></script>
 
     <!-- CSS...-->
     <link rel='stylesheet' type='text/css' class='ui' href='./fomantic/semantic.min.css' />
-    <link rel='stylesheet' type='text/css' href='./datatables/jquery.dataTables.min.css' />
-    <link rel='stylesheet' type='text/css' href='./datatables/responsive.dataTables.min.css' />
-    <link rel='stylesheet' type='text/css' href='./bus.css' />
-    <link rel='stylesheet' type='text/css' href='./ident.css' />
+
 </head>
 
 <body class="bt">
@@ -114,7 +96,6 @@
                                 <div id="viewOptions" class="link item" action="viewOptions">Options</div>
                                 <div id="open_preferences_center" class="link item">Cookie Preferences</div>
                                 <div id="viewJson" class="link item" action="viewJSON">View JSON</div>
-                                <div id="viewData" class="link item dataDependent" action="viewData">View Data</div>
                             </div>
                         </div>
                     </div>
@@ -182,17 +163,6 @@
                 </div>
 
             </div>
-        </div>
-    </div>
-
-    <!--Box to display Data-->
-    <div id="data" class="ui fullscreen modal">
-        <div class="header">Data</div>
-        <div class="scrolling content">
-            <table id='vehicles' class='bus'></table>
-        </div>
-        <div class="actions">
-            <div class="ui cancel button">Close</div>
         </div>
     </div>
 

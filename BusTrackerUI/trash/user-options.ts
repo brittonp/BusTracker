@@ -1,4 +1,4 @@
-﻿import { appConstant } from "./globals.js";
+﻿import { appConstant } from "@components/globals.mjs";
 
 // Define interfaces for better type safety
 interface UserOptions {
