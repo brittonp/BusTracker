@@ -1,0 +1,74 @@
+name: Build and deploy ASP.Net Core app to Azure Web App - BusTrackerServices
+
+on:
+  push:
+    branches:
+      - master
+    paths: 
+      - 'BusTrackerServices/**'
+      - '.github/workflows/deploy-api.yml'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'BusTrackerServices/**'
+      - '.github/workflows/deploy-api.yaml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.x'
+
+      - name: Build API project only
+        run: dotnet build ./BusTrackerServices/BusTrackerServices.csproj --configuration Release
+
+      - name: Publish API project
+        run: dotnet publish ./BusTrackerServices/BusTrackerServices.csproj -c Release -r win-x86 --self-contained false -o publish /p:DeleteExistingFiles=true
+
+      - name: Upload artifact for deployment
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-artifact
+          path: publish
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: api-artifact
+          path: dist
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C5B7EBD7D65440B38295C893FC46AABC }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B30F2985165E4D5BA05BFDDCACA1081E }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5365397326FA4ABCBEC3BB940B8324DE }}
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'BusTrackerServices'
+          slot-name: 'Production'
+          package: dist
+
+
+
