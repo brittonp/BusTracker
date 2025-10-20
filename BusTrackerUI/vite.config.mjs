@@ -13,7 +13,9 @@ export default defineConfig(({ command }) => {
   return {
     define: {
       apiBase: JSON.stringify(
-        isDev ? "" : "https://agreeable-tree-0e83e4c03.3.azurestaticapps.net"
+        isDev
+          ? ""
+          : "bustracker-api-eaanbag9bxbbgueh.uksouth-01.azurewebsites.net"
       ),
       isDev: JSON.stringify(isDev),
     },
