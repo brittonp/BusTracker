@@ -16,6 +16,8 @@ export default defineConfig(({ command }) => {
       alias: {
         // Create an alias for your components folder
         "@components": path.resolve(__dirname, "components"),
+        "@jquery": path.resolve(__dirname, "scripts"),
+        "@fomantic": path.resolve(__dirname, "fomantic"),
       },
     },
     server: isDev
