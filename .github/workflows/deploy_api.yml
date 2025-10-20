@@ -59,14 +59,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C5B7EBD7D65440B38295C893FC46AABC }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B30F2985165E4D5BA05BFDDCACA1081E }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5365397326FA4ABCBEC3BB940B8324DE }}
+          # OIDC Authentication, no secrets needed
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'BusTrackerServices'
+          app-name: 'bustracker-api'
           slot-name: 'Production'
           package: dist
 
