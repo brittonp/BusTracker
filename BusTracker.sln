@@ -51,6 +51,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCapture", "DataCapture\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5AE3C27A-5A86-4B83-81AE-C46CE4057726}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\deploy-web.yml = .github\workflows\deploy-web.yml
 		.github\workflows\deploy_api.yml = .github\workflows\deploy_api.yml
 	EndProjectSection
 EndProject
