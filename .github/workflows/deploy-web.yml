@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:                # <-- Add this section
-      - 'web/**'
+      - 'BusTrackerUI/**'
       - '.github/workflows/deploy-web.yml'  # optional, to rerun workflow if workflow file changes
 
   pull_request:
