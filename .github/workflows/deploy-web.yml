@@ -34,8 +34,8 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_AGREEABLE_TREE_0E83E4C03 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
-          app_location: "web"          # root of your web app
-          api_location: "web/api"      # points to the API folder inside web
+          app_location: "BusTrackerUI"          # root of your web app
+          api_location: "BusTrackerUI/api"      # points to the API folder inside web
           output_location: "dist"  # points to build output folder
 
   close_pull_request_job:
