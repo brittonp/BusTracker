@@ -60,7 +60,7 @@ export class SessionManager {
 
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-    const response = await fetch(url, {
+    const response = await appUtils.apiFetch(url, {
       method: "GET",
       signal,
     });

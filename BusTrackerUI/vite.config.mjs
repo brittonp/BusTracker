@@ -11,13 +11,17 @@ export default defineConfig(({ command }) => {
   const __dirname = path.dirname(__filename);
 
   return {
+    define: {
+      apiBase: JSON.stringify(
+        isDev ? "" : "https://agreeable-tree-0e83e4c03.3.azurestaticapps.net"
+      ),
+      isDev: JSON.stringify(isDev),
+    },
     root: ".", // project root
     resolve: {
       alias: {
         // Create an alias for your components folder
         "@components": path.resolve(__dirname, "components"),
-        "@jquery": path.resolve(__dirname, "scripts"),
-        "@fomantic": path.resolve(__dirname, "fomantic"),
       },
     },
     server: isDev

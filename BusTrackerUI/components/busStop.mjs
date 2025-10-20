@@ -94,7 +94,7 @@ export class BusStop {
   async arrivals() {
     this.#prevTimestamp = this.#timestamp;
 
-    const response = await fetch(
+    const response = await appUtils.apiFetch(
       `/api/BusStop/GetArrivals?naptanId=${this.stop.naptanId}`,
       {
         timeout: appConstant.timeoutService,

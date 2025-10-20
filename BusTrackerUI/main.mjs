@@ -573,7 +573,7 @@ async function trackBus(vehicleRef, firstTime, counter) {
   busDataUri = `${busDataUri}&vehicleRef=${vehicleRef}`;
 
   try {
-    const response = await fetch(busDataUri, {
+    const response = await appUtils.apiFetch(busDataUri, {
       timeout: 30 * 1000,
       method: "GET",
     });
@@ -688,7 +688,7 @@ async function getBuses() {
   }
 
   try {
-    const response = await fetch(busDataUri, {
+    const response = await appUtils.apiFetch(busDataUri, {
       timeout: 30 * 1000,
       method: "GET",
     });
@@ -775,7 +775,7 @@ async function addStops() {
 
   while (counter < appConstant.maxServiceRetry) {
     try {
-      const response = await fetch(
+      const response = await appUtils.apiFetch(
         `/api/BusStop/GetByBoundingBox?north=${bounds.north}&east=${bounds.east}&south=${bounds.south}&west=${bounds.west}`,
         {
           timeout: appConstant.timeoutService,

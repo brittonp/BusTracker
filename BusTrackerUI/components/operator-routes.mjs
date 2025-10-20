@@ -5,7 +5,7 @@ export const operatorRoutes = {
   list: null,
   get: async function get() {
     appUtils.log(`getOperatorLines: start`);
-    const response = await fetch(`/api/OperatorLines/Get`, {
+    const response = await appUtils.apiFetch(`/api/OperatorLines/Get`, {
       timeout: 30 * 1000,
       method: "GET",
     });
