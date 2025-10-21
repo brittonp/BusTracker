@@ -10,7 +10,7 @@ export class ApiManager {
     const url = "/Session/Create";
     const urlParams = "";
     return this.#apiFetch(url, urlParams, {
-      timeout: 10 * 1000,
+      timeout: 3 * 1000,
       dataType: "session",
     });
   }
