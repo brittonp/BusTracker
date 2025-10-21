@@ -10,7 +10,7 @@
   "orientation": "any",
   "icons": [
     {
-      "src": "https://bustrackerapp.azurewebsites.net/images/ident.png",
+      "src": "./images/ident.png",
       "sizes": "256x256"
     }
   ]

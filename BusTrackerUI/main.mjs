@@ -83,13 +83,13 @@ async function initiate() {
   appUtils.log(`initiate: start`);
 
   // Initiate service worker...
-  if (!navigator.serviceWorker.controller) {
-    navigator.serviceWorker.register("/sw.js").then(function (reg) {
-      appUtils.log(
-        "Service worker has been registered for scope: " + reg.scope
-      );
-    });
-  }
+  // if (!navigator.serviceWorker.controller) {
+  //   navigator.serviceWorker.register("/sw.js").then(function (reg) {
+  //     appUtils.log(
+  //       "Service worker has been registered for scope: " + reg.scope
+  //     );
+  //   });
+  // }
 
   try {
     // load application configuration from sources and merge...
@@ -106,7 +106,6 @@ async function initiate() {
     return;
   }
 
-  //try {
   await Promise.all([
     mapObj.initiate(config),
     operatorRoutes.get(apiManager),
@@ -114,11 +113,6 @@ async function initiate() {
   ]);
 
   await initView();
-  // } catch (error) {
-  //   appUtils.log(`Error initiating: ${error.message}`);
-  //   alert(`Error initiating: ${error.message}`);
-  //   //window.location.href = "offline.html";
-  // } finally {
   $(".page.dimmer.ident").dimmer("hide").dimmer("destroy");
 
   // config start message, this value is set in the api config...
@@ -131,7 +125,6 @@ async function initiate() {
 
   // been playing about with when this gets fired...
   $(document).trigger("ready");
-  //}
 
   const endTime = new Date();
   appUtils.log(`initiate: complete after ${(endTime - startTime) / 1000}secs`);

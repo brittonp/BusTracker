@@ -2,6 +2,7 @@
 import { defineConfig } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
+import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig(({ command }) => {
   const isDev = command === "serve";
@@ -62,5 +63,33 @@ export default defineConfig(({ command }) => {
         drop: [], // don’t drop console or debugger
       },
     },
+    plugins: [
+      VitePWA({
+        registerType: "autoUpdate",
+        includeAssets: ["offline.html", "images/ident.png"],
+        devOptions: {
+          enabled: true, // ensures PWA plugin works in dev
+          type: "module", // optional, can help with modern SW registration
+        },
+        manifest: {
+          name: "UK Bus Tracker",
+          short_name: "BusTracker",
+          start_url: "/",
+          display: "standalone",
+          background_color: "#ffffff",
+          theme_color: "#0078d4",
+          icons: [
+            {
+              src: "/images/ident.png",
+              sizes: "256x256",
+              type: "image/png",
+            },
+          ],
+        },
+        workbox: {
+          globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        },
+      }),
+    ],
   };
 });
