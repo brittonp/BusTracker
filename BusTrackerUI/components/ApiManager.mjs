@@ -3,37 +3,37 @@ import { appUtils } from "@components/utils.mjs";
 export class ApiManager {
   constructor(options) {
     this.options = options;
-    this.apiBase = "/api"; // default API base path;
+    this.apiBaseUrl = "/api"; // default API base path;
   }
 
   async fetchSessionCreate() {
-    const baseUrl = "/Session/Create";
+    const url = "/Session/Create";
     const urlParams = "";
-    return this.#apiFetch(baseUrl, urlParams, {
+    return this.#apiFetch(url, urlParams, {
       timeout: 10 * 1000,
       dataType: "session",
     });
   }
 
   async fetchBusLocation(vehicleRef) {
-    const baseUrl = "/BusLocation/Get";
+    const url = "/BusLocation/Get";
     const urlParams = `vehicleRef=${encodeURIComponent(vehicleRef)}`;
 
-    return this.#apiFetch(baseUrl, urlParams, {
+    return this.#apiFetch(url, urlParams, {
       dataType: "bus location",
     });
   }
 
   async fetchArrivals(naptanId) {
-    const baseUrl = "/BusStop/GetArrivals";
+    const url = "/BusStop/GetArrivals";
     const urlParams = `naptanId=${encodeURIComponent(naptanId)}`;
-    return this.#apiFetch(baseUrl, urlParams, {
+    return this.#apiFetch(url, urlParams, {
       dataType: "arrivals",
     });
   }
 
   async fetchBuses(searchCriteria) {
-    const baseUrl = "/BusLocation/Get";
+    const url = "/BusLocation/Get";
     let urlParams = "";
 
     if (searchCriteria.operatorRef) {
@@ -48,32 +48,31 @@ export class ApiManager {
       urlParams = `${urlParams}&boundingBox=${searchCriteria.bounds.west},${searchCriteria.bounds.south},${searchCriteria.bounds.east},${searchCriteria.bounds.north}`;
     }
 
-    return this.#apiFetch(baseUrl, urlParams, {
+    return this.#apiFetch(url, urlParams, {
       dataType: "buses",
     });
   }
 
   async fetchStops(bounds) {
-    const baseUrl = "/BusStop/GetByBoundingBox";
+    const url = "/BusStop/GetByBoundingBox";
     let urlParams = `north=${bounds.north}&east=${bounds.east}&south=${bounds.south}&west=${bounds.west}`;
 
-    return this.#apiFetch(baseUrl, urlParams, {
+    return this.#apiFetch(url, urlParams, {
       dataType: "stops",
     });
   }
 
   async fetchOperatorLines() {
-    const baseUrl = "/OperatorLines/Get";
+    const url = "/OperatorLines/Get";
     const urlParams = "";
 
-    return this.#apiFetch(baseUrl, urlParams, {
+    return this.#apiFetch(url, urlParams, {
       dataType: "operator lines",
     });
   }
 
-  async #apiFetch(baseUrl, urlParams, fetchOptions = {}) {
-    const finalUrl =
-      this.apiBase + baseUrl + (urlParams ? `?${urlParams}` : "");
+  async #apiFetch(url, urlParams, fetchOptions = {}) {
+    const finalUrl = this.apiBaseUrl + url + (urlParams ? `?${urlParams}` : "");
 
     const { timeout = 5000, method = "GET", ...otherOptions } = fetchOptions;
     const controller = new AbortController();

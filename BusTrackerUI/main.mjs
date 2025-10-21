@@ -64,18 +64,19 @@ async function initiate() {
     const appConfig = await webAppConfigManager.loadConfig();
 
     // override apiBase if provided in config...
-    apiManager.apiBase = appConfig.apiBase || apiManager.apiBase;
+    apiManager.apiBaseUrl = appConfig.apiBaseUrl || apiManager.apiBaseUrl;
+    console.log("API Base:", apiManager.apiBaseUrl);
 
     const apiConfig = await sessionManager.init();
+
+    config = { ...appConfig, ...apiConfig };
+    console.log("Merged Configuration Data:", config);
   } catch (error) {
     appUtils.log(`Error initiating: ${error.message}`);
     alert(`Error initiating: ${error.message}`);
-    window.location.href = "offline.html";
+    //window.location.href = "offline.html";
     return;
   }
-
-  config = { ...appConfig, ...apiConfig };
-  console.log("Merged Configuration Data:", config);
 
   //initViewPort();
   const mapPane = document.getElementById("map-pane");
