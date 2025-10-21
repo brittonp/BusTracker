@@ -10,7 +10,8 @@ import { currentLocation } from "@components/current-location.mjs";
 import { MasterDetailPanel } from "@components/master-detail.mjs";
 import { BusStop } from "@components/busStop.mjs";
 import { mapObj } from "@components/map-leaflet.mjs";
-import { ApiManager } from "./components/ApiManager.mjs";
+import { ApiManager } from "@components/ApiManager.mjs";
+import { Config } from "./Config.mjs";
 
 //let mapObj;
 let vehicles = [];
@@ -30,6 +31,12 @@ let refreshTimer;
 let busStopArrivalTimer;
 let session;
 
+// Use Config class to load configuration
+const config = new Config();
+const configData = await config.loadConfig();
+
+console.log("Configuration Data:", configData);
+
 const apiManager = new ApiManager({});
 const appMessage = new appUtils.BTMessage();
 const systemMessage = new appUtils.BTMessage({
@@ -46,8 +53,8 @@ const systemMessage = new appUtils.BTMessage({
   ],
 });
 
-// Document Ready function...
-$(() => {
+//Wait for the page to load before initializing the app
+window.addEventListener("load", async (event) => {
   // asynch call to initiate page...
   initiate();
 });
