@@ -1,18 +1,7 @@
-﻿import { appConstant } from "@components/globals.mjs";
-import { appUtils } from "@components/utils.mjs";
-
-export const operatorRoutes = {
+﻿export const operatorRoutes = {
   list: null,
-  get: async function get() {
-    appUtils.log(`getOperatorLines: start`);
-    const response = await appUtils.apiFetch(`/api/OperatorLines/Get`, {
-      timeout: 30 * 1000,
-      method: "GET",
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to getOperatorLines. Error: ${response.status}`);
-    }
-    const data = await response.json();
+  get: async function get(apiManager) {
+    const data = await apiManager.fetchOperatorLines();
 
     // create operator " - All" items...
     const operatorsAll = data
@@ -45,8 +34,6 @@ export const operatorRoutes = {
 
     // concat the arrays...
     this.list = operatorsAll.concat(operatorsRoutes);
-
-    appUtils.log(`getOperatorLines: complete`);
     return true;
   },
 };

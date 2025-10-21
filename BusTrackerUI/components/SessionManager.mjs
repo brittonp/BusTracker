@@ -2,8 +2,9 @@
 import { appUtils } from "@components/utils.mjs";
 
 export class SessionManager {
-  constructor() {
+  constructor(apiManager) {
     this.session = {};
+    this.apiManager = apiManager;
   }
 
   /**
@@ -13,19 +14,13 @@ export class SessionManager {
    * @throws {Error} If session creation fails after maximum retries
    */
   async init() {
-    appUtils.log(`initiateSession: start`);
     let counter = 0;
 
     while (counter < appConstant.maxServiceRetry) {
       try {
-        const data = await this.#fetchWithTimeout(
-          "/api/Session/Create",
-          appConstant.timeoutService
-        );
+        const data = await this.apiManager.fetchSessionCreate();
 
         this.session = { ...this.session, ...data };
-
-        appUtils.log(`initiateSession: complete`);
         return true;
       } catch (error) {
         if (error.name === "AbortError") {

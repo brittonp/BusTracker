@@ -1,5 +1,4 @@
 ﻿import { appConstant } from "@components/globals.mjs";
-import { appUtils } from "@components/utils.mjs";
 
 export class BusStop {
   #prevTimestamp = null;
@@ -84,31 +83,18 @@ export class BusStop {
     return returnVal;
   }
 
-  constructor(stop) {
+  constructor(stop, apiManager) {
     this.stop = {
       ...stop,
       standardIndicator: this.#standardiseIndicator(stop.indicator),
     };
+    this.apiManager = apiManager;
   }
 
   async arrivals() {
     this.#prevTimestamp = this.#timestamp;
 
-    const response = await appUtils.apiFetch(
-      `/api/BusStop/GetArrivals?naptanId=${this.stop.naptanId}`,
-      {
-        timeout: appConstant.timeoutService,
-        method: "GET",
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        `Failed to get Bus Stop arrivals. Error: ${response.status}`
-      );
-    }
-
-    const data = await response.json();
+    const data = await this.apiManager.fetchArrivals(this.stop.naptanId);
 
     let arrivals = data
       .map((b) => {

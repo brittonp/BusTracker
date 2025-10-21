@@ -10,6 +10,7 @@ import { currentLocation } from "@components/current-location.mjs";
 import { MasterDetailPanel } from "@components/master-detail.mjs";
 import { BusStop } from "@components/busStop.mjs";
 import { mapObj } from "@components/map-leaflet.mjs";
+import { ApiManager } from "./components/ApiManager.mjs";
 
 //let mapObj;
 let vehicles = [];
@@ -29,6 +30,7 @@ let refreshTimer;
 let busStopArrivalTimer;
 let session;
 
+const apiManager = new ApiManager({});
 const appMessage = new appUtils.BTMessage();
 const systemMessage = new appUtils.BTMessage({
   className: "system",
@@ -83,7 +85,7 @@ async function initiate() {
     });
   }
 
-  const sessionManager = new SessionManager();
+  const sessionManager = new SessionManager(apiManager);
 
   try {
     await sessionManager.init();
@@ -91,7 +93,7 @@ async function initiate() {
 
     await Promise.all([
       mapObj.initiate(session),
-      operatorRoutes.get(),
+      operatorRoutes.get(apiManager),
       userOptions.init(),
     ]);
 
@@ -102,8 +104,6 @@ async function initiate() {
     //window.location.href = "offline.html";
   } finally {
     $(".page.dimmer.ident").dimmer("hide").dimmer("destroy");
-
-    appUtils.log(`initiate: end`);
 
     // session start message, this value is set in the services config...
     if (
@@ -568,22 +568,8 @@ async function trackBus(vehicleRef, firstTime, counter) {
     }
   }
 
-  const busDataUrl = "/api/BusLocation/Get";
-  var busDataUri = `${busDataUrl}?`;
-  busDataUri = `${busDataUri}&vehicleRef=${vehicleRef}`;
-
   try {
-    const response = await appUtils.apiFetch(busDataUri, {
-      timeout: 30 * 1000,
-      method: "GET",
-    });
-    if (!response.ok) {
-      throw new Error(
-        `Error encountered when requesting bus data: ${response.status}-${response.statusText}.`
-      );
-    }
-
-    var trackedVehicles = await response.json();
+    const trackedVehicles = await apiManager.fetchBusLocation(vehicleRef);
 
     $("#jsonText").text(JSON.stringify(vehicles, null, 2));
 
@@ -658,28 +644,9 @@ async function getBuses() {
 
   mapObj.currentViewMode = appConstant.viewMode.search;
 
-  const busDataUrl = "/api/BusLocation/Get";
-  var operatorRef = searchCriteria.operatorRef;
-  var lineRef = searchCriteria.lineRef;
-  var busDataUri = `${busDataUrl}?`;
-
-  appUtils.log(`searchCriteria: ${JSON.stringify(searchCriteria)}`);
-
-  if (searchCriteria.operatorRef) {
-    busDataUri = `${busDataUri}&operatorRef=${operatorRef}`;
-  }
-
-  if (searchCriteria.lineRef) {
-    busDataUri = `${busDataUri}&lineRef=${lineRef}`;
-  }
-
   // if the criteria is based on the maps central postion then add this to the query...
   if (searchCriteria.currentMapBounds == true) {
-    const bounds = mapObj.getBounds();
-    busDataUri = `${busDataUri}&boundingBox=${bounds.west},${bounds.south},${bounds.east},${bounds.north}`;
-  } else {
-    // for next search return to default behaviour to restrict query based on the map's current bounds...
-    searchCriteria.currentMapBounds = true;
+    searchCriteria.bounds = mapObj.getBounds();
   }
 
   // add search criteria to cookie, (not including boundingBox only searches)...
@@ -687,77 +654,68 @@ async function getBuses() {
     searchHistory.add(searchCriteria, operatorRoutes);
   }
 
-  try {
-    const response = await appUtils.apiFetch(busDataUri, {
-      timeout: 30 * 1000,
-      method: "GET",
+  appUtils.log(`searchCriteria: ${JSON.stringify(searchCriteria)}`);
+
+  vehicles = await apiManager.fetchBuses(searchCriteria);
+
+  $("#jsonText").text(JSON.stringify(vehicles, null, 2));
+
+  if (vehicles.length > 0) {
+    vehicles = vehicles.map((v) => {
+      const extendedAttributes = enrichVehicleAttributes(v);
+      return {
+        ...v,
+        extendedAttributes,
+      };
     });
-    if (!response.ok) {
-      throw new Error(
-        `Error encountered when requesting bus data: ${response.status}-${response.statusText}.`
-      );
+
+    if (userOptions.hideAged) {
+      vehicles = vehicles.filter((v) => v.aged == false);
     }
 
-    vehicles = await response.json();
-
-    $("#jsonText").text(JSON.stringify(vehicles, null, 2));
-
-    if (vehicles.length > 0) {
-      vehicles = vehicles.map((v) => {
-        const extendedAttributes = enrichVehicleAttributes(v);
-        return {
-          ...v,
-          extendedAttributes,
-        };
-      });
-
-      if (userOptions.hideAged) {
-        vehicles = vehicles.filter((v) => v.aged == false);
-      }
-
-      // Display a message when no vehicles to be displayed...
-      if (vehicles.length < 1) {
-        appMessage.display(
-          `<p>There are no active buses to display.<br>To see inactive buses click <a class="link options">here</a> and unselect the <strong>Hide inactive buses</strong> option.</p>`
-        );
-      } else {
-        // limit number of markers loaded onto the map...
-        if (vehicles.length > userOptions.maxMarkers) {
-          appMessage.display(
-            `<p>There are ${vehicles.length} buses identified, only ${userOptions.maxMarkers} are shown.<br>Either zoom in on an area to see all buses, or click <a class="link options">here</a> to adjust the maximum number of buses displayed.</p>`
-          );
-          vehicles = vehicles.filter((v, i) => i < userOptions.maxMarkers);
-        }
-
-        // add vehicles to the map, then resizeAfterSearch/reposition the map as appropriate...
-        mapObj
-          .addVehicles(vehicles)
-          .then(() => {
-            if (searchCriteria.resizeAfterSearch && vehicles.length > 0) {
-              // resizeAfterSearch/reposition map to show all markers...
-              mapObj.fitAllVehicles();
-            }
-          })
-          .catch((e) => {
-            console.error(`Critical failure: ${e.message}`);
-            displayError(`Oops, a problem occurred displaying the buses.`);
-          });
-
-        $(".menu-btn.refresh i").addClass("loading");
-        // enable data dependent buttons...
-        $(".dataDependent").removeClass("disabled");
-      }
-    } else {
-      vehicles = null;
+    // Display a message when no vehicles to be displayed...
+    if (vehicles.length < 1) {
       appMessage.display(
-        "No buses matching your criteria are appearing here. Either zoom out or change your criteria."
+        `<p>There are no active buses to display.<br>To see inactive buses click <a class="link options">here</a> and unselect the <strong>Hide inactive buses</strong> option.</p>`
       );
-      $(".dataDependent").addClass("disabled");
+    } else {
+      // limit number of markers loaded onto the map...
+      if (vehicles.length > userOptions.maxMarkers) {
+        appMessage.display(
+          `<p>There are ${vehicles.length} buses identified, only ${userOptions.maxMarkers} are shown.<br>Either zoom in on an area to see all buses, or click <a class="link options">here</a> to adjust the maximum number of buses displayed.</p>`
+        );
+        vehicles = vehicles.filter((v, i) => i < userOptions.maxMarkers);
+      }
+
+      // add vehicles to the map, then resizeAfterSearch/reposition the map as appropriate...
+      mapObj
+        .addVehicles(vehicles)
+        .then(() => {
+          if (searchCriteria.resizeAfterSearch && vehicles.length > 0) {
+            // resizeAfterSearch/reposition map to show all markers...
+            mapObj.fitAllVehicles();
+          }
+        })
+        .catch((e) => {
+          console.error(`Critical failure: ${e.message}`);
+          displayError(`Oops, a problem occurred displaying the buses.`);
+        });
+
+      $(".menu-btn.refresh i").addClass("loading");
+      // enable data dependent buttons...
+      $(".dataDependent").removeClass("disabled");
     }
-  } catch (e) {
-    appMessage.display(e.message);
-    return false;
+  } else {
+    vehicles = null;
+    appMessage.display(
+      "No buses matching your criteria are appearing here. Either zoom out or change your criteria."
+    );
+    $(".dataDependent").addClass("disabled");
   }
+
+  // reset search criteria...
+  searchCriteria.currentMapBounds = true;
+  searchCriteria.bounds = null;
 
   return true;
 }
@@ -771,37 +729,17 @@ async function addStops() {
   }
 
   const bounds = mapObj.getBounds();
-  let counter = 0;
+  const busStops = await apiManager.fetchStops(bounds);
 
-  while (counter < appConstant.maxServiceRetry) {
-    try {
-      const response = await appUtils.apiFetch(
-        `/api/BusStop/GetByBoundingBox?north=${bounds.north}&east=${bounds.east}&south=${bounds.south}&west=${bounds.west}`,
-        {
-          timeout: appConstant.timeoutService,
-          method: "GET",
-        }
-      );
-
-      const busStops = await response.json();
-
-      if (busStops.length > 0) {
-        mapObj.addStops(busStops);
-      }
-      return true;
-    } catch (err) {
-      await appUtils.sleep(appConstant.delayServiceRetry);
-    } finally {
-      counter++;
-    }
+  if (busStops.length > 0) {
+    mapObj.addStops(busStops);
   }
-  //throw new Error(`Failed to load bus stops.`);
-  appMessage.display(`Failed to load bus stops.`);
+
   return false;
 }
 
 async function displayStopArrivals(stop) {
-  const busStop = new BusStop(stop);
+  const busStop = new BusStop(stop, apiManager);
 
   await reloadContent(true);
 

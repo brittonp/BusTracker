@@ -1,17 +1,6 @@
 ﻿import { appConstant } from "@components/globals.mjs";
 
 export const appUtils = {
-  // A small helper to call your API correctly:
-  apiFetch: function (path, options) {
-    let url = path;
-
-    if (!isDev) {
-      // Strip "/api" only in production
-      url = path.replace(/^\/api/, "");
-    }
-    return fetch(`${apiBase}${url}`, options);
-  },
-
   velocityBetweenPoints: function (point1, point2) {
     const dMetres = this.distanceBetweenPoints(point1, point2);
     const dMiles = dMetres * 0.000621371;

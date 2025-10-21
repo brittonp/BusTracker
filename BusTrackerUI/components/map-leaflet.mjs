@@ -34,8 +34,6 @@ export let mapObj = {
     ],
   },
   initiate: async function (session) {
-    appUtils.log("mapObj.initiate - start");
-
     this.session = session;
 
     await appUtils.loadResource(
@@ -47,8 +45,6 @@ export let mapObj = {
     await appUtils.loadResource(
       "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     );
-
-    appUtils.log("mapObj.initiate - end");
   },
   create: async function (mapID, center) {
     appUtils.log("mapObj.create - start");
