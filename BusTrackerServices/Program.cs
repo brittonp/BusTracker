@@ -108,7 +108,11 @@ sessionGroup.MapGet("/PingDatabase", async (ISession session) =>
 
 sessionGroup.MapGet("/Create", async (ISession session) =>
 {
-    //System.Threading.Thread.Sleep(4000);
+    //var random = new Random();
+    //int value = random.Next(1, 11);
+    //Console.WriteLine(value);
+    //app.Logger.LogInformation($"Delay seconds: {value}");
+    //System.Threading.Thread.Sleep(TimeSpan.FromSeconds(value));
     var result = await session.CreateSession();
     return Results.Ok(result);
 })
@@ -157,7 +161,7 @@ busStopGroup.MapGet("/GetByAtcoCode", async (IBusStop busStop, string atcoCode =
     return Results.Json(result);
 
 })
-    .WithDescription("Returns the upcoming arrivals at a bus stop identified by its naptanId, (minimal api)");
+    .WithDescription("Returns the bus stops linked to a specified atcoAreaCode, (minimal api)");
 
 
 busStopGroup.MapGet("/GetArrivals", async (IBusStop busStop,
