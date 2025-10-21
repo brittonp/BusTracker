@@ -94,13 +94,9 @@ async function initiate() {
   try {
     // load application configuration from sources and merge...
     const appConfig = await webAppConfigManager.loadConfig();
-
     // override apiBase if provided in config...
     apiManager.apiBaseUrl = appConfig.apiBaseUrl || apiManager.apiBaseUrl;
-    console.log("API Base:", apiManager.apiBaseUrl);
-
     const apiConfig = await sessionManager.init();
-
     config = { ...appConfig, ...apiConfig };
     console.log("Merged Configuration Data:", config);
   } catch (error) {

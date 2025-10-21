@@ -5,7 +5,7 @@
   "background_color": "#C0C0C0",
   "display": "standalone",
   "scope": "/",
-  "start_url": "https://bustrackerapp.azurewebsites.net/",
+  "start_url": "/",
   "description": "UK Bus Tracker App",
   "orientation": "any",
   "icons": [

@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = "bustracker-v2.0.2"; // Change this to force refresh
+﻿const CACHE_NAME = "bustracker-v3.0.0"; // Change this to force refresh
 
 self.addEventListener("install", function (event) {
   event.waitUntil(preLoad());
