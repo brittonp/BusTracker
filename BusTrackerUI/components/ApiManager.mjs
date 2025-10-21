@@ -3,12 +3,7 @@ import { appUtils } from "@components/utils.mjs";
 export class ApiManager {
   constructor(options) {
     this.options = options;
-    this.isDev = import.meta.env.DEV;
-    this.apiBase = import.meta.env.VITE_API_BASE || "/api";
-
-    console.log(
-      `ApiManager initialized with apiBase: ${this.apiBase}, isDev: ${this.isDev}`
-    );
+    this.apiBase = "/api"; // default API base path;
   }
 
   async fetchSessionCreate() {

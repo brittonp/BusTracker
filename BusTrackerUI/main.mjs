@@ -29,11 +29,14 @@ let extendedAttributes;
 let busTracker;
 let refreshTimer;
 let busStopArrivalTimer;
-let session;
+
+let config = {};
 
 // Use Config class to load configuration
-const config = new Config();
+const webAppConfigManager = new Config();
 const apiManager = new ApiManager({});
+const sessionManager = new SessionManager(apiManager);
+
 const appMessage = new appUtils.BTMessage();
 const systemMessage = new appUtils.BTMessage({
   className: "system",
@@ -56,8 +59,16 @@ window.addEventListener("load", async (event) => {
 });
 
 async function initiate() {
-  const configData = await config.loadConfig();
-  console.log("Configuration Data:", configData);
+  // load application configuration from sources and merge...
+  const appConfig = await webAppConfigManager.loadConfig();
+
+  // override apiBase if provided in config...
+  apiManager.apiBase = appConfig.apiBase || apiManager.apiBase;
+
+  const apiConfig = await sessionManager.init();
+
+  config = { ...appConfig, ...apiConfig };
+  console.log("Merged Configuration Data:", config);
 
   //initViewPort();
   const mapPane = document.getElementById("map-pane");
@@ -91,14 +102,9 @@ async function initiate() {
     });
   }
 
-  const sessionManager = new SessionManager(apiManager);
-
   try {
-    await sessionManager.init();
-    session = sessionManager.session;
-
     await Promise.all([
-      mapObj.initiate(session),
+      mapObj.initiate(config),
       operatorRoutes.get(apiManager),
       userOptions.init(),
     ]);
@@ -111,13 +117,13 @@ async function initiate() {
   } finally {
     $(".page.dimmer.ident").dimmer("hide").dimmer("destroy");
 
-    // session start message, this value is set in the services config...
+    // config start message, this value is set in the api config...
     if (
-      session &&
-      session.startMessage != null &&
+      config &&
+      config.startMessage != null &&
       userOptions.hideSystemMessage != true
     )
-      systemMessage.display(session.startMessage);
+      systemMessage.display(config.startMessage);
 
     // been playing about with when this gets fired...
     $(document).trigger("ready");
@@ -190,7 +196,7 @@ async function initView() {
 
   // Set environment glyph..
   $(".env-glyph").addClass(
-    appConstant.envMap[session.environment] || appConstant.envMap.Other
+    appConstant.envMap[config.environment] || appConstant.envMap.Other
   );
 
   // disable data dependent buttons...

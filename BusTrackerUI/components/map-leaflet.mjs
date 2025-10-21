@@ -33,8 +33,8 @@ export let mapObj = {
       [appConstant.mapBounds.south, appConstant.mapBounds.east],
     ],
   },
-  initiate: async function (session) {
-    this.session = session;
+  initiate: async function (config) {
+    this.config = config;
 
     await appUtils.loadResource(
       "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -67,25 +67,10 @@ export let mapObj = {
       {
         attribution:
           '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        apikey: this.session.thunderforestMapKey,
+        apikey: this.config.thunderforestMapKey,
         maxZoom: 22,
       }
     ).addTo(this.map);
-
-    //L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    //    {
-    //        maxZoom: 19,
-    //        attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-    //    })
-    //    .addTo(this.map);
-
-    //L.tileLayer('https://localhost:8443/map/{z}/{x}/{y}.png?apikey={apikey}',
-    //    {
-    //        maxZoom: 19,
-    //        apikey: this.session.busTrackerMapKey,
-    //        attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-    //    })
-    //    .addTo(this.map);
 
     L.control
       .zoom({
@@ -109,31 +94,14 @@ export let mapObj = {
 
     this.annotationLayerGroup = L.layerGroup().addTo(this.map);
 
-    // create event listeners...
-    //this.map.on('click', (e) => {
-    //    L.popup(e.latlng, {
-    //        content: `You clicked the map at ${e.latlng.toString()}`
-    //    })
-    //        .openOn(mapObj.map);
-    //});
-
     // on moveend trigger a map-move event on the map object...
     this.map.on("moveend", function (e) {
       if (thisObj.currentViewMode == appConstant.viewMode.search) {
         $(document).trigger("map-move");
       }
-
-      //L.DomEvent.preventDefault(e);
     });
 
     appUtils.log("mapObj.create - end");
-
-    //this.map.whenReady(function (e) {
-    //    if (thisObj.loading) {
-    //        thisObj.loading = false;
-    //        $(document).trigger('ready');
-    //    }
-    //});
 
     return this.map;
   },

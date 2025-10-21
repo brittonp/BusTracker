@@ -3,7 +3,6 @@ import { appUtils } from "@components/utils.mjs";
 
 export class SessionManager {
   constructor(apiManager) {
-    this.session = {};
     this.apiManager = apiManager;
   }
 
@@ -18,10 +17,8 @@ export class SessionManager {
 
     while (counter < appConstant.maxServiceRetry) {
       try {
-        const data = await this.apiManager.fetchSessionCreate();
-
-        this.session = { ...this.session, ...data };
-        return true;
+        const apiConfig = await this.apiManager.fetchSessionCreate();
+        return apiConfig;
       } catch (error) {
         if (error.name === "AbortError") {
           document.dispatchEvent(
