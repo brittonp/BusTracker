@@ -1,22 +1,86 @@
 ﻿<!DOCTYPE html>
-<html lang='en'>
-
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no'>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
+    />
     <title>UK Bus Tracker - Offline</title>
-</head>
+    <style>
+      :root {
+        --primary-color: #0078d4;
+        --text-color: #333;
+        --background-color: #f5f7fa;
+        --card-background: #fff;
+      }
 
-<body>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
 
-    <h1>
-     UK Bus Tracker
-    </h1>
+      .container {
+        background: var(--card-background);
+        padding: 2rem 3rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 400px;
+      }
 
-    <h3>
-        Sorry the app is offline.
-    </h3>
+      h1 {
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+      }
 
-</body>
+      h3 {
+        font-weight: normal;
+        margin-top: 0;
+        color: #666;
+      }
 
+      p {
+        margin-top: 1.5rem;
+        color: #555;
+        font-size: 0.95rem;
+      }
+
+      button {
+        margin-top: 1.5rem;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+      }
+
+      button:hover {
+        background-color: #005fa3;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>UK Bus Tracker</h1>
+      <h3>Service Unavailable</h3>
+      <p>
+        We’re sorry, but the Bus Tracker service is currently offline or
+        unavailable.<br />
+        Please try again in a few moments.
+      </p>
+      <button onclick="window.location.href='/'">Try Again</button>
+    </div>
+  </body>
 </html>
