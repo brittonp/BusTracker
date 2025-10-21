@@ -55,5 +55,12 @@ export default defineConfig(({ command }) => {
         reporter: ["text", "html"],
       },
     },
+    build: {
+      minify: "esbuild", // faster default
+      // Keep console logs in production
+      esbuild: {
+        drop: [], // don’t drop console or debugger
+      },
+    },
   };
 });

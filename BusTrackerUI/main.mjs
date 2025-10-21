@@ -59,6 +59,7 @@ window.addEventListener("load", async (event) => {
 });
 
 async function initiate() {
+  try {
   // load application configuration from sources and merge...
   const appConfig = await webAppConfigManager.loadConfig();
 
@@ -66,6 +67,13 @@ async function initiate() {
   apiManager.apiBase = appConfig.apiBase || apiManager.apiBase;
 
   const apiConfig = await sessionManager.init();
+
+  } catch (error) {
+    appUtils.log(`Error initiating: ${error.message}`);
+    alert(`Error initiating: ${error.message}`);
+    window.location.href = "offline.html"; 
+    return;
+  }
 
   config = { ...appConfig, ...apiConfig };
   console.log("Merged Configuration Data:", config);
@@ -102,7 +110,7 @@ async function initiate() {
     });
   }
 
-  try {
+  //try {
     await Promise.all([
       mapObj.initiate(config),
       operatorRoutes.get(apiManager),
@@ -110,11 +118,11 @@ async function initiate() {
     ]);
 
     await initView();
-  } catch (error) {
-    appUtils.log(`Error initiating: ${error.message}`);
-    alert(`Error initiating: ${error.message}`);
-    //window.location.href = "offline.html";
-  } finally {
+  // } catch (error) {
+  //   appUtils.log(`Error initiating: ${error.message}`);
+  //   alert(`Error initiating: ${error.message}`);
+  //   //window.location.href = "offline.html";
+  // } finally {
     $(".page.dimmer.ident").dimmer("hide").dimmer("destroy");
 
     // config start message, this value is set in the api config...
