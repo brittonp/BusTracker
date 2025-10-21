@@ -33,10 +33,6 @@ let session;
 
 // Use Config class to load configuration
 const config = new Config();
-const configData = await config.loadConfig();
-
-console.log("Configuration Data:", configData);
-
 const apiManager = new ApiManager({});
 const appMessage = new appUtils.BTMessage();
 const systemMessage = new appUtils.BTMessage({
@@ -60,6 +56,9 @@ window.addEventListener("load", async (event) => {
 });
 
 async function initiate() {
+  const configData = await config.loadConfig();
+  console.log("Configuration Data:", configData);
+
   //initViewPort();
   const mapPane = document.getElementById("map-pane");
   mapPane.container = new MasterDetailPanel({
