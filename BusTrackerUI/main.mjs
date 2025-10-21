@@ -60,18 +60,17 @@ window.addEventListener("load", async (event) => {
 
 async function initiate() {
   try {
-  // load application configuration from sources and merge...
-  const appConfig = await webAppConfigManager.loadConfig();
+    // load application configuration from sources and merge...
+    const appConfig = await webAppConfigManager.loadConfig();
 
-  // override apiBase if provided in config...
-  apiManager.apiBase = appConfig.apiBase || apiManager.apiBase;
+    // override apiBase if provided in config...
+    apiManager.apiBase = appConfig.apiBase || apiManager.apiBase;
 
-  const apiConfig = await sessionManager.init();
-
+    const apiConfig = await sessionManager.init();
   } catch (error) {
     appUtils.log(`Error initiating: ${error.message}`);
     alert(`Error initiating: ${error.message}`);
-    window.location.href = "offline.html"; 
+    window.location.href = "offline.html";
     return;
   }
 
@@ -111,31 +110,31 @@ async function initiate() {
   }
 
   //try {
-    await Promise.all([
-      mapObj.initiate(config),
-      operatorRoutes.get(apiManager),
-      userOptions.init(),
-    ]);
+  await Promise.all([
+    mapObj.initiate(config),
+    operatorRoutes.get(apiManager),
+    userOptions.init(),
+  ]);
 
-    await initView();
+  await initView();
   // } catch (error) {
   //   appUtils.log(`Error initiating: ${error.message}`);
   //   alert(`Error initiating: ${error.message}`);
   //   //window.location.href = "offline.html";
   // } finally {
-    $(".page.dimmer.ident").dimmer("hide").dimmer("destroy");
+  $(".page.dimmer.ident").dimmer("hide").dimmer("destroy");
 
-    // config start message, this value is set in the api config...
-    if (
-      config &&
-      config.startMessage != null &&
-      userOptions.hideSystemMessage != true
-    )
-      systemMessage.display(config.startMessage);
+  // config start message, this value is set in the api config...
+  if (
+    config &&
+    config.startMessage != null &&
+    userOptions.hideSystemMessage != true
+  )
+    systemMessage.display(config.startMessage);
 
-    // been playing about with when this gets fired...
-    $(document).trigger("ready");
-  }
+  // been playing about with when this gets fired...
+  $(document).trigger("ready");
+  //}
 
   const endTime = new Date();
   appUtils.log(`initiate: complete after ${(endTime - startTime) / 1000}secs`);
