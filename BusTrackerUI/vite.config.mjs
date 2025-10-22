@@ -12,14 +12,14 @@ export default defineConfig(({ command }) => {
   const __dirname = path.dirname(__filename);
 
   return {
-    define: {
-      apiBase: JSON.stringify(
-        isDev
-          ? ""
-          : "https://bustracker-api-eaanbag9bxbbgueh.uksouth-01.azurewebsites.net"
-      ),
-      isDev: JSON.stringify(isDev),
-    },
+    // define: {
+    //   apiBase: JSON.stringify(
+    //     isDev
+    //       ? ""
+    //       : "https://bustracker-api-eaanbag9bxbbgueh.uksouth-01.azurewebsites.net"
+    //   ),
+    //   isDev: JSON.stringify(isDev),
+    // },
     root: ".", // project root
     resolve: {
       alias: {

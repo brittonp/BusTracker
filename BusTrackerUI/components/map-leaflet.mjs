@@ -1,6 +1,8 @@
-﻿import { appConstant } from "@components/globals.mjs";
-import { appUtils } from "@components/utils.mjs";
-import { BusStop } from "@components/busStop.mjs";
+﻿import { APP_CONSTANTS } from "@components/app-constants.mjs";
+import { appUtils } from "@components/app-utils.mjs";
+import L from "leaflet";
+import "leaflet-polylinedecorator";
+import "leaflet/dist/leaflet.css";
 
 export let mapObj = {
   mapElement: null,
@@ -12,10 +14,10 @@ export let mapObj = {
   annotationLayerGroup: null,
   arrrivalPopups: [],
   accuracyCircle: null,
-  currentViewMode: appConstant.viewMode.search, // default initial mode...
+  currentViewMode: APP_CONSTANTS.viewMode.search, // default initial mode...
   loading: true,
   props: {
-    zoom: appConstant.defaultZoom,
+    zoom: APP_CONSTANTS.defaultZoom,
     center: {
       lat: 54.87676318480376,
       lng: -3.1485196166071217,
@@ -29,22 +31,12 @@ export let mapObj = {
     minZoom: 6,
     maxZoom: 17,
     maxBounds: [
-      [appConstant.mapBounds.north, appConstant.mapBounds.west],
-      [appConstant.mapBounds.south, appConstant.mapBounds.east],
+      [APP_CONSTANTS.mapBounds.north, APP_CONSTANTS.mapBounds.west],
+      [APP_CONSTANTS.mapBounds.south, APP_CONSTANTS.mapBounds.east],
     ],
   },
   initiate: async function (config) {
     this.config = config;
-
-    await appUtils.loadResource(
-      "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    );
-    await appUtils.loadResource(
-      "https://unpkg.com/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js"
-    );
-    await appUtils.loadResource(
-      "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    );
   },
   create: async function (mapID, center) {
     appUtils.log("mapObj.create - start");
@@ -96,7 +88,7 @@ export let mapObj = {
 
     // on moveend trigger a map-move event on the map object...
     this.map.on("moveend", function (e) {
-      if (thisObj.currentViewMode == appConstant.viewMode.search) {
+      if (thisObj.currentViewMode == APP_CONSTANTS.viewMode.search) {
         $(document).trigger("map-move");
       }
     });
@@ -194,7 +186,7 @@ export let mapObj = {
         className: "marker-anchor",
         iconSize: null,
         html: `<div class="marker-vehicle ${
-          vehicles.length > appConstant.vehicleSmallThreshold ? "small" : ""
+          vehicles.length > APP_CONSTANTS.vehicleSmallThreshold ? "small" : ""
         } bus-direction-${vehicle.directionCode} ${favourite} ${aged}" 
                 style="--dir: ${Number(vehicle.bearing)}"
                 title="${vehicle.vehicleRef} (${
@@ -240,7 +232,7 @@ export let mapObj = {
                         <div class="vehicleRef">Bearing: ${
                           vehicle.bearing
                         }</div>
-                        <div class="vehicleRef">Recorded: ${appConstant.shortEnGBFormatter.format(
+                        <div class="vehicleRef">Recorded: ${APP_CONSTANTS.shortEnGBFormatter.format(
                           new Date(vehicle.timestamp)
                         )}</div>
                                     <div class="ui icon buttons" style="display: unset">
@@ -432,7 +424,7 @@ export let mapObj = {
       //                }
 
       //                // automated refresh....
-      //                setTimeout(reloadContent, appConstant.refreshStopArrivalsSecs * 1000);
+      //                setTimeout(reloadContent, APP_CONSTANTS.refreshStopArrivalsSecs * 1000);
       //            }
       //        }
 
@@ -459,7 +451,7 @@ export let mapObj = {
     const timeTag = new L.DivIcon({
       className: "time-anchor",
       iconSize: null,
-      html: `<div class="time">${appConstant.timeENGFormatter.format(
+      html: `<div class="time">${APP_CONSTANTS.timeENGFormatter.format(
         new Date(vehicle.timestamp)
       )}</div>`,
     });
@@ -542,7 +534,7 @@ export let mapObj = {
 
     this.map.flyTo(
       position,
-      trackerMarkers.length > 1 ? this.getZoom() : appConstant.defaultZoom
+      trackerMarkers.length > 1 ? this.getZoom() : APP_CONSTANTS.defaultZoom
     );
   },
   fitAllVehicles: async function () {
@@ -572,7 +564,7 @@ export let mapObj = {
       west: bounds.getWest(),
     };
   },
-  flyTo: function (center, zoom = appConstant.defaultZoom) {
+  flyTo: function (center, zoom = APP_CONSTANTS.defaultZoom) {
     this.props.center = center;
     this.props.zoom = zoom;
 

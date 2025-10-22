@@ -1,17 +1,18 @@
 ﻿import "./style.css";
-import { appConstant } from "@components/globals.mjs";
-import { appUtils } from "@components/utils.mjs";
+import { APP_CONSTANTS } from "@components/app-constants.mjs";
+import { appUtils } from "@components/app-utils.mjs";
 import { operatorRoutes } from "@components/operator-routes.mjs";
-import { searchHistory } from "@components/search-history.mjs";
-import { userOptions } from "@components/user-options.mjs";
-import { SessionManager } from "@components/SessionManager.mjs";
+import { searchHistoryManager } from "@components/search-history-manager.mjs";
+import { userOptionsManager } from "@components/user-options-manager.mjs";
+import { SessionManager } from "@components/session-manager.mjs";
 import { Ident } from "@components/ident.mjs";
 import { currentLocation } from "@components/current-location.mjs";
 import { MasterDetailPanel } from "@components/master-detail.mjs";
-import { BusStop } from "@components/busStop.mjs";
+import { BusStop } from "@components/bus-stop.mjs";
 import { mapObj } from "@components/map-leaflet.mjs";
-import { ApiManager } from "@components/ApiManager.mjs";
+import { ApiManager } from "@components/api-manager.mjs";
 import { Config } from "./Config.mjs";
+import { MessagePanel } from "@components/message-panel.mjs";
 
 //let mapObj;
 let vehicles = [];
@@ -22,7 +23,7 @@ const defaultSearchCriteria = {
   resizeAfterSearch: false,
   lat: null,
   lng: null,
-  zoom: appConstant.defaultZoom,
+  zoom: APP_CONSTANTS.defaultZoom,
 };
 let searchCriteria;
 let extendedAttributes;
@@ -37,8 +38,8 @@ const webAppConfigManager = new Config();
 const apiManager = new ApiManager({});
 const sessionManager = new SessionManager(apiManager);
 
-const appMessage = new appUtils.BTMessage();
-const systemMessage = new appUtils.BTMessage({
+const appMessage = new MessagePanel();
+const systemMessage = new MessagePanel({
   className: "system",
   closeAction: true,
   actions: [
@@ -46,7 +47,7 @@ const systemMessage = new appUtils.BTMessage({
       className: "hide",
       label: "Close and do not show again",
       action: function () {
-        userOptions.set("hideSystemMessage", true);
+        userOptionsManager.set("hideSystemMessage", true);
       },
     },
   ],
@@ -82,18 +83,10 @@ async function initiate() {
   const startTime = new Date();
   appUtils.log(`initiate: start`);
 
-  // Initiate service worker...
-  // if (!navigator.serviceWorker.controller) {
-  //   navigator.serviceWorker.register("/sw.js").then(function (reg) {
-  //     appUtils.log(
-  //       "Service worker has been registered for scope: " + reg.scope
-  //     );
-  //   });
-  // }
-
   try {
     // load application configuration from sources and merge...
     const appConfig = await webAppConfigManager.loadConfig();
+
     // override apiBase if provided in config...
     apiManager.apiBaseUrl = appConfig.apiBaseUrl || apiManager.apiBaseUrl;
     const apiConfig = await sessionManager.init();
@@ -101,7 +94,6 @@ async function initiate() {
     console.log("Merged Configuration Data:", config);
   } catch (error) {
     appUtils.log(`Error initiating: ${error.message}`);
-    alert(`Error initiating: ${error.message}`);
     window.location.href = "offline.html";
     return;
   }
@@ -109,7 +101,7 @@ async function initiate() {
   await Promise.all([
     mapObj.initiate(config),
     operatorRoutes.get(apiManager),
-    userOptions.init(),
+    userOptionsManager.init(),
   ]);
 
   await initView();
@@ -119,7 +111,7 @@ async function initiate() {
   if (
     config &&
     config.startMessage != null &&
-    userOptions.hideSystemMessage != true
+    userOptionsManager.hideSystemMessage != true
   )
     systemMessage.display(config.startMessage);
 
@@ -157,14 +149,14 @@ async function initView() {
       busController();
     })
     .on("track-vehicle", (e, vehicleRef) => {
-      mapObj.currentViewMode = appConstant.viewMode.track;
+      mapObj.currentViewMode = APP_CONSTANTS.viewMode.track;
       trackBus(vehicleRef, true, 0);
     })
     .on("add-favourite", (e, vehicleRef) => {
-      userOptions.set("favouriteBus", vehicleRef);
+      userOptionsManager.set("favouriteBus", vehicleRef);
     })
     .on("map-move", async (e) => {
-      if (mapObj.currentViewMode == appConstant.viewMode.search) {
+      if (mapObj.currentViewMode == APP_CONSTANTS.viewMode.search) {
         if (searchCriteria.resizeAfterSearch) {
           searchCriteria.resizeAfterSearch = false;
         } else {
@@ -193,7 +185,7 @@ async function initView() {
 
   // Set environment glyph..
   $(".env-glyph").addClass(
-    appConstant.envMap[config.environment] || appConstant.envMap.Other
+    APP_CONSTANTS.envMap[config.environment] || APP_CONSTANTS.envMap.Other
   );
 
   // disable data dependent buttons...
@@ -286,26 +278,26 @@ async function initView() {
     .on("click", "#viewOptions", (e) => {
       $("#optionsMenu").popup("hide");
 
-      $("#optFavouriteBus > input").val(userOptions.favouriteBus);
+      $("#optFavouriteBus > input").val(userOptionsManager.favouriteBus);
 
       $("#optHideInactiveVehicles").checkbox(
-        `set ${userOptions.hideAged ? "checked" : "unchecked"}`
+        `set ${userOptionsManager.hideAged ? "checked" : "unchecked"}`
       );
 
       $("#optMaxMarkersToDisplay").slider(
         "set value",
-        userOptions.maxMarkers,
+        userOptionsManager.maxMarkers,
         false
       );
 
       $("#optTrackerRefreshPeriod").slider(
         "set value",
-        userOptions.refreshPeriod,
+        userOptionsManager.refreshPeriod,
         false
       );
 
       $("#optHideSystemMessage").checkbox(
-        `set ${userOptions.hideSystemMessage ? "checked" : "unchecked"}`
+        `set ${userOptionsManager.hideSystemMessage ? "checked" : "unchecked"}`
       );
 
       $("#options")
@@ -359,7 +351,7 @@ async function initView() {
         data: v.originAimedDepartureTime,
         formatter: (data) => {
           return data
-            ? appConstant.shortEnGBFormatter.format(new Date(data))
+            ? APP_CONSTANTS.shortEnGBFormatter.format(new Date(data))
             : null;
         },
       },
@@ -372,7 +364,7 @@ async function initView() {
         data: v.destinationAimedArrivalTime,
         formatter: (data) => {
           return data
-            ? appConstant.shortEnGBFormatter.format(new Date(data))
+            ? APP_CONSTANTS.shortEnGBFormatter.format(new Date(data))
             : null;
         },
       },
@@ -422,39 +414,44 @@ async function initView() {
   });
 
   $("#optFavouriteBus").on("blur", "input", (e) => {
-    userOptions.set("favouriteBus", $(e.currentTarget).val().toUpperCase());
+    userOptionsManager.set(
+      "favouriteBus",
+      $(e.currentTarget).val().toUpperCase()
+    );
   });
 
   $("#optHideInactiveVehicles").checkbox({
     onChecked: () => {
-      userOptions.set("hideAged", true);
+      userOptionsManager.set("hideAged", true);
     },
     onUnchecked: () => {
-      userOptions.set("hideAged", false);
+      userOptionsManager.set("hideAged", false);
     },
   });
 
   $("#optMaxMarkersToDisplay").slider({
-    min: appConstant.minBusDisplay,
-    max: appConstant.maxBusDisplay,
+    min: APP_CONSTANTS.minBusDisplay,
+    max: APP_CONSTANTS.maxBusDisplay,
     step:
-      appConstant.maxBusDisplay - appConstant.minBusDisplay > 500 ? 100 : 50,
-    onChange: (val) => userOptions.set("maxMarkers", val),
+      APP_CONSTANTS.maxBusDisplay - APP_CONSTANTS.minBusDisplay > 500
+        ? 100
+        : 50,
+    onChange: (val) => userOptionsManager.set("maxMarkers", val),
   });
 
   $("#optTrackerRefreshPeriod").slider({
     min: 10,
     max: 40,
     step: 5,
-    onChange: (val) => userOptions.set("refreshPeriod", val),
+    onChange: (val) => userOptionsManager.set("refreshPeriod", val),
   });
 
   $("#optHideSystemMessage").checkbox({
     onChecked: () => {
-      userOptions.set("hideSystemMessage", true);
+      userOptionsManager.set("hideSystemMessage", true);
     },
     onUnchecked: () => {
-      userOptions.set("hideSystemMessage", false);
+      userOptionsManager.set("hideSystemMessage", false);
     },
   });
 
@@ -468,7 +465,7 @@ async function initView() {
       const list = $(e.currentTarget).find(".list");
       list.empty();
 
-      let recentSearches = searchHistory.get();
+      let recentSearches = searchHistoryManager.get();
 
       if (recentSearches.length > 0) {
         recentSearches.forEach((s) => {
@@ -503,7 +500,7 @@ async function initView() {
       //e.preventDefault();
     })
     .on("click", ".clear", (e) => {
-      searchHistory.removeAll();
+      searchHistoryManager.removeAll();
 
       // force hide of popup (some times hangs around)...
       $("#searchHistory").popup("hide");
@@ -522,7 +519,7 @@ async function initView() {
       hide: 300,
     },
     onShow: (e) => {
-      // reload the search history of this is being called from searchHistory...
+      // reload the search history of this is being called from searchHistoryManager...
       if (e.id == "searchHistory") {
         $(".search-history").trigger("load");
       }
@@ -535,20 +532,22 @@ async function initView() {
 
 async function trackBus(vehicleRef, firstTime, counter) {
   counter =
-    counter == parseInt(userOptions.refreshPeriod / appConstant.refreshCounter)
+    counter ==
+    parseInt(userOptionsManager.refreshPeriod / APP_CONSTANTS.refreshCounter)
       ? 1
       : counter + 1;
   $("#trackerCounter .counter").html(
-    userOptions.refreshPeriod - (counter - 1) * appConstant.refreshCounter
+    userOptionsManager.refreshPeriod -
+      (counter - 1) * APP_CONSTANTS.refreshCounter
   );
 
-  // on the first and then every userOptions.refreshPeriod call perform refresh,
+  // on the first and then every userOptionsManager.refreshPeriod call perform refresh,
   // on all other calls update the counter...
   if (counter > 1) {
     // schedule next callback...
     busTracker = setTimeout(
       trackBus,
-      appConstant.refreshCounter * 1000,
+      APP_CONSTANTS.refreshCounter * 1000,
       vehicleRef,
       false,
       counter
@@ -598,7 +597,7 @@ async function trackBus(vehicleRef, firstTime, counter) {
       // schedule next callback...
       busTracker = setTimeout(
         trackBus,
-        appConstant.refreshCounter * 1000,
+        APP_CONSTANTS.refreshCounter * 1000,
         vehicleRef,
         false,
         counter
@@ -625,12 +624,12 @@ async function busController(counter = 0) {
     return false;
   }
 
-  // on the first and then every userOptions.refreshPeriod call perform refresh,
+  // on the first and then every userOptionsManager.refreshPeriod call perform refresh,
   // on all other calls update the counter...
   if (counter > 0) {
     counter = counter - 1;
   } else {
-    counter = userOptions.refreshPeriod;
+    counter = userOptionsManager.refreshPeriod;
     if (!(await getBuses())) {
       return false;
     }
@@ -641,7 +640,7 @@ async function busController(counter = 0) {
   // schedule next callback...
   refreshTimer = setTimeout(
     busController,
-    appConstant.refreshCounter * 1000,
+    APP_CONSTANTS.refreshCounter * 1000,
     counter
   );
 }
@@ -651,7 +650,7 @@ async function getBuses() {
   mapObj.clear();
   appMessage.hide();
 
-  mapObj.currentViewMode = appConstant.viewMode.search;
+  mapObj.currentViewMode = APP_CONSTANTS.viewMode.search;
 
   // if the criteria is based on the maps central postion then add this to the query...
   if (searchCriteria.currentMapBounds == true) {
@@ -660,7 +659,7 @@ async function getBuses() {
 
   // add search criteria to cookie, (not including boundingBox only searches)...
   if (searchCriteria.resizeAfterSearch && searchCriteria.operatorRef) {
-    searchHistory.add(searchCriteria, operatorRoutes);
+    searchHistoryManager.add(searchCriteria, operatorRoutes);
   }
 
   appUtils.log(`searchCriteria: ${JSON.stringify(searchCriteria)}`);
@@ -678,7 +677,7 @@ async function getBuses() {
       };
     });
 
-    if (userOptions.hideAged) {
+    if (userOptionsManager.hideAged) {
       vehicles = vehicles.filter((v) => v.aged == false);
     }
 
@@ -689,11 +688,11 @@ async function getBuses() {
       );
     } else {
       // limit number of markers loaded onto the map...
-      if (vehicles.length > userOptions.maxMarkers) {
+      if (vehicles.length > userOptionsManager.maxMarkers) {
         appMessage.display(
-          `<p>There are ${vehicles.length} buses identified, only ${userOptions.maxMarkers} are shown.<br>Either zoom in on an area to see all buses, or click <a class="link options">here</a> to adjust the maximum number of buses displayed.</p>`
+          `<p>There are ${vehicles.length} buses identified, only ${userOptionsManager.maxMarkers} are shown.<br>Either zoom in on an area to see all buses, or click <a class="link options">here</a> to adjust the maximum number of buses displayed.</p>`
         );
-        vehicles = vehicles.filter((v, i) => i < userOptions.maxMarkers);
+        vehicles = vehicles.filter((v, i) => i < userOptionsManager.maxMarkers);
       }
 
       // add vehicles to the map, then resizeAfterSearch/reposition the map as appropriate...
@@ -731,7 +730,7 @@ async function getBuses() {
 
 async function addStops() {
   // restrict when bus stops are displayed...
-  if (mapObj.getZoom() < appConstant.minBusStopZoom) {
+  if (mapObj.getZoom() < APP_CONSTANTS.minBusStopZoom) {
     mapObj.clearStopMarkers();
     mapObj.clearArrivalsPopup();
     return;
@@ -829,14 +828,15 @@ async function displayStopArrivals(stop) {
     // automated refresh....
     busStopArrivalTimer = setTimeout(
       reloadContent,
-      appConstant.refreshStopArrivalsSecs * 1000
+      APP_CONSTANTS.refreshStopArrivalsSecs * 1000
     );
   }
 }
 
 function enrichVehicleAttributes(v) {
   // A request from H...
-  const favourite = v.vehicleRef == userOptions.favouriteBus ? true : false;
+  const favourite =
+    v.vehicleRef == userOptionsManager.favouriteBus ? true : false;
   const extendedAttributes = {
     favourite: favourite,
   };

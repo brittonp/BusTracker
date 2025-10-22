@@ -1,4 +1,14 @@
 {
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@utils/*": ["utils/*"]
+    }
+  },
+  "include": ["src", "components", "utils"],  
   "exclude": [
     "**/bin",
     "**/bower_components",

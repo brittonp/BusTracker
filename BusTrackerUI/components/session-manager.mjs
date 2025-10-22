@@ -1,5 +1,5 @@
-﻿import { appConstant } from "@components/globals.mjs";
-import { appUtils } from "@components/utils.mjs";
+﻿import { APP_CONSTANTS } from "@components/app-constants.mjs";
+import { appUtils } from "@components/app-utils.mjs";
 
 export class SessionManager {
   constructor(apiManager) {
@@ -15,7 +15,7 @@ export class SessionManager {
   async init() {
     let counter = 0;
 
-    while (counter < appConstant.maxServiceRetry) {
+    while (counter < APP_CONSTANTS.maxServiceRetry) {
       try {
         const apiConfig = await this.apiManager.fetchSessionCreate();
         return apiConfig;
@@ -26,7 +26,7 @@ export class SessionManager {
               detail: { counter: counter },
             })
           );
-          await appUtils.sleep(appConstant.delayServiceRetry);
+          await appUtils.sleep(APP_CONSTANTS.delayServiceRetry);
         } else {
           throw error;
         }
@@ -35,7 +35,7 @@ export class SessionManager {
       }
     }
     throw new Error(
-      `Failed to create session after ${appConstant.maxServiceRetry} attempts.`
+      `Failed to create session after ${APP_CONSTANTS.maxServiceRetry} attempts.`
     );
   }
 

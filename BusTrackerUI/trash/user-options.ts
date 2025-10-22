@@ -1,4 +1,4 @@
-﻿import { appConstant } from "@components/globals.mjs";
+﻿import { APP_CONSTANTS } from "@components/app-constants.mjs";
 
 // Define interfaces for better type safety
 interface UserOptions {
@@ -21,8 +21,8 @@ interface UserOptionsManager extends UserOptions {
 // Create a class for better encapsulation and maintainability
 class UserOptionsManagerImpl implements UserOptionsManager {
     private static readonly DEFAULT_OPTIONS: UserOptions = {
-        cookieName: appConstant.userOptionsCookieName,
-        cookieExpiry: appConstant.cookieExpiry,
+        cookieName: APP_CONSTANTS.userOptionsCookieName,
+        cookieExpiry: APP_CONSTANTS.cookieExpiry,
         hideAged: true,
         favouriteBus: '',
         maxMarkers: 200,
@@ -123,4 +123,4 @@ class UserOptionsManagerImpl implements UserOptionsManager {
 }
 
 // Export singleton instance
-export const userOptions = new UserOptionsManagerImpl();
+export const userOptionsManager = new UserOptionsManagerImpl();

@@ -1,4 +1,4 @@
-﻿import { appConstant } from "@components/globals.mjs";
+﻿import { APP_CONSTANTS } from "@components/app-constants.mjs";
 
 export class BusStop {
   #prevTimestamp = null;
@@ -109,12 +109,12 @@ export class BusStop {
         if (a1 == b1) return 0;
         return a1 > b1 ? 1 : -1;
       })
-      .filter((b, i) => i < appConstant.maxBusArrivals);
+      .filter((b, i) => i < APP_CONSTANTS.maxBusArrivals);
 
     // because the response returns from an array of servers, in which there is observed data latency,
     // only return the new arrival data if the timestamp is more recent than than the previous, else return the previous again...
     if (arrivals.length > 0) {
-      this.#timestamp = appConstant.shortEnGBFormatter.format(
+      this.#timestamp = APP_CONSTANTS.shortEnGBFormatter.format(
         Math.max(...arrivals.map((b) => b.timestamp).map(Date.parse))
       );
     }

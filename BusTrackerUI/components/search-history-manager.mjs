@@ -1,9 +1,9 @@
-﻿import { appConstant } from "@components/globals.mjs";
+﻿import { APP_CONSTANTS } from "@components/app-constants.mjs";
 class SearchHistoryManager {
   // Define default options as a static property
   static DEFAULT_OPTIONS = Object.freeze({
-    localStorage: appConstant.userSearchesLocalStorage,
-    maxSearchHistory: appConstant.maxSearchHistory,
+    localStorage: APP_CONSTANTS.userSearchesLocalStorage,
+    maxSearchHistory: APP_CONSTANTS.maxSearchHistory,
   });
   constructor() {
     // Initialize instance properties with default values
@@ -105,4 +105,4 @@ class SearchHistoryManager {
 }
 
 // Export singleton instance
-export const searchHistory = new SearchHistoryManager();
+export const searchHistoryManager = new SearchHistoryManager();

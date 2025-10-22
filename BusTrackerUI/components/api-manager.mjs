@@ -1,4 +1,4 @@
-import { appUtils } from "@components/utils.mjs";
+import { appUtils } from "@components/app-utils.mjs";
 
 export class ApiManager {
   constructor(options) {

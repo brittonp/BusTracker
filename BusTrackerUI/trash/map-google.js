@@ -1,5 +1,5 @@
-﻿import { appConstant } from "@components/globals.mjs";
-import { appUtils } from "@components/utils.mjs";
+﻿import { APP_CONSTANTS } from "@components/app-constants.mjs";
+import { appUtils } from "@components/app-utils.mjs";
 
 export let mapObj = {
   mapElement: null,
@@ -9,10 +9,10 @@ export let mapObj = {
   paths: [],
   speedMarkers: [],
   accuracyCircle: null,
-  currentViewMode: appConstant.viewMode.search, // default initial mode...
+  currentViewMode: APP_CONSTANTS.viewMode.search, // default initial mode...
   loading: true,
   props: {
-    zoom: appConstant.defaultZoom,
+    zoom: APP_CONSTANTS.defaultZoom,
     center: {
       lat: 54.87676318480376,
       lng: -3.1485196166071217,
@@ -28,7 +28,7 @@ export let mapObj = {
     minZoom: 6,
     maxZoom: 17,
     restriction: {
-      latLngBounds: appConstant.mapBounds,
+      latLngBounds: APP_CONSTANTS.mapBounds,
       strictBounds: false,
     },
   },
@@ -103,13 +103,13 @@ export let mapObj = {
     //});
 
     this.map.addListener("dragend", () => {
-      if (this.currentViewMode == appConstant.viewMode.search) {
+      if (this.currentViewMode == APP_CONSTANTS.viewMode.search) {
         $(document).trigger("map-move");
       }
     });
 
     this.map.addListener("zoom_changed", () => {
-      if (this.currentViewMode == appConstant.viewMode.search) {
+      if (this.currentViewMode == APP_CONSTANTS.viewMode.search) {
         $(document).trigger("map-move");
       }
     });
@@ -220,7 +220,7 @@ export let mapObj = {
       const tag = document.createElement("div");
       tag.className = "bt marker-anchor";
       tag.innerHTML = `<div class="bt marker-vehicle ${
-        vehicles.length > appConstant.vehicleSmallThreshold ? "small" : ""
+        vehicles.length > APP_CONSTANTS.vehicleSmallThreshold ? "small" : ""
       } bus-direction-${vehicle.directionCode} ${favourite} ${aged}" 
                 style="--dir: ${Number(
                   vehicle.MonitoredVehicleJourney.Bearing
@@ -283,7 +283,7 @@ export let mapObj = {
                         <div class="vehicleRef">Bearing: ${
                           vehicle.MonitoredVehicleJourney.Bearing
                         }</div>
-                        <div class="vehicleRef">Recorded: ${appConstant.shortEnGBFormatter.format(
+                        <div class="vehicleRef">Recorded: ${APP_CONSTANTS.shortEnGBFormatter.format(
                           new Date(vehicle.RecordedAtTime)
                         )}</div>
                                     <div class="ui icon buttons" style="display: unset">
@@ -376,7 +376,7 @@ export let mapObj = {
 
     const timeTag = document.createElement("div");
     timeTag.className = "bt time-anchor";
-    timeTag.innerHTML = `<div class="bt time">${appConstant.timeENGFormatter.format(
+    timeTag.innerHTML = `<div class="bt time">${APP_CONSTANTS.timeENGFormatter.format(
       new Date(vehicle.RecordedAtTime)
     )}</div>`;
 
@@ -482,7 +482,7 @@ export let mapObj = {
 
     this.flyTo(
       position,
-      this.markers.length > 1 ? this.getZoom() : appConstant.defaultZoom
+      this.markers.length > 1 ? this.getZoom() : APP_CONSTANTS.defaultZoom
     );
   },
   fitAllVehicles: function () {
@@ -513,7 +513,7 @@ export let mapObj = {
       west: bounds.getSouthWest().lng(),
     };
   },
-  flyTo: function (center, zoom = appConstant.defaultZoom) {
+  flyTo: function (center, zoom = APP_CONSTANTS.defaultZoom) {
     this.props.center = center;
     this.props.zoom = zoom;
 

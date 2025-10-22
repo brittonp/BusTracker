@@ -1,5 +1,5 @@
-﻿import { appConstant } from "@components/globals.mjs";
-import { appUtils } from "@components/utils.mjs";
+﻿import { APP_CONSTANTS } from "@components/app-constants.mjs";
+import { appUtils } from "@components/app-utils.mjs";
 
 export let currentLocation = {
   get: async function () {
@@ -41,7 +41,7 @@ export let currentLocation = {
     $(document).trigger("show-location", this);
     setTimeout(
       this.set.bind(this),
-      appConstant.refreshCurrentLocationSecs * 1000
+      APP_CONSTANTS.refreshCurrentLocationSecs * 1000
     );
   },
 };

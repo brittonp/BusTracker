@@ -1,10 +1,10 @@
-﻿// userOptions.js
-import { appConstant } from "@components/globals.mjs";
+﻿// userOptionsManager.js
+import { APP_CONSTANTS } from "@components/app-constants.mjs";
 
 class UserOptionsManager {
   // Define default options as a static property
   static DEFAULT_OPTIONS = Object.freeze({
-    localStorage: appConstant.userOptionsLocalStorage,
+    localStorage: APP_CONSTANTS.userOptionsLocalStorage,
     hideAged: true,
     favouriteBus: "",
     maxMarkers: 200,
@@ -120,4 +120,4 @@ class UserOptionsManager {
 }
 
 // Export singleton instance
-export const userOptions = new UserOptionsManager();
+export const userOptionsManager = new UserOptionsManager();
