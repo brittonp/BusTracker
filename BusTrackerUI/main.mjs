@@ -9,12 +9,11 @@ import { Ident } from "@components/ident.mjs";
 import { currentLocation } from "@components/current-location.mjs";
 import { MasterDetailPanel } from "@components/master-detail.mjs";
 import { BusStop } from "@components/bus-stop.mjs";
-import { mapObj } from "@components/map-leaflet.mjs";
+import { mapManager } from "@components/map-manager.mjs";
 import { ApiManager } from "@components/api-manager.mjs";
 import { Config } from "./Config.mjs";
 import { MessagePanel } from "@components/message-panel.mjs";
 
-//let mapObj;
 let vehicles = [];
 const defaultSearchCriteria = {
   lineRef: null,
@@ -30,14 +29,12 @@ let extendedAttributes;
 let busTracker;
 let refreshTimer;
 let busStopArrivalTimer;
-
 let config = {};
 
-// Use Config class to load configuration
+// Intialize configuration, API manager, session manager, user options manager, message panels...
 const webAppConfigManager = new Config();
 const apiManager = new ApiManager({});
 const sessionManager = new SessionManager(apiManager);
-
 const appMessage = new MessagePanel();
 const systemMessage = new MessagePanel({
   className: "system",
@@ -55,11 +52,9 @@ const systemMessage = new MessagePanel({
 
 //Wait for the page to load before initializing the app
 window.addEventListener("load", async (event) => {
-  // asynch call to initiate page...
-  initiate();
-});
+  const startTime = new Date();
+  appUtils.log(`initiate: start`);
 
-async function initiate() {
   //initViewPort();
   const mapPane = document.getElementById("map-pane");
   mapPane.container = new MasterDetailPanel({
@@ -80,9 +75,6 @@ async function initiate() {
     })
     .dimmer("show");
 
-  const startTime = new Date();
-  appUtils.log(`initiate: start`);
-
   try {
     // load application configuration from sources and merge...
     const appConfig = await webAppConfigManager.loadConfig();
@@ -99,12 +91,14 @@ async function initiate() {
   }
 
   await Promise.all([
-    mapObj.initiate(config),
+    mapManager.initiate(config),
     operatorRoutes.get(apiManager),
     userOptionsManager.init(),
   ]);
 
   await initView();
+
+  // bit ugly but need to ensure splash is removed before showing app
   $(".page.dimmer.ident").dimmer("hide").dimmer("destroy");
 
   // config start message, this value is set in the api config...
@@ -120,13 +114,12 @@ async function initiate() {
 
   const endTime = new Date();
   appUtils.log(`initiate: complete after ${(endTime - startTime) / 1000}secs`);
-}
-
+});
 // consider switching from JQuery to standard JavaScript and also removing dependency on Semantic/Fomantic
 async function initView() {
   $(document)
     .on("show-location", (e, cl) => {
-      mapObj.addCurrentLocation(currentLocation);
+      mapManager.addCurrentLocation(currentLocation);
     })
     .on("ready", async (e) => {
       // initialise the searchCriteria (base from defaults, plus query string, if provided)...
@@ -149,23 +142,23 @@ async function initView() {
       busController();
     })
     .on("track-vehicle", (e, vehicleRef) => {
-      mapObj.currentViewMode = APP_CONSTANTS.viewMode.track;
+      mapManager.currentViewMode = APP_CONSTANTS.viewMode.track;
       trackBus(vehicleRef, true, 0);
     })
     .on("add-favourite", (e, vehicleRef) => {
       userOptionsManager.set("favouriteBus", vehicleRef);
     })
     .on("map-move", async (e) => {
-      if (mapObj.currentViewMode == APP_CONSTANTS.viewMode.search) {
+      if (mapManager.currentViewMode == APP_CONSTANTS.viewMode.search) {
         if (searchCriteria.resizeAfterSearch) {
           searchCriteria.resizeAfterSearch = false;
         } else {
-          let mapcenter = mapObj.getCenter();
+          let mapcenter = mapManager.getCenter();
           searchCriteria = {
             ...searchCriteria,
             lat: mapcenter.lat,
             lng: mapcenter.lng,
-            zoom: mapObj.getZoom(),
+            zoom: mapManager.getZoom(),
           };
           await busController();
         }
@@ -210,7 +203,7 @@ async function initView() {
         };
 
         $(this.parentElement).removeClass("open");
-        mapObj.clearArrivalsPopup();
+        mapManager.clearArrivalsPopup();
         busController();
       },
     })
@@ -241,14 +234,14 @@ async function initView() {
   });
 
   $(".menu-btn.here").on("click", (e) => {
-    let mapCentre = mapObj.getCenter();
+    let mapCentre = mapManager.getCenter();
     searchCriteria = {
       ...defaultSearchCriteria,
       lat: mapCentre.lat,
       lng: mapCentre.lng,
-      zoom: mapObj.getZoom(),
+      zoom: mapManager.getZoom(),
     };
-    mapObj.clearArrivalsPopup();
+    mapManager.clearArrivalsPopup();
     busController();
     e.preventDefault();
   });
@@ -262,9 +255,9 @@ async function initView() {
         lat: currentLocation.position.lat,
         lng: currentLocation.position.lng,
       };
-      mapObj.clearArrivalsPopup();
+      mapManager.clearArrivalsPopup();
       // on completion of flyTo (map-move) the search will be executed...
-      mapObj.flyTo(currentLocation.center);
+      mapManager.flyTo(currentLocation.center);
     }
     e.preventDefault();
   });
@@ -495,7 +488,7 @@ async function initView() {
       // force hide of popup (some times hangs around)...
       $("#searchHistory").popup("hide");
 
-      mapObj.clearArrivalsPopup();
+      mapManager.clearArrivalsPopup();
       busController();
       //e.preventDefault();
     })
@@ -565,7 +558,7 @@ async function trackBus(vehicleRef, firstTime, counter) {
     .dimmer("show");
 
   if (firstTime) {
-    mapObj.clear(true);
+    mapManager.clear(true);
 
     $(".search.panel").hide();
     $(".menu-btn.search").hide();
@@ -592,7 +585,7 @@ async function trackBus(vehicleRef, firstTime, counter) {
       let title = `${vehicle.vehicleRef} (${vehicle.operatorName} - ${vehicle.publishedLineName})`;
       $("#trackedVehicle").html(title);
 
-      mapObj.addTrackedVehicle(vehicle);
+      mapManager.addTrackedVehicle(vehicle);
 
       // schedule next callback...
       busTracker = setTimeout(
@@ -647,14 +640,14 @@ async function busController(counter = 0) {
 
 async function getBuses() {
   // clear map...
-  mapObj.clear();
+  mapManager.clear();
   appMessage.hide();
 
-  mapObj.currentViewMode = APP_CONSTANTS.viewMode.search;
+  mapManager.currentViewMode = APP_CONSTANTS.viewMode.search;
 
   // if the criteria is based on the maps central postion then add this to the query...
   if (searchCriteria.currentMapBounds == true) {
-    searchCriteria.bounds = mapObj.getBounds();
+    searchCriteria.bounds = mapManager.getBounds();
   }
 
   // add search criteria to cookie, (not including boundingBox only searches)...
@@ -696,12 +689,12 @@ async function getBuses() {
       }
 
       // add vehicles to the map, then resizeAfterSearch/reposition the map as appropriate...
-      mapObj
+      mapManager
         .addVehicles(vehicles)
         .then(() => {
           if (searchCriteria.resizeAfterSearch && vehicles.length > 0) {
             // resizeAfterSearch/reposition map to show all markers...
-            mapObj.fitAllVehicles();
+            mapManager.fitAllVehicles();
           }
         })
         .catch((e) => {
@@ -730,17 +723,17 @@ async function getBuses() {
 
 async function addStops() {
   // restrict when bus stops are displayed...
-  if (mapObj.getZoom() < APP_CONSTANTS.minBusStopZoom) {
-    mapObj.clearStopMarkers();
-    mapObj.clearArrivalsPopup();
+  if (mapManager.getZoom() < APP_CONSTANTS.minBusStopZoom) {
+    mapManager.clearStopMarkers();
+    mapManager.clearArrivalsPopup();
     return;
   }
 
-  const bounds = mapObj.getBounds();
+  const bounds = mapManager.getBounds();
   const busStops = await apiManager.fetchStops(bounds);
 
   if (busStops.length > 0) {
-    mapObj.addStops(busStops);
+    mapManager.addStops(busStops);
   }
 
   return false;
@@ -850,7 +843,7 @@ async function initMap() {
     $(".menu-btn.me").addClass("disabled");
   }
 
-  await mapObj.create("map", currentLocation.center);
+  await mapManager.create("map", currentLocation.center);
 
   // show the current location, if known...
   if (currentLocation.canTrack) {

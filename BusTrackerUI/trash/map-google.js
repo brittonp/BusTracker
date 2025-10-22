@@ -1,7 +1,7 @@
 ﻿import { APP_CONSTANTS } from "@components/app-constants.mjs";
 import { appUtils } from "@components/app-utils.mjs";
 
-export let mapObj = {
+export let mapManager = {
   mapElement: null,
   map: null,
   markerMe: null,
@@ -78,7 +78,7 @@ export let mapObj = {
     }
   },
   create: async function (mapID, center) {
-    appUtils.log("mapObj.create - start");
+    appUtils.log("mapManager.create - start");
 
     this.mapElement = document.getElementById(mapID);
 
@@ -98,7 +98,7 @@ export let mapObj = {
     //    new google.maps.InfoWindow({
     //        content: `You clicked the map at ${e.latLng.toString()}`,
     //        position: e.latLng,
-    //        map: mapObj.map,
+    //        map: mapManager.map,
     //    });
     //});
 
@@ -122,7 +122,7 @@ export let mapObj = {
       }
     });
 
-    appUtils.log("mapObj.create - end");
+    appUtils.log("mapManager.create - end");
 
     return this.map;
   },

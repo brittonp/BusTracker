@@ -1,3 +1,4 @@
+import { APP_CONSTANTS } from "@components/app-constants.mjs";
 import { appUtils } from "@components/app-utils.mjs";
 
 export class ApiManager {
@@ -10,7 +11,7 @@ export class ApiManager {
     const url = "/Session/Create";
     const urlParams = "";
     return this.#apiFetch(url, urlParams, {
-      timeout: 3 * 1000,
+      timeout: 2 * 1000,
       dataType: "session",
     });
   }
@@ -74,7 +75,11 @@ export class ApiManager {
   async #apiFetch(url, urlParams, fetchOptions = {}) {
     const finalUrl = this.apiBaseUrl + url + (urlParams ? `?${urlParams}` : "");
 
-    const { timeout = 5000, method = "GET", ...otherOptions } = fetchOptions;
+    const {
+      timeout = APP_CONSTANTS.timeoutService,
+      method = "GET",
+      ...otherOptions
+    } = fetchOptions;
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), timeout);

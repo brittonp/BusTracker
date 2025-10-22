@@ -4,56 +4,53 @@ import L from "leaflet";
 import "leaflet-polylinedecorator";
 import "leaflet/dist/leaflet.css";
 
-export let mapObj = {
-  mapElement: null,
-  map: null,
-  markerMe: null,
-  busLayerGroup: null,
-  stopLayerGroup: null,
-  trackerLayerGroup: null,
-  annotationLayerGroup: null,
-  arrrivalPopups: [],
-  accuracyCircle: null,
-  currentViewMode: APP_CONSTANTS.viewMode.search, // default initial mode...
-  loading: true,
-  props: {
-    zoom: APP_CONSTANTS.defaultZoom,
-    center: {
-      lat: 54.87676318480376,
-      lng: -3.1485196166071217,
-    },
-    zoomControl: false,
-    mapTypeControl: false,
-    scaleControl: false,
-    streetViewControl: false,
-    rotateControl: false,
-    fullscreenControl: false,
-    minZoom: 6,
-    maxZoom: 17,
-    maxBounds: [
-      [APP_CONSTANTS.mapBounds.north, APP_CONSTANTS.mapBounds.west],
-      [APP_CONSTANTS.mapBounds.south, APP_CONSTANTS.mapBounds.east],
-    ],
-  },
-  initiate: async function (config) {
-    this.config = config;
-  },
-  create: async function (mapID, center) {
-    appUtils.log("mapObj.create - start");
-
-    const thisObj = this;
-
-    this.mapElement = document.getElementById(mapID);
+export class MapManager {
+  constructor() {
+    // Instance properties
+    this.mapElement = null;
+    this.map = null;
+    this.markerMe = null;
+    this.busLayerGroup = null;
+    this.stopLayerGroup = null;
+    this.trackerLayerGroup = null;
+    this.annotationLayerGroup = null;
+    this.arrrivalPopups = [];
+    this.accuracyCircle = null;
+    this.currentViewMode = APP_CONSTANTS.viewMode.search;
+    this.loading = true;
 
     this.props = {
-      ...this.props,
-      center: center,
+      zoom: APP_CONSTANTS.defaultZoom,
+      center: { lat: 54.87676318480376, lng: -3.1485196166071217 },
+      zoomControl: false,
+      mapTypeControl: false,
+      scaleControl: false,
+      streetViewControl: false,
+      rotateControl: false,
+      fullscreenControl: false,
+      minZoom: 6,
+      maxZoom: 17,
+      maxBounds: [
+        [APP_CONSTANTS.mapBounds.north, APP_CONSTANTS.mapBounds.west],
+        [APP_CONSTANTS.mapBounds.south, APP_CONSTANTS.mapBounds.east],
+      ],
     };
+  }
 
-    // initialize Leaflet
+  async initiate(config) {
+    this.config = config;
+  }
+
+  async create(mapID, center) {
+    appUtils.log("MapManager.create - start");
+
+    this.mapElement = document.getElementById(mapID);
+    this.props = { ...this.props, center };
+
+    // Initialize Leaflet
     this.map = L.map(mapID, this.props);
 
-    // add the OpenStreetMap tiles
+    // Add tiles
     L.tileLayer(
       "https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey={apikey}",
       {
@@ -64,57 +61,41 @@ export let mapObj = {
       }
     ).addTo(this.map);
 
-    L.control
-      .zoom({
-        position: "bottomright",
-      })
-      .addTo(this.map);
-
-    // show the scale bar on the lower left corner
-    L.control
-      .scale({
-        imperial: true,
-        metric: true,
-      })
-      .addTo(this.map);
+    L.control.zoom({ position: "bottomright" }).addTo(this.map);
+    L.control.scale({ imperial: true, metric: true }).addTo(this.map);
 
     this.stopLayerGroup = L.layerGroup().addTo(this.map);
-
     this.busLayerGroup = L.layerGroup().addTo(this.map);
-
     this.trackerLayerGroup = L.layerGroup().addTo(this.map);
-
     this.annotationLayerGroup = L.layerGroup().addTo(this.map);
 
-    // on moveend trigger a map-move event on the map object...
-    this.map.on("moveend", function (e) {
-      if (thisObj.currentViewMode == APP_CONSTANTS.viewMode.search) {
+    this.map.on("moveend", (e) => {
+      if (this.currentViewMode === APP_CONSTANTS.viewMode.search) {
         $(document).trigger("map-move");
       }
     });
 
-    appUtils.log("mapObj.create - end");
+    appUtils.log("MapManager.create - end");
 
     return this.map;
-  },
-  addCurrentLocation: function (currentLocation) {
+  }
+
+  addCurrentLocation(currentLocation) {
     const toolTip =
       currentLocation.position.accuracy > 10
         ? `This is an estimate of your location within ${Math.floor(
             currentLocation.position.accuracy
           )} metres.`
         : "Your location.";
+
     const icon = new L.DivIcon({
       className: "marker-me-anchor",
       iconSize: null,
       html: '<div class="marker-me"></div>',
-      //    html: '<div class="marker-me"><i class="white crosshairs icon"></i></div>',
     });
 
     if (!this.markerMe) {
-      this.markerMe = L.marker(currentLocation.center, {
-        interactive: false,
-      })
+      this.markerMe = L.marker(currentLocation.center, { interactive: false })
         .setIcon(icon)
         .bindTooltip(toolTip)
         .addTo(this.map);
@@ -132,38 +113,34 @@ export let mapObj = {
       }).addTo(this.map);
     } else {
       this.accuracyCircle.setLatLng(currentLocation.center);
-      this.accuracyCircle.setRadius(currentLocation.position.accuracy); //metres..
+      this.accuracyCircle.setRadius(currentLocation.position.accuracy);
     }
-  },
-  clear: function (all = false) {
+  }
+
+  clear(all = false) {
     this.busLayerGroup.clearLayers();
-
     this.trackerLayerGroup.clearLayers();
-
     this.annotationLayerGroup.clearLayers();
+    if (all) this.clearStopMarkers();
+  }
 
-    if (all) {
-      this.clearStopMarkers;
-    }
-  },
-  clearStopMarkers: function () {
+  clearStopMarkers() {
     this.stopLayerGroup.clearLayers();
-  },
-  clearArrivalsPopup: function () {
-    for (let i = 0; i < this.arrrivalPopups.length; i++) {
-      this.arrrivalPopups[i].close();
-      this.arrrivalPopups[i].remove();
+  }
+
+  clearArrivalsPopup() {
+    for (const popup of this.arrrivalPopups) {
+      popup.close();
+      popup.remove();
     }
     this.arrrivalPopups = [];
-  },
-  addVehicles: async function (vehicles) {
+  }
+
+  async addVehicles(vehicles) {
     let info;
 
-    // store this (mapObj) locally so it can be used in jQuery $.each call back...
-    const thisObj = this;
-
     // add markers for each vehicle...
-    $.each(vehicles, function (index, vehicle) {
+    vehicles.forEach(async (vehicle, index) => {
       // A request from H...
       const favourite =
         vehicle.extendedAttributes.favourite == true ? "favourite" : "";
@@ -187,7 +164,7 @@ export let mapObj = {
         iconSize: null,
         html: `<div class="marker-vehicle ${
           vehicles.length > APP_CONSTANTS.vehicleSmallThreshold ? "small" : ""
-        } bus-direction-${vehicle.directionCode} ${favourite} ${aged}" 
+        } bus-direction-${vehicle.directionCode} ${favourite} ${aged}"
                 style="--dir: ${Number(vehicle.bearing)}"
                 title="${vehicle.vehicleRef} (${
           vehicle.extendedAttributes.operatorName
@@ -198,9 +175,7 @@ export let mapObj = {
                 </div>`,
       });
 
-      const marker = L.marker(position)
-        .setIcon(icon)
-        .addTo(thisObj.busLayerGroup);
+      const marker = L.marker(position).setIcon(icon).addTo(this.busLayerGroup);
 
       marker.vehicle = vehicle;
       marker.position = position;
@@ -246,7 +221,7 @@ export let mapObj = {
                       vehicle.vehicleRef
                     }'><i class="eye icon"></i></div>
                 </div>
-                    </div>            
+                    </div>
                 </div>
             </div>
             `;
@@ -264,9 +239,7 @@ export let mapObj = {
           html: content,
         });
 
-        info = L.marker(position)
-          .setIcon(infoDetail)
-          .addTo(thisObj.busLayerGroup);
+        info = L.marker(position).setIcon(infoDetail).addTo(this.busLayerGroup);
 
         info.on("click", (e) => {});
 
@@ -297,17 +270,15 @@ export let mapObj = {
           });
       });
     });
-  },
-  addStops: function (stops) {
+  }
+
+  addStops(stops) {
     this.clearStopMarkers();
 
     let info;
 
-    // store this (mapObj) locally so it can be used in jQuery $.each call back...
-    const thisObj = this;
-
     // add markers for each vehicle...
-    $.each(stops, async function (index, stop) {
+    stops.forEach(async (stop, index) => {
       const stopMarker = L.circle(stop.position, {
         radius: 10,
         stroke: true,
@@ -318,120 +289,16 @@ export let mapObj = {
         fillOpacity: 0.15,
       })
         .bindTooltip(`${stop.commonName}, ${stop.indicator}`)
-        .addTo(thisObj.stopLayerGroup);
+        .addTo(this.stopLayerGroup);
 
       stopMarker.on("click", async (e) => {
-        // centre on clicked stop...
-        thisObj.flyTo(this.position, thisObj.props.zoom);
-
+        this.flyTo(stop.position, this.props.zoom);
         $(document).trigger("show-bus-stop-arrivals", stop);
       });
-
-      // create event listeners...
-      //    stopMarker.on('click', async (e) => {
-
-      //        const popup = L.popup({
-      //            interactive: true,
-      //            closeOnClick: false,
-      //            closeButton: false,
-      //            className: 'arrival popup',
-      //            minWidth: 200,
-      //        })
-      //            .setLatLng(stop.position);
-
-      //        const busStop = new BusStop(stop);
-
-      //        reloadContent(true);
-
-      //        L.DomEvent.stopPropagation(e);
-
-      //        async function reloadContent(firstTime = false) {
-
-      //            if (firstTime || popup.isOpen()) {
-
-      //                let arrivals = [];
-
-      //                try {
-      //                    arrivals = await busStop.arrivals();
-      //                }
-      //                catch {
-      //                    null;
-      //                }
-
-      //                let content = `
-      //                <div class="box">
-      //                    <div class="row">
-      //                        ${busStop.stop.standardIndicator ? `<div class="indicator" title='${busStop.stop.naptanId}'>${busStop.stop.standardIndicator}</div>` : ''}
-      //                        <div class="destination">${busStop.stop.commonName}${!busStop.stop.standardIndicator ? ', ' + busStop.stop.indicator: ''}<br> </div>
-      //                    </div>
-      //                </div>`;
-      //                if (arrivals.length > 0) {
-      //                    content += `
-      //                    <div class="row content">
-      //                        <table class="ui very basic unstackable striped very compact table">
-      //                            <thead>
-      //                                <tr>
-      //                                    <th class="center aligned one wide">Live</th>
-      //                                    <th class="center aligned three wide">Mins</th>
-      //                                    <th class="center aligned three wide">Route</th>
-      //                                    <th class="four wide">Destination</th>
-      //                                    <th class="one wide">Source</th>
-      //                                </tr>
-      //                            </thead>
-      //                        <tbody>
-      //                    </div>`;
-      //                    arrivals.forEach((b, index) => {
-      //                        content += `<tr>
-      //                            <td class="center aligned one wide">${(b.liveData == true ? 'Live' : 'Schd.')}</td>
-      //                            <td class="center aligned three wide">${(b.minutes < 1 ? 'Due' : b.minutes)}</td>
-      //                            <td class="center aligned  three wide">${b.lineName}</td>
-      //                            <td class="four wide">${b.destinationName}</td>
-      //                            <td class="one wide">${b.src}</td>
-      //                        </tr>`;
-      //                    });
-      //                    content += '</tbody></table>';
-      //                }
-      //                else {
-      //                    content += `
-      //                    <div class="row content" >
-      //                        <div> Sorry, there is no arrival data available for this stop.</div>
-      //                    </div>`;
-      //                }
-
-      //                content += `
-      //                </div>`;
-
-      //                if (busStop.stop.atcoAreaCode == '490') {
-      //                    content += `
-      //                    <div class="row right">
-      //                        <div><a href="https://tfl.gov.uk/corporate/terms-and-conditions/transport-data-service" target="_blank">Powered by TfL Open Data</a></div>
-      //                    </div>`;
-      //                }
-
-      //                popup.setContent(content);
-
-      //                if (firstTime) {
-      //                    popup
-      //                        .openOn(thisObj.map);
-      //                    // need to use this to create a click listener on the popup...
-      //                    L.DomEvent.addListener(popup.getElement(), 'click', (e) => {
-      //                        if (e.target.tagName != 'A') {
-      //                            popup.close();
-      //                        }
-      //                    });
-
-      //                    thisObj.arrrivalPopups.push(popup);
-      //                }
-
-      //                // automated refresh....
-      //                setTimeout(reloadContent, APP_CONSTANTS.refreshStopArrivalsSecs * 1000);
-      //            }
-      //        }
-
-      //    });
     });
-  },
-  addTrackedVehicle: async function (vehicle) {
+  }
+
+  async addTrackedVehicle(vehicle) {
     const position = {
       lat: Number(vehicle.latitude),
       lng: Number(vehicle.longitude),
@@ -536,25 +403,26 @@ export let mapObj = {
       position,
       trackerMarkers.length > 1 ? this.getZoom() : APP_CONSTANTS.defaultZoom
     );
-  },
-  fitAllVehicles: async function () {
+  }
+
+  async fitAllVehicles() {
     const mapBounds = new L.LatLngBounds();
     this.busLayerGroup.eachLayer((m) => {
       mapBounds.extend(m.position);
     });
 
     this.map.flyToBounds(mapBounds, { duration: 3 });
-  },
-  getCenter: function () {
+  }
+
+  getCenter() {
     return this.map.getCenter();
-  },
-  //setCenter: function (latLng) {
-  //    this.map.panTo(latLng);
-  //},
-  getZoom: function () {
+  }
+
+  getZoom() {
     return this.map.getZoom();
-  },
-  getBounds: function () {
+  }
+
+  getBounds() {
     const bounds = this.map.getBounds();
     return {
       ...bounds,
@@ -563,11 +431,14 @@ export let mapObj = {
       south: bounds.getSouth(),
       west: bounds.getWest(),
     };
-  },
-  flyTo: function (center, zoom = APP_CONSTANTS.defaultZoom) {
+  }
+
+  flyTo(center, zoom = APP_CONSTANTS.defaultZoom) {
     this.props.center = center;
     this.props.zoom = zoom;
-
     this.map.flyTo(this.props.center, this.props.zoom, { duration: 1 });
-  },
-};
+  }
+}
+
+// Export singleton instance
+export const mapManager = new MapManager();

@@ -14,7 +14,7 @@
   searchBoxSize: 0.2,
   vehicleSmallThreshold: 300,
   maxServiceRetry: 20,
-  delayServiceRetry: 5000,
+  delayServiceRetry: 2000,
   timeoutService: 3000,
   envMap: {
     Development: "dev",
