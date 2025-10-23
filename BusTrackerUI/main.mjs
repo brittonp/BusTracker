@@ -25,7 +25,7 @@ const defaultSearchCriteria = {
   zoom: APP_CONSTANTS.defaultZoom,
 };
 let searchCriteria;
-let extendedAttributes;
+//let extendedAttributes;
 let busTracker;
 let refreshTimer;
 let busStopArrivalTimer;
