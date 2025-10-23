@@ -25,11 +25,10 @@ const defaultSearchCriteria = {
   zoom: APP_CONSTANTS.defaultZoom,
 };
 let searchCriteria;
-//let extendedAttributes;
 let busTracker;
 let refreshTimer;
 let busStopArrivalTimer;
-let config = {};
+const config = {};
 
 // Intialize configuration, API manager, session manager, user options manager, message panels...
 const webAppConfigManager = new Config();
@@ -82,7 +81,8 @@ window.addEventListener("load", async (event) => {
     // override apiBase if provided in config...
     apiManager.apiBaseUrl = appConfig.apiBaseUrl || apiManager.apiBaseUrl;
     const apiConfig = await sessionManager.init();
-    config = { ...appConfig, ...apiConfig };
+    Object.assign(config, appConfig, apiConfig);
+
     console.log("Merged Configuration Data:", config);
   } catch (error) {
     appUtils.log(`Error initiating: ${error.message}`);
@@ -102,11 +102,7 @@ window.addEventListener("load", async (event) => {
   $(".page.dimmer.ident").dimmer("hide").dimmer("destroy");
 
   // config start message, this value is set in the api config...
-  if (
-    config &&
-    config.startMessage != null &&
-    userOptionsManager.hideSystemMessage != true
-  )
+  if (config?.startMessage && userOptionsManager.hideSystemMessage != true)
     systemMessage.display(config.startMessage);
 
   // been playing about with when this gets fired...
