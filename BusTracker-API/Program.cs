@@ -86,11 +86,6 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging()  || app.Envir
     });
 }
 
-// EnableControllers...
-// Removed since moving all services to minimal apis...
-//app.UseAuthorization();
-//app.MapControllers();
-
 app.UseSession();
 
 //minimal apis...

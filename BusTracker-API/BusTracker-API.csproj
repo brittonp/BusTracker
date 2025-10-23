@@ -80,10 +80,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory> <!-- add this line -->
     </Content>
-    <Content Update="secrets.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>  <!-- add this line -->
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
