@@ -54,6 +54,14 @@ export default defineConfig(({ command }) => {
       esbuild: {
         drop: [], // don’t drop console or debugger
       },
+      assetsDir: "assets",
+      rollupOptions: {
+        output: {
+          entryFileNames: "assets/[name].[hash].js",
+          chunkFileNames: "assets/[name].[hash].js",
+          assetFileNames: "assets/[name].[hash].[ext]",
+        },
+      },
     },
     plugins: [
       VitePWA({

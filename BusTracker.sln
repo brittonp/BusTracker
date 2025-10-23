@@ -16,25 +16,25 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BusTrackerDb", "BusTrackerD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusTrackerWJKeepAlive", "BusTrackerWJKeepAlive\BusTrackerWJKeepAlive.csproj", "{058F545E-8F5D-420A-A5FD-B814229BC7D3}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BusTrackerUI", "BusTrackerUI\", "{D85550DE-2CC3-4B70-85DB-4B3913A1E4EA}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BusTracker-Web", "BusTracker-Web\", "{D85550DE-2CC3-4B70-85DB-4B3913A1E4EA}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_65047"
-		Debug.AspNetCompiler.PhysicalPath = "BusTrackerUI\"
+		Debug.AspNetCompiler.PhysicalPath = "BusTracker-Web\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_65047\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/localhost_65047"
-		Release.AspNetCompiler.PhysicalPath = "BusTrackerUI\"
+		Release.AspNetCompiler.PhysicalPath = "BusTracker-Web\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_65047\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "65047"
-		SlnRelativePath = "BusTrackerUI\"
+		SlnRelativePath = "BusTracker-Web\"
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusTrackerWJOperatorRoutes", "BusTrackerWJOperatorRoutes\BusTrackerWJOperatorRoutes.csproj", "{4A58102B-65C2-46FA-810D-7773176B0D46}"
