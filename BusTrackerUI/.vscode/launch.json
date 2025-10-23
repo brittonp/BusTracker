@@ -8,7 +8,7 @@
       "name": "Debug with Chrome (Vite)",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:3001/",
+      "url": "http://localhost:5100/",
       "webRoot": "${workspaceFolder}",
       "preLaunchTask": "Start Vite"
     }

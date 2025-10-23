@@ -22,11 +22,11 @@ export default defineConfig(({ command }) => {
     server: isDev
       ? {
           https: false, // run on http in dev for simplicity
-          port: 3001,
+          port: 5100,
           // proxy API requests to backend to avoid CORS issues
           proxy: {
             "/api": {
-              target: "https://localhost:7203",
+              target: "https://localhost:5102",
               changeOrigin: true,
               secure: false,
               rewrite: (path) => path.replace(/^\/api/, ""),

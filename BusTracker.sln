@@ -54,7 +54,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5AE3C27A-5A86-4B83-81AE-C46CE4057726}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\deploy-web.yml = .github\workflows\deploy-web.yml
-		.github\workflows\deploy_api.yml = .github\workflows\deploy_api.yml
+		.github\workflows\deploy-api.yml = .github\workflows\deploy-api.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusTracker-Redirect", "BusTracker-Redirect\BusTracker-Redirect.csproj", "{4D621B8F-0EC2-5206-1726-044591146D22}"
