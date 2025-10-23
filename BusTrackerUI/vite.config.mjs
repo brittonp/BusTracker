@@ -69,7 +69,7 @@ export default defineConfig(({ command }) => {
           start_url: "/",
           display: "standalone",
           background_color: "#ffffff",
-          theme_color: "#0078d4",
+          theme_color: "#8160d4",
           icons: [
             {
               src: "/images/ident.png",
