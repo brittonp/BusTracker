@@ -223,5 +223,3 @@ operatorLinesGroup.MapGet("/Get", async (OperatorCache operatorLines) =>
     .WithDescription("Returns all the cached operators and lines, (minimal api)");
 
 app.Run();
-
-
