@@ -5,13 +5,13 @@ on:
     branches:
       - master
     paths: 
-      - 'BusTrackerServices/**'
+      - 'BusTracker-API/**'
       - '.github/workflows/deploy-api.yml'
   pull_request:
     branches:
       - master
     paths:
-      - 'BusTrackerServices/**'
+      - 'BusTracker-API/**'
       - '.github/workflows/deploy-api.yml'
   workflow_dispatch:
 
@@ -31,10 +31,10 @@ jobs:
           dotnet-version: '9.x'
 
       - name: Build API project only
-        run: dotnet build ./BusTrackerServices/BusTrackerServices.csproj --configuration Release
+        run: dotnet build ./BusTracker-API/BusTracker-API.csproj --configuration Release
 
       - name: Publish API project
-        run: dotnet publish ./BusTrackerServices/BusTrackerServices.csproj -c Release -r win-x86 --self-contained false -o publish /p:DeleteExistingFiles=true
+        run: dotnet publish ./BusTracker-API/BusTracker-API.csproj -c Release -r win-x86 --self-contained false -o publish /p:DeleteExistingFiles=true
 
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4

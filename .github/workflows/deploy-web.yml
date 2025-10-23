@@ -1,4 +1,4 @@
-name: Build and deploy BusTracker web app
+name: Build and deploy web app
 
 on:
   push:

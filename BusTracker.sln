@@ -16,34 +16,11 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BusTrackerDb", "BusTrackerD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusTrackerWJKeepAlive", "BusTrackerWJKeepAlive\BusTrackerWJKeepAlive.csproj", "{058F545E-8F5D-420A-A5FD-B814229BC7D3}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BusTracker-Web", "BusTracker-Web\", "{D85550DE-2CC3-4B70-85DB-4B3913A1E4EA}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_65047"
-		Debug.AspNetCompiler.PhysicalPath = "BusTracker-Web\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_65047\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_65047"
-		Release.AspNetCompiler.PhysicalPath = "BusTracker-Web\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_65047\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "65047"
-		SlnRelativePath = "BusTracker-Web\"
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusTrackerWJOperatorRoutes", "BusTrackerWJOperatorRoutes\BusTrackerWJOperatorRoutes.csproj", "{4A58102B-65C2-46FA-810D-7773176B0D46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusTrackerWJTflStops", "BusTrackerWJTflStops\BusTrackerWJTflStops.csproj", "{8B852772-873A-4213-BC04-08E740C7E53D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusTrackerServices", "BusTrackerServices\BusTrackerServices.csproj", "{112D2DB6-1C44-73D8-3788-A507EACEA330}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusTrackerServices.Tests.Unit", "BusTrackerServices.Tests.Unit\BusTrackerServices.Tests.Unit.csproj", "{9522FA97-DEDD-4639-B173-3F53F7763E84}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusTracker-API", "BusTracker-API\BusTracker-API.csproj", "{112D2DB6-1C44-73D8-3788-A507EACEA330}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaPTAN", "..\DataAnnotation\NaPTAN-JSON\NaPTAN.csproj", "{FE958BEC-B2F2-E6E0-CF27-FA1560A89DA3}"
 EndProject
@@ -54,12 +31,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5AE3C27A-5A86-4B83-81AE-C46CE4057726}"
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
+		.github\workflows\deploy-api.yml = .github\workflows\deploy-api.yml
 		.github\workflows\deploy-redirect.yml = .github\workflows\deploy-redirect.yml
 		.github\workflows\deploy-web.yml = .github\workflows\deploy-web.yml
-		.github\workflows\deploy-api.yml = .github\workflows\deploy-api.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusTracker-Redirect", "BusTracker-Redirect\BusTracker-Redirect.csproj", "{4D621B8F-0EC2-5206-1726-044591146D22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusTracker-API.Tests.Unit", "BusTracker-API.Tests.Unit\BusTracker-API.Tests.Unit.csproj", "{25E5C435-6585-39F8-E75F-3A70EDA91123}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,14 +68,6 @@ Global
 		{058F545E-8F5D-420A-A5FD-B814229BC7D3}.Staging|Any CPU.Build.0 = Staging|Any CPU
 		{058F545E-8F5D-420A-A5FD-B814229BC7D3}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{058F545E-8F5D-420A-A5FD-B814229BC7D3}.Test|Any CPU.Build.0 = Test|Any CPU
-		{D85550DE-2CC3-4B70-85DB-4B3913A1E4EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D85550DE-2CC3-4B70-85DB-4B3913A1E4EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D85550DE-2CC3-4B70-85DB-4B3913A1E4EA}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{D85550DE-2CC3-4B70-85DB-4B3913A1E4EA}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{D85550DE-2CC3-4B70-85DB-4B3913A1E4EA}.Staging|Any CPU.ActiveCfg = Debug|Any CPU
-		{D85550DE-2CC3-4B70-85DB-4B3913A1E4EA}.Staging|Any CPU.Build.0 = Debug|Any CPU
-		{D85550DE-2CC3-4B70-85DB-4B3913A1E4EA}.Test|Any CPU.ActiveCfg = Debug|Any CPU
-		{D85550DE-2CC3-4B70-85DB-4B3913A1E4EA}.Test|Any CPU.Build.0 = Debug|Any CPU
 		{4A58102B-65C2-46FA-810D-7773176B0D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A58102B-65C2-46FA-810D-7773176B0D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A58102B-65C2-46FA-810D-7773176B0D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -121,14 +92,6 @@ Global
 		{112D2DB6-1C44-73D8-3788-A507EACEA330}.Staging|Any CPU.Build.0 = Staging|Any CPU
 		{112D2DB6-1C44-73D8-3788-A507EACEA330}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{112D2DB6-1C44-73D8-3788-A507EACEA330}.Test|Any CPU.Build.0 = Test|Any CPU
-		{9522FA97-DEDD-4639-B173-3F53F7763E84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9522FA97-DEDD-4639-B173-3F53F7763E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9522FA97-DEDD-4639-B173-3F53F7763E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9522FA97-DEDD-4639-B173-3F53F7763E84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9522FA97-DEDD-4639-B173-3F53F7763E84}.Staging|Any CPU.ActiveCfg = Release|Any CPU
-		{9522FA97-DEDD-4639-B173-3F53F7763E84}.Staging|Any CPU.Build.0 = Release|Any CPU
-		{9522FA97-DEDD-4639-B173-3F53F7763E84}.Test|Any CPU.ActiveCfg = Debug|Any CPU
-		{9522FA97-DEDD-4639-B173-3F53F7763E84}.Test|Any CPU.Build.0 = Debug|Any CPU
 		{FE958BEC-B2F2-E6E0-CF27-FA1560A89DA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FE958BEC-B2F2-E6E0-CF27-FA1560A89DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE958BEC-B2F2-E6E0-CF27-FA1560A89DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -161,6 +124,14 @@ Global
 		{4D621B8F-0EC2-5206-1726-044591146D22}.Staging|Any CPU.Build.0 = Release|Any CPU
 		{4D621B8F-0EC2-5206-1726-044591146D22}.Test|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D621B8F-0EC2-5206-1726-044591146D22}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{25E5C435-6585-39F8-E75F-3A70EDA91123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25E5C435-6585-39F8-E75F-3A70EDA91123}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25E5C435-6585-39F8-E75F-3A70EDA91123}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25E5C435-6585-39F8-E75F-3A70EDA91123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25E5C435-6585-39F8-E75F-3A70EDA91123}.Staging|Any CPU.ActiveCfg = Release|Any CPU
+		{25E5C435-6585-39F8-E75F-3A70EDA91123}.Staging|Any CPU.Build.0 = Release|Any CPU
+		{25E5C435-6585-39F8-E75F-3A70EDA91123}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{25E5C435-6585-39F8-E75F-3A70EDA91123}.Test|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
