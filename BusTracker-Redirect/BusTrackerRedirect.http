@@ -1,0 +1,6 @@
+@BusTrackerRedirect_HostAddress = http://localhost:5031
+
+GET {{BusTrackerRedirect_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
