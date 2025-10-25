@@ -25,6 +25,8 @@ namespace BusTrackerAPI.Services
         Task<object> GetArrivals(
             string naptanId
         );
+
+        //Task<int> CleanBusStopData();
     }
 
     public class BusStop: IBusStop
@@ -45,6 +47,12 @@ namespace BusTrackerAPI.Services
             _sqlData = sqlData;
             _httpClientFactory = httpClientFactory;
         }
+
+        //public async Task<int> CleanBusStopData()
+        //{
+        //    var val = await _sqlData.CleanBusStopData();
+        //    return val;
+        //}
 
         public async Task<object> GetByAtcoCode(
             string atcoCode

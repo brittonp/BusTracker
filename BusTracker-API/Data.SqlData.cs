@@ -1,16 +1,16 @@
 ﻿using BusTrackerAPI.Models;
+using DotSpatial.Projections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace BusTrackerAPI.Data
 {
-
     public interface ISqlData
     {
-
         Task<object> PingDatabase();
         Task<int> CreateSession();
         Task<int> UpdateSession(int? sessionId, SqlData.Event _event);
@@ -18,16 +18,14 @@ namespace BusTrackerAPI.Data
         Task<object> GetSessionHistory(int sessionId);
 
         string? GetAllSystemParameters();
-
         string? GetSystemParameter(string parameterName);
-
         string? UpdateSystemParameter(SystemParameter systemParameter);
 
         Task<object> GetBusStopsByAtcoCode(string atcoCode);
-
         Task<object> GetBusStopsByBoundingBox(double north, double east, double south, double west);
 
-        int LoadBusStopXML();
+        Task<int> LoadBusStopXML();
+        Task<int> CleanBusStopData();
 
     }
 
@@ -192,7 +190,7 @@ namespace BusTrackerAPI.Data
                     conn.Open();
 
                     // Insert trace data record...
-                    string sql = "UPDATE dbo.bt_session SET ";
+                    string sql = "UPDATE bus.session SET ";
                     sql += "  event = @event, ";
                     sql += "  header_query_string = @headerQueryString, ";
                     sql += "  header_user_agent = @headerUserAgent,";
@@ -624,22 +622,19 @@ namespace BusTrackerAPI.Data
             }
         }
 
-        public int LoadBusStopXML()
+        public async Task<int> LoadBusStopXML()
         {
-
-            string? connectionString = _configuration["ConnectionStrings:BusTrackerDb"];
-            string sql = "dbo.sp_bt_load_busstop_xml";
-            string stringResult = string.Empty;
             int intResult = 0;
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-
+                    string? sql = "bus.sp_load_busstop_xml"; // _configuration["Sql:LoadBusStopData"];
                     using SqlCommand sqlCmd = new SqlCommand(sql, conn);
                     sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.CommandTimeout = 0;
 
                     SqlParameter returnVal = new SqlParameter
                     {
@@ -651,7 +646,6 @@ namespace BusTrackerAPI.Data
 
                     try
                     {
-                        //intResult = (int)sqlCmd.ExecuteScalar();
                         sqlCmd.ExecuteNonQuery();
                         intResult = (int)returnVal.Value;
                     }
@@ -675,11 +669,143 @@ namespace BusTrackerAPI.Data
                 _logger.LogError(999, ex, "Exception on connecting to database.");
             }
 
-            _logger.LogInformation(4103, "Get LoadBusStopXML completed");
-
             return intResult;
         }
 
+
+        public async Task<int> CleanBusStopData()
+        {
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                string selectSql = "SELECT * FROM [bus].[bus_stop]";
+                DataTable table = new DataTable();
+
+                using (SqlDataAdapter adapter = new SqlDataAdapter(selectSql, conn))
+                {
+                    adapter.Fill(table);
+                }
+
+                int kount = 0;
+                foreach (DataRow row in table.Rows)
+                {
+                    kount++;
+
+                    // Set the standard_indicator
+                    string indicator = row.Field<string>("indicator") ?? string.Empty;
+                    if (!string.IsNullOrEmpty(indicator))
+                    {
+                        var standardisedIndicator = StandardiseIndicator(indicator);
+                        row["standard_indicator"] = standardisedIndicator;
+                    }
+
+                    // Add missing lat/lng (read them as strings)
+                    string lat = row.Field<object>("lat")?.ToString() ?? string.Empty;
+                    string lng = row.Field<object>("lng")?.ToString() ?? string.Empty;
+                    if (string.IsNullOrEmpty(lat) && string.IsNullOrEmpty(lng))
+                    {
+                        var convertedData = ConvertUKOSToWGS84((double)(float)row["easting"], (double)(float)row["northing"]);
+
+                        row["lat"] = convertedData[1];
+                        row["lng"] = convertedData[0];
+                    }
+
+                    if (kount % 50000 == 0)
+                    {
+                        _logger.LogInformation("Processed {0} rows.", kount);
+                    }
+                }
+
+                _logger.LogInformation("Processed {0} rows.", kount);
+                _logger.LogInformation("Beginning bulk load...");
+
+                // Truncate and reload using SqlBulkCopy
+                using (SqlCommand truncateCmd = new SqlCommand("TRUNCATE TABLE [bus].[bus_stop];", conn))
+                {
+                    truncateCmd.ExecuteNonQuery();
+                }
+
+                using (SqlBulkCopy bulkCopy = new SqlBulkCopy(conn, SqlBulkCopyOptions.KeepIdentity, null))
+                {
+                    bulkCopy.DestinationTableName = "[bus].[bus_stop]";
+                    bulkCopy.BatchSize = 50000; // optional: commit in chunks
+                    bulkCopy.BulkCopyTimeout = 0; // no timeout
+                    bulkCopy.WriteToServer(table);
+                }
+
+                _logger.LogInformation("Bulk insert complete. Total rows reloaded: {0}", table.Rows.Count);
+                return table.Rows.Count;
+            }
+
+        }
+
+        private double[] ConvertUKOSToWGS84(double easting, double northing)
+        {
+
+            // Define source projection (OSGB36 - British National Grid)
+            ProjectionInfo osgb36 = KnownCoordinateSystems.Projected.NationalGrids.BritishNationalGridOSGB36;
+
+            // Define target projection (WGS84)
+            ProjectionInfo wgs84 = KnownCoordinateSystems.Geographic.World.WGS1984;
+
+            // Example British National Grid Coordinates (Easting/Northing for London)
+            double[] xy = { easting, northing };
+            double[] z = { 0 };
+
+            // Transform to Lat/Lng
+            Reproject.ReprojectPoints(xy, z, osgb36, wgs84, 0, 1);
+
+            return xy;
+
+        }
+
+        private static string? StandardiseIndicator(string? val)
+        {
+            string? returnVal = val;
+
+            if (val.Length > 2)
+            {
+
+                List<IndicatorFilter> filters = [
+                    new IndicatorFilter { Find = ["northeastbound", "north east", "north east bound", "ne bound", "ne-bound"], ReplaceWith = "->NE"},
+                    new IndicatorFilter { Find = ["southeastbound", "south east", "south east bound", "se bound", "se-bound"], ReplaceWith = "->SE"},
+                    new IndicatorFilter { Find = ["northwestbound", "north west", "north west bound", "nw bound", "nw-bound"], ReplaceWith = "->NW"},
+                    new IndicatorFilter { Find = ["southwestbound", "south west", "south west bound", "sw bound", "sw-bound"], ReplaceWith = "->SW"},
+                    new IndicatorFilter { Find = ["northbound", "north", "north bound", "n bound", "n-bound"], ReplaceWith = "->N"},
+                    new IndicatorFilter { Find = ["eastbound", "east", "east bound", "e bound", "e-bound"], ReplaceWith = "->E"},
+                    new IndicatorFilter { Find = ["southbound", "south", "south bound", "s bound", "s-bound"], ReplaceWith = "->S"},
+                    new IndicatorFilter { Find = ["westbound", "west", "west bound", "w bound", "w-bound"], ReplaceWith = "->W"},
+                    new IndicatorFilter { Find = ["stop ", "stand ", "bay "], ReplaceWith = String.Empty},
+                ];
+
+                foreach (IndicatorFilter filter in filters)
+                {
+                    foreach (string find in filter.Find)
+                    {
+                        returnVal = Regex.Replace(returnVal, find, filter.ReplaceWith, RegexOptions.IgnoreCase);
+                    }
+                }
+
+                if (returnVal != val || returnVal.Substring(0, 2) == "->")
+                {
+                    returnVal = returnVal.Trim();
+                }
+                else
+                {
+                    returnVal = String.Empty;
+                }
+
+            }
+            return returnVal;
+        }
+
+        // Private class.
+        private class IndicatorFilter
+        {
+            public List<string> Find { get; set; }
+            public string ReplaceWith { get; set; }
+        }
     }
 }
 

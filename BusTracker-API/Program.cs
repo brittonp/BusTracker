@@ -2,9 +2,6 @@
 // This file is part of the Bus Tracker Services project.
 using BusTrackerAPI.Data;
 using BusTrackerAPI.Services;
-using DotSpatial.Projections;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.FileProviders;
 using Scalar.AspNetCore;
 using ISession = BusTrackerAPI.Services.ISession;
@@ -12,10 +9,6 @@ using ISqlData = BusTrackerAPI.Data.ISqlData;
 using SqlData = BusTrackerAPI.Data.SqlData;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// Removed since moving all services to minimal apis...
-//builder.Services.AddControllers();
 
 // Added as suggested in https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-7.0
 builder.Services.AddHttpContextAccessor();
@@ -193,6 +186,15 @@ busLocationGroup.MapGet("/Get", async (IBusLocation busLocation,
     }
 })
 .WithDescription("Returns the location of buses identified by query parameters, (minimal api)");
+
+//busStopGroup.MapGet("/CleanBusStopData", async (IBusStop busStop) =>
+//{
+//    var result = await busStop.CleanBusStopData();
+
+//    return Results.Json(result);
+
+//})
+//    .WithDescription("Returns the bus stops within a bounding box, (minimal api)");
 
 // Session api group...
 var disruptionsGroup = app.MapGroup("/Disruption")
