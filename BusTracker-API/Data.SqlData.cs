@@ -24,8 +24,8 @@ namespace BusTrackerAPI.Data
         Task<object> GetBusStopsByAtcoCode(string atcoCode);
         Task<object> GetBusStopsByBoundingBox(double north, double east, double south, double west);
 
-        Task<int> LoadBusStopXML();
-        Task<int> CleanBusStopData();
+        //Task<int> LoadBusStopXML();
+        //Task<int> CleanBusStopData();
 
     }
 
@@ -622,190 +622,189 @@ namespace BusTrackerAPI.Data
             }
         }
 
-        public async Task<int> LoadBusStopXML()
-        {
-            int intResult = 0;
+    //    public async Task<int> LoadBusStopXML()
+    //    {
+    //        int intResult = 0;
 
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(_connectionString))
-                {
-                    conn.Open();
-                    string? sql = "bus.sp_load_busstop_xml"; // _configuration["Sql:LoadBusStopData"];
-                    using SqlCommand sqlCmd = new SqlCommand(sql, conn);
-                    sqlCmd.CommandType = CommandType.StoredProcedure;
-                    sqlCmd.CommandTimeout = 0;
+    //        try
+    //        {
+    //            using (SqlConnection conn = new SqlConnection(_connectionString))
+    //            {
+    //                conn.Open();
+    //                string? sql = "bus.sp_load_busstop_xml"; // _configuration["Sql:LoadBusStopData"];
+    //                using SqlCommand sqlCmd = new SqlCommand(sql, conn);
+    //                sqlCmd.CommandType = CommandType.StoredProcedure;
+    //                sqlCmd.CommandTimeout = 0;
 
-                    SqlParameter returnVal = new SqlParameter
-                    {
-                        ParameterName = "@retVal",
-                        SqlDbType = SqlDbType.Int,
-                        Direction = ParameterDirection.Output,
-                    };
-                    sqlCmd.Parameters.Add(returnVal);
+    //                SqlParameter returnVal = new SqlParameter
+    //                {
+    //                    ParameterName = "@retVal",
+    //                    SqlDbType = SqlDbType.Int,
+    //                    Direction = ParameterDirection.Output,
+    //                };
+    //                sqlCmd.Parameters.Add(returnVal);
 
-                    try
-                    {
-                        sqlCmd.ExecuteNonQuery();
-                        intResult = (int)returnVal.Value;
-                    }
-                    catch (SqlException ex)
-                    {
-                        _logger.LogError(999, ex, "SqlException when getting data.");
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(999, ex, "Exception when getting data.");
-                    }
-                    finally
-                    {
-                        _logger.LogInformation(999, $"Inserted {intResult} bus stop records.");
-                    }
-                }
+    //                try
+    //                {
+    //                    sqlCmd.ExecuteNonQuery();
+    //                    intResult = (int)returnVal.Value;
+    //                }
+    //                catch (SqlException ex)
+    //                {
+    //                    _logger.LogError(999, ex, "SqlException when getting data.");
+    //                }
+    //                catch (Exception ex)
+    //                {
+    //                    _logger.LogError(999, ex, "Exception when getting data.");
+    //                }
+    //                finally
+    //                {
+    //                    _logger.LogInformation(999, $"Inserted {intResult} bus stop records.");
+    //                }
+    //            }
 
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(999, ex, "Exception on connecting to database.");
-            }
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            _logger.LogError(999, ex, "Exception on connecting to database.");
+    //        }
 
-            return intResult;
-        }
+    //        return intResult;
+    //    }
 
+    //    public async Task<int> CleanBusStopData()
+    //    {
+    //        using (SqlConnection conn = new SqlConnection(_connectionString))
+    //        {
+    //            conn.Open();
 
-        public async Task<int> CleanBusStopData()
-        {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
+    //            string selectSql = "SELECT * FROM [bus].[bus_stop]";
+    //            DataTable table = new DataTable();
 
-                string selectSql = "SELECT * FROM [bus].[bus_stop]";
-                DataTable table = new DataTable();
+    //            using (SqlDataAdapter adapter = new SqlDataAdapter(selectSql, conn))
+    //            {
+    //                adapter.Fill(table);
+    //            }
 
-                using (SqlDataAdapter adapter = new SqlDataAdapter(selectSql, conn))
-                {
-                    adapter.Fill(table);
-                }
+    //            int kount = 0;
+    //            foreach (DataRow row in table.Rows)
+    //            {
+    //                kount++;
 
-                int kount = 0;
-                foreach (DataRow row in table.Rows)
-                {
-                    kount++;
+    //                // Set the standard_indicator
+    //                string indicator = row.Field<string>("indicator") ?? string.Empty;
+    //                if (!string.IsNullOrEmpty(indicator))
+    //                {
+    //                    var standardisedIndicator = StandardiseIndicator(indicator);
+    //                    row["standard_indicator"] = standardisedIndicator;
+    //                }
 
-                    // Set the standard_indicator
-                    string indicator = row.Field<string>("indicator") ?? string.Empty;
-                    if (!string.IsNullOrEmpty(indicator))
-                    {
-                        var standardisedIndicator = StandardiseIndicator(indicator);
-                        row["standard_indicator"] = standardisedIndicator;
-                    }
+    //                // Add missing lat/lng (read them as strings)
+    //                string lat = row.Field<object>("lat")?.ToString() ?? string.Empty;
+    //                string lng = row.Field<object>("lng")?.ToString() ?? string.Empty;
+    //                if (string.IsNullOrEmpty(lat) && string.IsNullOrEmpty(lng))
+    //                {
+    //                    var convertedData = ConvertUKOSToWGS84((double)(float)row["easting"], (double)(float)row["northing"]);
 
-                    // Add missing lat/lng (read them as strings)
-                    string lat = row.Field<object>("lat")?.ToString() ?? string.Empty;
-                    string lng = row.Field<object>("lng")?.ToString() ?? string.Empty;
-                    if (string.IsNullOrEmpty(lat) && string.IsNullOrEmpty(lng))
-                    {
-                        var convertedData = ConvertUKOSToWGS84((double)(float)row["easting"], (double)(float)row["northing"]);
+    //                    row["lat"] = convertedData[1];
+    //                    row["lng"] = convertedData[0];
+    //                }
 
-                        row["lat"] = convertedData[1];
-                        row["lng"] = convertedData[0];
-                    }
+    //                if (kount % 50000 == 0)
+    //                {
+    //                    _logger.LogInformation("Processed {0} rows.", kount);
+    //                }
+    //            }
 
-                    if (kount % 50000 == 0)
-                    {
-                        _logger.LogInformation("Processed {0} rows.", kount);
-                    }
-                }
+    //            _logger.LogInformation("Processed {0} rows.", kount);
+    //            _logger.LogInformation("Beginning bulk load...");
 
-                _logger.LogInformation("Processed {0} rows.", kount);
-                _logger.LogInformation("Beginning bulk load...");
+    //            // Truncate and reload using SqlBulkCopy
+    //            using (SqlCommand truncateCmd = new SqlCommand("TRUNCATE TABLE [bus].[bus_stop];", conn))
+    //            {
+    //                truncateCmd.ExecuteNonQuery();
+    //            }
 
-                // Truncate and reload using SqlBulkCopy
-                using (SqlCommand truncateCmd = new SqlCommand("TRUNCATE TABLE [bus].[bus_stop];", conn))
-                {
-                    truncateCmd.ExecuteNonQuery();
-                }
+    //            using (SqlBulkCopy bulkCopy = new SqlBulkCopy(conn, SqlBulkCopyOptions.KeepIdentity, null))
+    //            {
+    //                bulkCopy.DestinationTableName = "[bus].[bus_stop]";
+    //                bulkCopy.BatchSize = 50000; // optional: commit in chunks
+    //                bulkCopy.BulkCopyTimeout = 0; // no timeout
+    //                bulkCopy.WriteToServer(table);
+    //            }
 
-                using (SqlBulkCopy bulkCopy = new SqlBulkCopy(conn, SqlBulkCopyOptions.KeepIdentity, null))
-                {
-                    bulkCopy.DestinationTableName = "[bus].[bus_stop]";
-                    bulkCopy.BatchSize = 50000; // optional: commit in chunks
-                    bulkCopy.BulkCopyTimeout = 0; // no timeout
-                    bulkCopy.WriteToServer(table);
-                }
+    //            _logger.LogInformation("Bulk insert complete. Total rows reloaded: {0}", table.Rows.Count);
+    //            return table.Rows.Count;
+    //        }
 
-                _logger.LogInformation("Bulk insert complete. Total rows reloaded: {0}", table.Rows.Count);
-                return table.Rows.Count;
-            }
+    //    }
 
-        }
+    //    private double[] ConvertUKOSToWGS84(double easting, double northing)
+    //    {
 
-        private double[] ConvertUKOSToWGS84(double easting, double northing)
-        {
+    //        // Define source projection (OSGB36 - British National Grid)
+    //        ProjectionInfo osgb36 = KnownCoordinateSystems.Projected.NationalGrids.BritishNationalGridOSGB36;
 
-            // Define source projection (OSGB36 - British National Grid)
-            ProjectionInfo osgb36 = KnownCoordinateSystems.Projected.NationalGrids.BritishNationalGridOSGB36;
+    //        // Define target projection (WGS84)
+    //        ProjectionInfo wgs84 = KnownCoordinateSystems.Geographic.World.WGS1984;
 
-            // Define target projection (WGS84)
-            ProjectionInfo wgs84 = KnownCoordinateSystems.Geographic.World.WGS1984;
+    //        // Example British National Grid Coordinates (Easting/Northing for London)
+    //        double[] xy = { easting, northing };
+    //        double[] z = { 0 };
 
-            // Example British National Grid Coordinates (Easting/Northing for London)
-            double[] xy = { easting, northing };
-            double[] z = { 0 };
+    //        // Transform to Lat/Lng
+    //        Reproject.ReprojectPoints(xy, z, osgb36, wgs84, 0, 1);
 
-            // Transform to Lat/Lng
-            Reproject.ReprojectPoints(xy, z, osgb36, wgs84, 0, 1);
+    //        return xy;
 
-            return xy;
+    //    }
 
-        }
+    //    private static string? StandardiseIndicator(string? val)
+    //    {
+    //        string? returnVal = val;
 
-        private static string? StandardiseIndicator(string? val)
-        {
-            string? returnVal = val;
+    //        if (val.Length > 2)
+    //        {
 
-            if (val.Length > 2)
-            {
+    //            List<IndicatorFilter> filters = [
+    //                new IndicatorFilter { Find = ["northeastbound", "north east", "north east bound", "ne bound", "ne-bound"], ReplaceWith = "->NE"},
+    //                new IndicatorFilter { Find = ["southeastbound", "south east", "south east bound", "se bound", "se-bound"], ReplaceWith = "->SE"},
+    //                new IndicatorFilter { Find = ["northwestbound", "north west", "north west bound", "nw bound", "nw-bound"], ReplaceWith = "->NW"},
+    //                new IndicatorFilter { Find = ["southwestbound", "south west", "south west bound", "sw bound", "sw-bound"], ReplaceWith = "->SW"},
+    //                new IndicatorFilter { Find = ["northbound", "north", "north bound", "n bound", "n-bound"], ReplaceWith = "->N"},
+    //                new IndicatorFilter { Find = ["eastbound", "east", "east bound", "e bound", "e-bound"], ReplaceWith = "->E"},
+    //                new IndicatorFilter { Find = ["southbound", "south", "south bound", "s bound", "s-bound"], ReplaceWith = "->S"},
+    //                new IndicatorFilter { Find = ["westbound", "west", "west bound", "w bound", "w-bound"], ReplaceWith = "->W"},
+    //                new IndicatorFilter { Find = ["stop ", "stand ", "bay "], ReplaceWith = String.Empty},
+    //            ];
 
-                List<IndicatorFilter> filters = [
-                    new IndicatorFilter { Find = ["northeastbound", "north east", "north east bound", "ne bound", "ne-bound"], ReplaceWith = "->NE"},
-                    new IndicatorFilter { Find = ["southeastbound", "south east", "south east bound", "se bound", "se-bound"], ReplaceWith = "->SE"},
-                    new IndicatorFilter { Find = ["northwestbound", "north west", "north west bound", "nw bound", "nw-bound"], ReplaceWith = "->NW"},
-                    new IndicatorFilter { Find = ["southwestbound", "south west", "south west bound", "sw bound", "sw-bound"], ReplaceWith = "->SW"},
-                    new IndicatorFilter { Find = ["northbound", "north", "north bound", "n bound", "n-bound"], ReplaceWith = "->N"},
-                    new IndicatorFilter { Find = ["eastbound", "east", "east bound", "e bound", "e-bound"], ReplaceWith = "->E"},
-                    new IndicatorFilter { Find = ["southbound", "south", "south bound", "s bound", "s-bound"], ReplaceWith = "->S"},
-                    new IndicatorFilter { Find = ["westbound", "west", "west bound", "w bound", "w-bound"], ReplaceWith = "->W"},
-                    new IndicatorFilter { Find = ["stop ", "stand ", "bay "], ReplaceWith = String.Empty},
-                ];
+    //            foreach (IndicatorFilter filter in filters)
+    //            {
+    //                foreach (string find in filter.Find)
+    //                {
+    //                    returnVal = Regex.Replace(returnVal, find, filter.ReplaceWith, RegexOptions.IgnoreCase);
+    //                }
+    //            }
 
-                foreach (IndicatorFilter filter in filters)
-                {
-                    foreach (string find in filter.Find)
-                    {
-                        returnVal = Regex.Replace(returnVal, find, filter.ReplaceWith, RegexOptions.IgnoreCase);
-                    }
-                }
+    //            if (returnVal != val || returnVal.Substring(0, 2) == "->")
+    //            {
+    //                returnVal = returnVal.Trim();
+    //            }
+    //            else
+    //            {
+    //                returnVal = String.Empty;
+    //            }
 
-                if (returnVal != val || returnVal.Substring(0, 2) == "->")
-                {
-                    returnVal = returnVal.Trim();
-                }
-                else
-                {
-                    returnVal = String.Empty;
-                }
+    //        }
+    //        return returnVal;
+    //    }
 
-            }
-            return returnVal;
-        }
-
-        // Private class.
-        private class IndicatorFilter
-        {
-            public List<string> Find { get; set; }
-            public string ReplaceWith { get; set; }
-        }
+    //    // Private class.
+    //    private class IndicatorFilter
+    //    {
+    //        public List<string> Find { get; set; }
+    //        public string ReplaceWith { get; set; }
+    //    }
     }
 }
 

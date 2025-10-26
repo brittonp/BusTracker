@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ISqlData = BusTrackerAPI.Data.ISqlData;
-using SqlData = BusTrackerAPI.Data.SqlData;
 
-namespace BusTrackerWebJob.Stops
+namespace BusTracker
 {
     internal class Program
     {
@@ -15,7 +13,8 @@ namespace BusTrackerWebJob.Stops
 
             Stops stops = services.GetRequiredService<Stops>();
 
-            await stops.RefreshAsync();
+            //await stops.RefreshAsync();
+            await stops.DirectRefresh();
 
         }
 
@@ -28,14 +27,24 @@ namespace BusTrackerWebJob.Stops
                 {
                     options.ClearProviders();
                     options.AddConsole();
+                    options.AddDebug();
                     options.AddEventLog(eventLogSettings =>
                     {
                         eventLogSettings.SourceName = "BusTracker";
                     });
+
+                    options.AddFilter("Microsoft", LogLevel.Warning); // suppress Microsoft noise
+                    options.AddFilter("System", LogLevel.Warning);    // suppress System noise
+                    options.AddFilter("BusTracker", LogLevel.Information); // show your app logs
+                    options.AddFilter((category, level) =>
+                    {
+                        if (category.Contains("ProjNet") && level == LogLevel.Debug)
+                            return false; // suppress ProjNet debug messages
+                        return true;
+                    });
                 })
                 .AddSingleton(configuration)
                 .AddHttpContextAccessor()
-                .AddTransient<ISqlData, SqlData>()
                 .AddSingleton<Stops>()
                 .BuildServiceProvider();
 
